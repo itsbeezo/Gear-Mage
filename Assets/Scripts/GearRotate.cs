@@ -63,11 +63,19 @@ public class GearRotate : MonoBehaviour
         {
             Debug.Log("Exit");
         }
+        if (collision.gameObject.name == "Gear")
+        {
+            Debug.Log("Gear is locked in");
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.name == "Clicker")
+        {
+            GearRotation();
+        }
+        if (collision.gameObject.name == "Gear")
         {
             GearRotation();
         }
