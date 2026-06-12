@@ -41,7 +41,11 @@ public class GearRotate : MonoBehaviour
     {
         if (collision.gameObject.name == "Clicker")
         {
-            Debug.Log("Enter");
+            GearRotation();
+        }
+        if (collision.gameObject.name == "Gear")
+        {
+            GearRotation();
         }
     }
 
@@ -54,6 +58,30 @@ public class GearRotate : MonoBehaviour
     }
 
     private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.name == "Clicker")
+        {
+            Debug.Log("Exit");
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.name == "Clicker")
+        {
+            GearRotation();
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.name == "Clicker")
+        {
+            Debug.Log("Stay");
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.name == "Clicker")
         {
