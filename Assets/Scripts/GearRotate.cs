@@ -1,3 +1,5 @@
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -34,7 +36,7 @@ public class GearRotate : MonoBehaviour
             {
                 tickTimer = 0;
                 totalRotations += 1;
-            ClickerRotation();
+                ClickerRotation();
             }
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -48,46 +50,15 @@ public class GearRotate : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.name == "Clicker")
-        {
-            GearRotation();
-        }
-        if (collision.gameObject.name == "Gear")
-        {
-            GearRotation();
-        }
-    }
-
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        if (collision.gameObject.name == "Gear")
-        {
-            Debug.Log("Stay");
-        }
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.name == "Clicker")
-        {
-            Debug.Log("Exit");
-        }
-        if (collision.gameObject.name == "Gear")
-        {
-            Debug.Log("Gear is locked in");
-        }
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.name == "Clicker")
         {
             GearRotation();
         }
-        if (collision.gameObject.name == "Gear")
+        if (collision.gameObject.tag == "Gears")
         {
+            Debug.Log("Gears entered");
             GearRotation();
         }
     }
@@ -96,7 +67,12 @@ public class GearRotate : MonoBehaviour
     {
         if (collision.gameObject.name == "Clicker")
         {
-            Debug.Log("Stay");
+            //Debug.Log("Stay");
+        }
+        if (collision.gameObject.tag == "Gears")
+        {
+            //Debug.Log("Gears are overlapping");
+            
         }
     }
 
@@ -110,19 +86,12 @@ public class GearRotate : MonoBehaviour
 
     public void ClickerRotation()
     {
-        Debug.Log("Rotation 90 degrees");
+       
         Clicker.transform.Rotate(0, 0, -90);
     }
 
     public void GearRotation()
     {
-        Debug.Log("Gear Rotated");
         Gear.transform.Rotate(0, 0, -90);
     }
-
-    public void ClickerSpeed()
-    {
-
-    }
-
 }
