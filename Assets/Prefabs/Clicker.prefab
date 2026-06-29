@@ -102,11 +102,11 @@ GameObject:
   - component: {fileID: 1245137342230212013}
   - component: {fileID: 6741365431085702237}
   - component: {fileID: 4716013240169673032}
-  - component: {fileID: 2078864655246262097}
   - component: {fileID: 1486162076990589730}
+  - component: {fileID: -65259492613735012}
   m_Layer: 0
   m_Name: Clicker
-  m_TagString: Untagged
+  m_TagString: Clicker
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -232,21 +232,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.33, y: 1.2500348}
   m_EdgeRadius: 0
---- !u!114 &2078864655246262097
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4609109518383377074}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43ae5200f9cc0424db606ca354ba1a51, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GearRotate
-  Clicker: {fileID: 4609109518383377074}
-  Gear: {fileID: 0}
-  RotationSpeed: 1
 --- !u!50 &1486162076990589730
 Rigidbody2D:
   serializedVersion: 5
@@ -274,3 +259,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-65259492613735012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4609109518383377074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94b3f4a5970d8324bb13008633513f0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ClickerRotate
+  Clicker: {fileID: 4609109518383377074}
+  Gear: {fileID: 0}
+  RotationSpeed: 50
+  totalRotations: 0
+  rotationPerTick: 0.25
+  rotationInterval: 1
+  tickProgress: 0

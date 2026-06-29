@@ -1,7 +1,6 @@
-using Unity.VisualScripting;
-using UnityEditor;
+using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class GearRotate : MonoBehaviour
 {
@@ -9,8 +8,6 @@ public class GearRotate : MonoBehaviour
     public GameObject Clicker;
 
     public GameObject Gear;
-
-    private float tickTimer = 0;
 
     [Header("Gear Settings")]
     [SerializeField]
@@ -23,75 +20,79 @@ public class GearRotate : MonoBehaviour
     public float rotationInterval = 1f;
     public float tickProgress = 0f;
 
+    public float rotationStep = 90f;
+
+    private List<GearRotate> neighbors = new List<GearRotate>();
 
     // Update is called once per frame
     void Update()
     {
-
-        tickTimer += Time.deltaTime;
-
-        tickProgress = Mathf.Clamp01(tickTimer / rotationInterval);
-
-        if (tickTimer >= rotationInterval)
-            {
-                tickTimer = 0;
-                totalRotations += 1;
-                ClickerRotation();
-            }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ClickerRotation();
-        }
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            Debug.Log("E was pressed");
-            GearRotation();
-        }
+        //if (Input.GetKeyDown(KeyCode.E))
+        //{
+        //    Debug.Log("E was pressed");
+        //    GearRotation();
+        //}
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.name == "Clicker")
+        if (collision.gameObject.CompareTag("Clicker"))
         {
-            GearRotation();
+            //print("this is working");
+            //GearRotation();
         }
-        if (collision.gameObject.tag == "Gears")
+        
+        GearRotate otherGear = collision.gameObject.GetComponent<GearRotate>();
+        if (otherGear != null && !neighbors.Contains(otherGear))
         {
-            Debug.Log("Gears entered");
-            GearRotation();
+            neighbors.Add(otherGear);
+            Debug.Log(gameObject.name + " added neighbor " + otherGear.gameObject.name + " | neighbor count now: " + neighbors.Count);
         }
     }
 
+
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.name == "Clicker")
+        if (collision.gameObject.name == "Gear")
         {
-            //Debug.Log("Stay");
-        }
-        if (collision.gameObject.tag == "Gears")
-        {
-            //Debug.Log("Gears are overlapping");
+            //print("Gears are overlapping");
+            
             
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.name == "Clicker")
+        GearRotate otherGear = collision.gameObject.GetComponent<GearRotate>();
+        if (otherGear != null)
         {
-            Debug.Log("Exit");
+            neighbors.Remove(otherGear);
         }
     }
 
-    public void ClickerRotation()
+    public void pulse(HashSet<GearRotate> hasPulsed)
     {
-       
-        Clicker.transform.Rotate(0, 0, -90);
+        //if // Something here to only call gears that are touching the clicker, not all gears in the scene.
+        //{
+            Debug.Log(gameObject.name + " is pulsing. Neighbor count: " + neighbors.Count); 
+            if (hasPulsed.Contains(this)) return;
+            hasPulsed.Add(this);
+
+            transform.Rotate(0,0, -rotationStep);
+
+                foreach (var neighbor in neighbors)
+                {
+                    neighbor.pulse(hasPulsed);
+                }
+        //}else
+        //{
+            // Put if (hasPulsed) logic here instead of first pulse method, so that it only pulses the gears that are touching the gear that touched the clicker, not all gears in the scene.
+        //}
     }
 
     public void GearRotation()
-    {
+    { 
         Gear.transform.Rotate(0, 0, -90);
+        //Gear.transform.Rotate(0, 0, -45);
     }
 }
