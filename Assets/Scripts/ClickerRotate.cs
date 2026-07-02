@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Rendering;
 using System.Collections.Generic;
-using System.Linq; 
+using System.Linq;
 
 public class ClickerRotate : MonoBehaviour
 {
@@ -23,10 +23,8 @@ public class ClickerRotate : MonoBehaviour
     public float tickProgress = 0f;
 
 
-    // Update is called once per frame
     void Update()
     {
-
         tickTimer += Time.deltaTime;
 
         tickProgress = Mathf.Clamp01(tickTimer / rotationInterval);
@@ -42,33 +40,19 @@ public class ClickerRotate : MonoBehaviour
         {
             ClickerRotation();
         }
-        
     }
 
     private GearRotate currentTouchingGear = null;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
         GearRotate gear = collision.gameObject.GetComponent<GearRotate>();
         if (gear != null)
         {
             currentTouchingGear = gear;
+            gear.pulse(new HashSet<GearRotate>());
         }
-
-        //if (collision.gameObject.name == "Clicker")
-        //{
-        //    //Debug.Log("Rotated Gear");
-        //    //GearRotation();
-        //}
     }
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.gameObject.name == "Clicker")
-        {
-            //Debug.Log("Stay");
-        }
-     }
         
     private void OnTriggerExit2D(Collider2D collision)
     {
@@ -77,25 +61,14 @@ public class ClickerRotate : MonoBehaviour
     {
         currentTouchingGear = null;
     }
-
-        //if (collision.gameObject.name == "Clicker")
-        //{
-        //    //Debug.Log("Exit");
-        //}
     }
 
     public void ClickerRotation()
     {
-
         Clicker.transform.Rotate(0, 0, -90);
 
-
-        if (currentTouchingGear != null)
-        {
-            currentTouchingGear.pulse(new HashSet<GearRotate>());
-        }
         //GearRotate firstGear = Gear.GetComponent<GearRotate>();
-        //if (firstGear != null)n
+        //if (firstGear != null)
         //{
         //    Debug.Log("Clicker is pulsing: " + firstGear.gameObject.name);
         //    firstGear.pulse(new HashSet<GearRotate>());
