@@ -51,6 +51,7 @@ public class ClickerRotate : MonoBehaviour
         {
             currentTouchingGear = gear;
             gear.pulse(new HashSet<GearRotate>());
+            Debug.Log("Clicker has entered gear: " + gear.gameObject.name);
         }
     }
         
@@ -60,7 +61,8 @@ public class ClickerRotate : MonoBehaviour
     if (gear != null && gear == currentTouchingGear)
     {
         currentTouchingGear = null;
-    }
+            Debug.Log("Clicker has exited gear");
+        }
     }
 
     public void ClickerRotation()
