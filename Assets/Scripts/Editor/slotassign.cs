@@ -1,13 +1,14 @@
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.SceneManagement;
+using System.Linq;
 
 public static class slotassign
 {
     private const float spacing = 1f;
 
 
-    [MenuItem("Tools/Grid/Assign Row and Column")]
+    [MenuItem("Tools/Assign Slots")]
     private static void AssignSlots()
     {
         GridSlot[] slots = Object.FindObjectsByType<GridSlot>(FindObjectsSortMode.None);
@@ -18,24 +19,30 @@ public static class slotassign
             return;
         }
 
-        float minX = float.MaxValue;
-        float minY = float.MaxValue;
+        var zoneGroups = slots.GroupBy(slot => slot.Zone);
 
-        foreach (GridSlot slot in slots) 
+        foreach (var group in zoneGroups)
         {
-            Vector3 pos = slot.transform.position;
-            if (pos.x < minX) minX = pos.x;
-            if (pos.y < minY) minY = pos.y;
-        }
+            float minX = float.MaxValue;
+            float minY = float.MaxValue;
 
-        foreach (GridSlot slot in slots)
-        {
-            Vector3 pos = slot.transform.position;
-            int column = Mathf.RoundToInt((pos.x - minX) / spacing);
-            int row = Mathf.RoundToInt((pos.y - minY) / spacing);
+            foreach (GridSlot slot in slots)
+            {
+                Vector3 pos = slot.transform.position;
+                if (pos.x < minX) minX = pos.x;
+                if (pos.y < minY) minY = pos.y;
+            }
 
-            slot.AssignCordinates(row, column);
-            EditorUtility.SetDirty(slot); // Mark the object as dirty to ensure changes are saved
+            foreach (GridSlot slot in slots)
+            {
+                Vector3 pos = slot.transform.position;
+                int column = Mathf.RoundToInt((pos.x - minX) / spacing);
+                int row = Mathf.RoundToInt((pos.y - minY) / spacing);
+
+                slot.AssignCordinates(row, column);
+                EditorUtility.SetDirty(slot); // Mark the object as dirty to ensure changes are saved
+            }
+
         }
 
         EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());

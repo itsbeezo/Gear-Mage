@@ -2,18 +2,17 @@ using NUnit.Framework;
 using UnityEngine;
 
 
+
 public class GridSlot : MonoBehaviour
 {
-    private enum ZoneName
+    public enum ZoneName
     {
         Machine,
         inventory,
         abilities
     }
 
-    [Header("Zones")]
-    [SerializeField]
-    private ZoneName zoneName;
+    public ZoneName Zone => zoneName;
 
     [Header("Grid Settings")]
     [SerializeField] private int row;
