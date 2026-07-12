@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class GridScript : MonoBehaviour
 {
-    public enum GameObjectType
-    {
-        Gear,
-        Clicker
-    }
+    //public enum GameObjectType
+    //{
+    //    Gear,
+    //    Clicker
+    //}
 
-    public GameObjectType Type;
+    //public GameObjectType Type;
 
     public GameObject ObjectToPlace;
     //private GameObject ClickerToPlace;
