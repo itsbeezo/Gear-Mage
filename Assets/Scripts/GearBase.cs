@@ -7,7 +7,6 @@ public class GearBase : MonoBehaviour
     [SerializeField] private float spawnSpeedBonus;
     [SerializeField] private float moveSpeedBonus;
     [SerializeField] private float attackSpeedBonus;
-
     public float GetHPBonus()
     {
         return hpBonus;

@@ -18,10 +18,13 @@ public class UnitManager : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        playerSpawnStep += 1;
-        enemySpawnStep += 1;
+        if (GameManager.instance.GetState() == GameManager.State.Normal)
+        {
+            playerSpawnStep += 1;
+            enemySpawnStep += 1;
+        }
 
-        if(playerSpawnStep >= playerSpawnRate)
+        if(playerSpawnStep >= (playerSpawnRate - GearManager.instance.GetSpawnSpeedMod()))
         {
             Instantiate(UnitList[0], playerSpawnPoint.transform.position, Quaternion.identity);
             playerSpawnStep = 0;

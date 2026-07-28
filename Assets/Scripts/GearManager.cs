@@ -76,11 +76,6 @@ public class GearManager : MonoBehaviour
                     AddStats(GearMatrix[i,j]);
             }
         }
-        Debug.Log(HPMod);
-        Debug.Log(attackMod);
-        Debug.Log(spawnSpeedMod);
-        Debug.Log(moveSpeedMod);
-        Debug.Log(attackSpeedMod);
     }
     private void AddStats(int gear)
     {

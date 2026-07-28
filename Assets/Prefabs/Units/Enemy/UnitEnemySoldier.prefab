@@ -20,9 +20,25 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2556530000331186441, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4588028907884925007, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4624622507424472329, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 4896557751681769747, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
       propertyPath: m_Name
       value: UnitEnemySoldier
+      objectReference: {fileID: 0}
+    - target: {fileID: 4896557751681769747, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5686211667202350283, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -74,7 +90,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5892114524667890432, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
       propertyPath: moveSpeed
-      value: -0.15
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 5892114524667890432, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
       propertyPath: unitIndex
@@ -83,6 +99,18 @@ PrefabInstance:
     - target: {fileID: 5892114524667890432, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
       propertyPath: attackRate
       value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 7954044642175405548, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
+      propertyPath: m_BodyType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7954044642175405548, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
+      propertyPath: m_Simulated
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7954044642175405548, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
+      propertyPath: m_Interpolate
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

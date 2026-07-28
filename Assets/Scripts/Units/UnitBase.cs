@@ -16,10 +16,12 @@ public class UnitBase : MonoBehaviour
     private bool isColliding = false;
     private GameObject currentEnemyGO;
     private UnitBase currentEnemy;
+    private BaseBase currentBase;
     [SerializeField] private Image healthBar;
-
     private void Start()
     {
+        if (this.TryGetComponent(out UnitPlayer unitPlayer))
+            maxHP += GearManager.instance.GetHPMod();
         currentHP = maxHP;
     }
     private void FixedUpdate()
@@ -32,12 +34,21 @@ public class UnitBase : MonoBehaviour
         {
             if (moveRateStep >= moveRate && !isColliding)
             {
-                this.transform.Translate(moveSpeed, 0, 0);
+                this.GetComponent<Rigidbody2D>().linearVelocityX = moveSpeed + GearManager.instance.GetMoveSpeedMod();
                 moveRateStep = 0;
             }
-            if (attackRateStep >= attackRate)
+            if (attackRateStep >= (attackRate - GearManager.instance.GetAttackSpeedMod()))
             {
-                currentEnemy.SetHP(currentEnemy.GetCurrentHP() - GetAttack());
+                if (currentEnemyGO.TryGetComponent(out UnitBase unitBase))
+                {
+                    currentEnemy = currentEnemyGO.GetComponent<UnitBase>();
+                    currentEnemy.SetHP(currentEnemy.GetCurrentHP() - (GetAttack() + GearManager.instance.GetAttackMod()));
+                }
+                else if (currentEnemyGO.TryGetComponent(out BaseBase baseBase))
+                {
+                    currentBase = currentEnemyGO.GetComponent<BaseBase>();
+                    currentBase.SetHP(currentBase.GetCurrentHP() - (GetAttack() + GearManager.instance.GetAttackMod()));
+                }
                 attackRateStep = 0;
             }
         }
@@ -45,28 +56,46 @@ public class UnitBase : MonoBehaviour
         {
             if (moveRateStep >= moveRate && !isColliding)
             {
-                this.transform.Translate(moveSpeed, 0, 0);
+                this.GetComponent<Rigidbody2D>().linearVelocityX = moveSpeed;
                 moveRateStep = 0;
             }
             if (attackRateStep >= attackRate)
             {
-                currentEnemy.SetHP(currentEnemy.GetCurrentHP() - GetAttack());
+                if (currentEnemyGO.TryGetComponent(out UnitBase unitBase))
+                {
+                    currentEnemy = currentEnemyGO.GetComponent<UnitBase>();
+                    currentEnemy.SetHP(currentEnemy.GetCurrentHP() - GetAttack());
+                }
+                else if (currentEnemyGO.TryGetComponent(out BaseBase baseBase))
+                {
+                    currentBase = currentEnemyGO.GetComponent<BaseBase>();
+                    currentBase.SetHP(currentBase.GetCurrentHP() - GetAttack());
+                }
                 attackRateStep = 0;
             }
         }
 
+        if(isColliding)
+        {
+            this.GetComponent<Rigidbody2D>().linearVelocityX = 0;
+            this.GetComponent<Rigidbody2D>().linearVelocityY = 0;
+        }
 
         if (currentHP <= 0)
         {
             DestroySelf();
         }
         healthBar.fillAmount = currentHP / maxHP;
-
+        Debug.Log(currentEnemyGO);
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         currentEnemyGO = collision.gameObject;
-        currentEnemy = currentEnemyGO.GetComponent<UnitBase>();
+        isColliding = true;
+    }
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        currentEnemyGO = collision.gameObject;
         isColliding = true;
     }
     private void OnCollisionExit2D(Collision2D collision)
