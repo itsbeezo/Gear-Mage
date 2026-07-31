@@ -121,6 +121,11 @@ public class UnitBase : MonoBehaviour
     }
     public void DestroySelf()
     {
+        //Checks if defeated unit is from enemy or player 
+        if (TryGetComponent(out UnitEnemy enemy))
+        {
+            CurrencyManager.instance.AddGold(10, transform.position);
+        }
         Destroy(gameObject);
     }
 }
