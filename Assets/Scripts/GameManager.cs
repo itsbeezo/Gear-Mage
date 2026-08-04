@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance { get; private set; }
     [SerializeField] private Button button;
+    [SerializeField] private Button buttonShop;
     [SerializeField] private TextMeshProUGUI buttonTM;
     public enum State
     {
@@ -52,14 +53,21 @@ public class GameManager : MonoBehaviour
     private void ShowButton()
     {
         button.gameObject.SetActive(true);
+        buttonShop.gameObject.SetActive(true);
     }
     private void HideButton()
     {
         button.gameObject.SetActive(false);
+        buttonShop.gameObject.SetActive(false);
     }
     private void ResetScene()
     {
         SceneManager.LoadScene(0);
+    }
+
+    public void ShopScene()
+    {
+        SceneManager.LoadScene("Shop-Scene");
     }
 
 }
