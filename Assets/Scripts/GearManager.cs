@@ -6,11 +6,11 @@ using UnityEngine;
 public class GearManager : MonoBehaviour
 {
     public static GearManager instance { get; private set; }
-    private int[,] GearMatrix = { {0, 0, 0, 6, 5, 0, 0, 0, 0, 0},
+    private int[,] GearMatrix = { {0, 0, 2, 6, 5, 0, 0, 0, 0, 0},
                                   {0, 0, 0, 0, 1, 3, 3, 0, 0, 0},
-                                  {0, 0, 0, 0, 2, 4, 0, 0, 0, 0},
-                                  {0, 0, 0, 0, 4, 0, 0, 0, 0, 0},
-                                  {0, 0, 0, 0, 4, 0, 0, 0, 0, 0} };
+                                  {0, 0, 2, 1, 2, 4, 0, 0, 0, 0},
+                                  {0, 0, 0, 3, 4, 0, 0, 0, 0, 0},
+                                  {0, 0, 0, 4, 4, 0, 0, 0, 0, 0} };
     [SerializeField] private List<GameObject> GearList;
     [SerializeField] private List<GearBox> GearBoxList1;
     [SerializeField] private List<GearBox> GearBoxList2;

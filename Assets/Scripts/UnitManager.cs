@@ -21,7 +21,7 @@ public class UnitManager : MonoBehaviour
         if (GameManager.instance.GetState() == GameManager.State.Normal)
         {
             playerSpawnStep += 1;
-            enemySpawnStep += 1;
+            enemySpawnStep += 3;
         }
 
         if(playerSpawnStep >= (playerSpawnRate - GearManager.instance.GetSpawnSpeedMod()))
