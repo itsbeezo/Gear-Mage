@@ -32,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
   m_LocalPosition: {x: 1.016, y: 1.445, z: 0}
-  m_LocalScale: {x: 0.59993994, y: 0.59993994, z: 0.59993994}
+  m_LocalScale: {x: 0.6657548, y: 0.6657548, z: 0.6657548}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2396212004763327808}
@@ -226,10 +226,6 @@ MonoBehaviour:
   Clicker: {fileID: 4609109518383377074, guid: 80c8735de4664bd40a28f4a3c09aa7cc, type: 3}
   Gear: {fileID: 90250563080744765}
   RotationSpeed: 50
-  totalRotations: 0
-  rotationPerTick: 0.25
-  rotationInterval: 1
-  tickProgress: 0
   rotationStep: 90
 --- !u!61 &195782090591804553
 BoxCollider2D:
