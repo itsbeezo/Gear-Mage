@@ -1,0 +1,109 @@
+using NUnit.Framework;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using UnityEngine;
+
+public class GearManager : MonoBehaviour
+{
+    public static GearManager instance { get; private set; }
+    private int[,] GearMatrix = { {0, 0, 2, 6, 5, 0, 0, 0, 0, 0},
+                                  {0, 0, 0, 0, 1, 3, 3, 0, 0, 0},
+                                  {0, 0, 2, 1, 2, 4, 0, 0, 0, 0},
+                                  {0, 0, 0, 3, 4, 0, 0, 7, 8, 0},
+                                  {0, 0, 0, 4, 4, 0, 8, 8, 0, 0} };
+    [SerializeField] private List<GameObject> GearList;
+    [SerializeField] private List<GearBox> GearBoxList1;
+    [SerializeField] private List<GearBox> GearBoxList2;
+    [SerializeField] private List<GearBox> GearBoxList3;
+    [SerializeField] private List<GearBox> GearBoxList4;
+    [SerializeField] private List<GearBox> GearBoxList5;
+    private GearBase currentGear;
+    private float HPMod;
+    private float attackMod;
+    private float spawnSpeedMod;
+    private float moveSpeedMod;
+    private float attackSpeedMod;
+
+    private void Start()
+    {
+        instance = this;
+        DrawGears();
+    }
+    private GameObject GetGear(int i)
+    {
+        return GearList[i];
+    }
+    private void SetGear(int i, int j, int g)
+    {
+        GearMatrix[i, j] = g;
+    }
+    private void DrawGears()
+    {
+        for(int i = 0; i < GearMatrix.GetLength(0); i++)
+        {
+            for(int j = 0; j < GearMatrix.GetLength(1); j++)
+            {
+                if (GearMatrix[i, j] != 0)
+                    switch(i)
+                    {
+                        case 0:
+                        {
+                            Instantiate(GetGear(GearMatrix[i, j]), GearBoxList1[j].transform.position, Quaternion.identity);
+                            break;
+                        }
+                        case 1:
+                        {
+                            Instantiate(GetGear(GearMatrix[i, j]), GearBoxList2[j].transform.position, Quaternion.identity);
+                            break;
+                        }
+                        case 2:
+                        {
+                            Instantiate(GetGear(GearMatrix[i, j]), GearBoxList3[j].transform.position, Quaternion.identity);
+                            break;
+                        }
+                        case 3:
+                        {
+                            Instantiate(GetGear(GearMatrix[i, j]), GearBoxList4[j].transform.position, Quaternion.identity);
+                            break;
+                        }
+                        case 4:
+                        {
+                            Instantiate(GetGear(GearMatrix[i, j]), GearBoxList5[j].transform.position, Quaternion.identity);
+                            break;
+                        }
+                    }
+                if (GearMatrix[i, j] != 0)
+                    AddStats(GearMatrix[i,j]);
+            }
+        }
+    }
+    private void AddStats(int gear)
+    {
+        currentGear = GetGear(gear).GetComponent<GearBase>();
+        HPMod += currentGear.GetHPBonus();
+        attackMod += currentGear.GetAttackBonus();
+        spawnSpeedMod += currentGear.GetSpawnSpeedBonus();
+        moveSpeedMod += currentGear.GetMoveSpeedBonus();
+        attackSpeedMod += currentGear.GetAttackSpeedBonus();
+    }
+    public float GetHPMod()
+    {
+        return HPMod;
+    }
+    public float GetAttackMod()
+    {
+        return attackMod;
+    }
+    public float GetSpawnSpeedMod()
+    {
+        return spawnSpeedMod;
+    }
+    public float GetMoveSpeedMod()
+    {
+        return moveSpeedMod;
+    }
+    public float GetAttackSpeedMod()
+    {
+        return attackSpeedMod;
+    }
+}
