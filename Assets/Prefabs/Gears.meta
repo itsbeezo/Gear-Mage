@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Prefabs/Gears.meta
 guid: da9c09888dc29064eb4026a0cd53fbfa
+========
+guid: 8e4accfcd21a83f42ba4c06e6f6d4e8d
+>>>>>>>> gear-dev:Assets/Scripts.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
