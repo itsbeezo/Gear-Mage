@@ -4,6 +4,8 @@
 TagManager:
   serializedVersion: 3
   tags:
+  - CoinFall Area
+  - Gold Display
   - Gears
   - Clicker
   layers:
@@ -13,8 +15,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - Player
+  - Enemy
   - 
   - 
   - 
