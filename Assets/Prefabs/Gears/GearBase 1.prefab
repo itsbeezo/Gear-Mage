@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 7065733011605831172}
   - component: {fileID: 7005524931833596957}
   - component: {fileID: 1529202583558142232}
+  - component: {fileID: 9171224623889224965}
   m_Layer: 0
-  m_Name: GearBase
+  m_Name: GearBase 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -104,3 +105,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3adc749c744599a42b5f1010ae06d4ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GearBase
+  hpBonus: 0
+  attackBonus: 0
+  spawnSpeedBonus: 0
+  moveSpeedBonus: 0
+  attackSpeedBonus: 0
+--- !u!114 &9171224623889224965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4894015876460603445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43ae5200f9cc0424db606ca354ba1a51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GearRotate
+  Clicker: {fileID: 0}
+  Gear: {fileID: 0}
+  RotationSpeed: 50
+  rotationStep: 90
