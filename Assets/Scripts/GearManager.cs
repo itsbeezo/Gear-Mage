@@ -11,17 +11,15 @@ public class GearManager : MonoBehaviour
 
 
     public static GearManager instance { get; private set; }
-    private int[,] GearMatrix = { {0, 0, 8, 5, 8, 6, 8, 0, 0, 0},
-                                  {0, 8, 4, 3, 0, 6, 8, 0, 0, 0},
-                                  {0, 7, 0, 1, 7, 6, 0, 0, 6, 0},
-                                  {0, 8, 0, 2, 0, 3, 3, 3, 0, 0},
-                                  {0, 8, 8, 8, 8, 6, 8, 0, 0, 0} };
+    private int[,] GearMatrix = { {1, 0, 0, 6, 5, 0, 0, 0, 3},
+                                  {0, 0, 0, 0, 1, 0, 0, 0, 0},
+                                  {2, 0, 0, 0, 0, 4, 0, 0, 4},
+                                  {0, 0, 0, 0, 0, 0, 0, 0, 1} };
     [SerializeField] private List<GameObject> GearList;
     [SerializeField] private List<GearBox> GearBoxList1;
     [SerializeField] private List<GearBox> GearBoxList2;
     [SerializeField] private List<GearBox> GearBoxList3;
     [SerializeField] private List<GearBox> GearBoxList4;
-    [SerializeField] private List<GearBox> GearBoxList5;
     private GearBase currentGear;
     private float HPMod;
     private float attackMod;
@@ -69,11 +67,6 @@ public class GearManager : MonoBehaviour
                         case 3:
                         {
                             Instantiate(GetGear(GearMatrix[i, j]), GearBoxList4[j].transform.position, Quaternion.identity);
-                            break;
-                        }
-                        case 4:
-                        {
-                            Instantiate(GetGear(GearMatrix[i, j]), GearBoxList5[j].transform.position, Quaternion.identity);
                             break;
                         }
                     }

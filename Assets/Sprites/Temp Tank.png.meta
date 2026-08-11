@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 4c1eb705b39486e49ae2e9db1a65c557
+guid: e1657c19e907a734eb3973f83b0641b6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 715377193295970104
-    second: Temp Gear Menu_0
+      213: -8425342331420507976
+    second: Temp Tank_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Temp Gear Menu_0
+      name: Temp Tank_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 900
-        height: 400
+        width: 180
+        height: 180
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 83f72de54c78de900800000000000000
-      internalID: 715377193295970104
+      spriteID: 8b08e98f9cb231b80800000000000000
+      internalID: -8425342331420507976
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Temp Gear Menu_0: 715377193295970104
+      Temp Tank_0: -8425342331420507976
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
