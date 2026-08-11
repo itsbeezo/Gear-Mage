@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class GearBox : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [SerializeField] private int xIndex;
+    [SerializeField] private int yIndex;
 
-    // Update is called once per frame
-    void Update()
+    public int GetXIndex()
     {
-        
+        return xIndex;
+    }
+    public int GetYIndex()
+    {
+        return yIndex;
     }
 }

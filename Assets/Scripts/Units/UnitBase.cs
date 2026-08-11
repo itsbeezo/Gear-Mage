@@ -79,6 +79,7 @@ public class UnitBase : MonoBehaviour
         {
             this.GetComponent<Rigidbody2D>().linearVelocityX = 0;
             this.GetComponent<Rigidbody2D>().linearVelocityY = 0;
+            this.GetComponent<Rigidbody2D>().freezeRotation = true;
         }
 
         if (currentHP <= 0)
