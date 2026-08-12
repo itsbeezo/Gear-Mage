@@ -5,18 +5,21 @@ using UnityEngine;
 
 public class GearManager : MonoBehaviour
 {
+
+
+    // Gears list them later
+
+
     public static GearManager instance { get; private set; }
-    private int[,] GearMatrix = { {0, 0, 8, 8, 8, 0, 0, 5, 3, 0},
-                                  {0, 8, 8, 8, 3, 8, 8, 6, 2, 0},
-                                  {0, 7, 0, 8, 7, 8, 2, 5, 6, 0},
-                                  {0, 8, 0, 8, 2, 8, 4, 3, 1, 0},
-                                  {0, 8, 8, 8, 8, 8, 8, 2, 1, 0} };
+    private int[,] GearMatrix = { {0, 4, 4, 6, 9, 0, 4, 4, 3},
+                                  {0, 3, 5, 2, 5, 3, 2, 0, 6},
+                                  {0, 2, 6, 1, 5, 0, 1, 9, 4},
+                                  {0, 0, 7, 8, 9, 0, 2, 0, 8} };
     [SerializeField] private List<GameObject> GearList;
     [SerializeField] private List<GearBox> GearBoxList1;
     [SerializeField] private List<GearBox> GearBoxList2;
     [SerializeField] private List<GearBox> GearBoxList3;
     [SerializeField] private List<GearBox> GearBoxList4;
-    [SerializeField] private List<GearBox> GearBoxList5;
     private GearBase currentGear;
     private float HPMod;
     private float attackMod;
@@ -64,11 +67,6 @@ public class GearManager : MonoBehaviour
                         case 3:
                         {
                             Instantiate(GetGear(GearMatrix[i, j]), GearBoxList4[j].transform.position, Quaternion.identity);
-                            break;
-                        }
-                        case 4:
-                        {
-                            Instantiate(GetGear(GearMatrix[i, j]), GearBoxList5[j].transform.position, Quaternion.identity);
                             break;
                         }
                     }

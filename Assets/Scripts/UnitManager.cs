@@ -32,7 +32,7 @@ public class UnitManager : MonoBehaviour
 
         if(enemySpawnStep >= enemySpawnRate)
         {
-            Instantiate(UnitList[1], enemySpawnPoint.transform.position, Quaternion.identity);
+            Instantiate(UnitList[3], enemySpawnPoint.transform.position, Quaternion.identity);
             enemySpawnStep = 0;
         }
         
