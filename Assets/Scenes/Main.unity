@@ -2934,14 +2934,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GearManager
   GearList:
   - {fileID: 4894015876460603445, guid: 108f26e6a433f1f43aa7efd96c3691df, type: 3}
-  - {fileID: 1371341880747848021, guid: f342f71d5d6145d498d6a14f42b0e4b8, type: 3}
-  - {fileID: 2200688466400720041, guid: 697be106f3aa31f4a85488680cf33928, type: 3}
-  - {fileID: 8918651485811383810, guid: 176b149228785fd418a7feccc29aadf6, type: 3}
-  - {fileID: 7191399851567639670, guid: 5ad6147fd1eff564cafed3bf98d1d2ce, type: 3}
-  - {fileID: 1956941974966107479, guid: 3cc1cbe76eb6d4d4cb063d818338a17f, type: 3}
-  - {fileID: 4785500218677436132, guid: d9cb71b7222fc32458cf83d06de892c0, type: 3}
   - {fileID: 4609109518383377074, guid: 80c8735de4664bd40a28f4a3c09aa7cc, type: 3}
-  - {fileID: 90250563080744765, guid: ce525e36e3bc1a84688c2f821f549eff, type: 3}
+  - {fileID: 1371341880747848021, guid: f342f71d5d6145d498d6a14f42b0e4b8, type: 3}
+  - {fileID: 90250563080744765, guid: 1ab0480db6cabefe8a7bdd44d11fd301, type: 3}
+  - {fileID: 90250563080744765, guid: 6f1cb1742479710c1b6cab6fe4744ef9, type: 3}
+  - {fileID: 90250563080744765, guid: 7c8f7d8b0907f939ea8e31d1f267485f, type: 3}
+  - {fileID: 90250563080744765, guid: 29eded242ff6626ab98bc1f918612ad1, type: 3}
+  - {fileID: 90250563080744765, guid: 910f0a2a9bc5a37cea32ea0b11da3953, type: 3}
+  - {fileID: 90250563080744765, guid: e90871e88cf7f0fd08799ffa2f7159a6, type: 3}
+  - {fileID: 90250563080744765, guid: b3a517579a3f6f014be84c53fd83f058, type: 3}
   GearBoxList1:
   - {fileID: 6988915119183184760}
   - {fileID: 825383793}

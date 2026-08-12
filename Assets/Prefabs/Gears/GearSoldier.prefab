@@ -155,6 +155,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9171224623889224965, guid: 108f26e6a433f1f43aa7efd96c3691df, type: 3}
+      propertyPath: Gear
+      value: 
+      objectReference: {fileID: 1371341880747848021}
+    - target: {fileID: 9171224623889224965, guid: 108f26e6a433f1f43aa7efd96c3691df, type: 3}
+      propertyPath: Clicker
+      value: 
+      objectReference: {fileID: 4609109518383377074, guid: 80c8735de4664bd40a28f4a3c09aa7cc, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -201,7 +209,7 @@ PolygonCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0

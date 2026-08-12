@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1138898228214303372}
   - component: {fileID: 6867647186320334993}
   m_Layer: 0
-  m_Name: GearHP
+  m_Name: GearBooster4x
   m_TagString: Gears
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -87,7 +87,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2056607905343865691, guid: 46485a3f03deb6c4c8c310f0f1ff816a, type: 3}
-  m_Color: {r: 0.17476341, g: 0.38679248, b: 0.0784532, a: 1}
+  m_Color: {r: 0.9056604, g: 0.5363754, b: 0.18369527, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
