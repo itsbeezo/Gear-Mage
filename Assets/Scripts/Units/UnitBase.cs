@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,6 +19,8 @@ public class UnitBase : MonoBehaviour
     private UnitBase currentEnemy;
     private BaseBase currentBase;
     [SerializeField] private Image healthBar;
+    private UnitPlayer[] PlayerList;
+    private UnitEnemy[] EnemyList;
     private void Start()
     {
         if (this.TryGetComponent(out UnitPlayer unitPlayer))
@@ -26,15 +29,23 @@ public class UnitBase : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        moveRateStep += 1;
+        PlayerList = FindObjectsByType<UnitPlayer>();
+        EnemyList = FindObjectsByType<UnitEnemy>();
+
+        if(UnitManager.instance.GetUnitsCanMove())
+            moveRateStep += 1;
         if (isColliding)
             attackRateStep += 1;
 
         if (this.TryGetComponent(out UnitPlayer unitPlayer))
         {
-            if (moveRateStep >= moveRate && !isColliding)
+            if (moveRateStep >= moveRate && !isColliding && UnitManager.instance.GetUnitsCanMove())
             {
-                this.GetComponent<Rigidbody2D>().linearVelocityX = moveSpeed + GearManager.instance.GetMoveSpeedMod();
+                //this.GetComponent<Rigidbody2D>().linearVelocityX = moveSpeed + GearManager.instance.GetMoveSpeedMod();
+                if(EnemyList.Length <= 0)
+                    this.transform.position = Vector2.MoveTowards(this.transform.position, EnemyBase.instance.transform.position, (moveSpeed + GearManager.instance.GetMoveSpeedMod()) * Time.deltaTime);
+                else
+                    this.transform.position = Vector2.MoveTowards(this.transform.position, GetClosestEnemy(this).transform.position, (moveSpeed + GearManager.instance.GetMoveSpeedMod()) * Time.deltaTime);
                 moveRateStep = 0;
             }
             if (attackRateStep >= (attackRate - GearManager.instance.GetAttackSpeedMod()))
@@ -48,15 +59,21 @@ public class UnitBase : MonoBehaviour
                 {
                     currentBase = currentEnemyGO.GetComponent<BaseBase>();
                     currentBase.SetHP(currentBase.GetCurrentHP() - (GetAttack() + GearManager.instance.GetAttackMod()));
+                    CurrencyManager.instance.AddGold(10, transform.position);
                 }
                 attackRateStep = 0;
             }
         }
         else if (this.TryGetComponent(out UnitEnemy unitEnemy))
         {
-            if (moveRateStep >= moveRate && !isColliding)
+            if (moveRateStep >= moveRate && !isColliding && UnitManager.instance.GetUnitsCanMove())
             {
-                this.GetComponent<Rigidbody2D>().linearVelocityX = moveSpeed;
+                //this.GetComponent<Rigidbody2D>().linearVelocityX = moveSpeed;
+                if(PlayerList.Length <= 0)
+                    this.transform.position = Vector2.MoveTowards(this.transform.position, PlayerBase.instance.transform.position, moveSpeed * Time.deltaTime);
+                else
+                    this.transform.position = Vector2.MoveTowards(this.transform.position, GetClosestPlayer(this).transform.position, moveSpeed * Time.deltaTime);
+
                 moveRateStep = 0;
             }
             if (attackRateStep >= attackRate)
@@ -104,6 +121,40 @@ public class UnitBase : MonoBehaviour
         isColliding = false;
         attackRateStep = 0;
     }
+    private UnitPlayer GetClosestPlayer(UnitBase enemy)
+    {
+        Vector3 heading;
+        float distanceBetween = 100;
+        float distanceBetweenTemp;
+        int index = 0;
+        for (int i = 0; i < PlayerList.Length; i++)
+        {
+            heading = PlayerList[i].transform.position - enemy.transform.position;
+            distanceBetweenTemp = heading.sqrMagnitude;
+            if(distanceBetweenTemp < distanceBetween)
+            {
+                index = i;
+            }
+        }
+        return PlayerList[index];
+    }
+    private UnitEnemy GetClosestEnemy(UnitBase player)
+    {
+        Vector3 heading;
+        float distanceBetween = 100;
+        float distanceBetweenTemp;
+        int index = 0;
+        for (int i = 0; i < EnemyList.Length; i++)
+        {
+            heading = EnemyList[i].transform.position - player.transform.position;
+            distanceBetweenTemp = heading.sqrMagnitude;
+            if (distanceBetweenTemp < distanceBetween)
+            {
+                index = i;
+            }
+        }
+        return EnemyList[index];
+    }
     public float GetCurrentHP()
     {
         return currentHP;
@@ -125,7 +176,10 @@ public class UnitBase : MonoBehaviour
         //Checks if defeated unit is from enemy or player 
         if (TryGetComponent(out UnitEnemy enemy))
         {
-            CurrencyManager.instance.AddGold(10, transform.position);
+            if(TryGetComponent(out UnitSoldier soldier))
+                CurrencyManager.instance.AddGold(10, transform.position);
+            if (TryGetComponent(out UnitTank tank))
+                CurrencyManager.instance.AddGold(30, transform.position);
         }
         Destroy(gameObject);
     }
