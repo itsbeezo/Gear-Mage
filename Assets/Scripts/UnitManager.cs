@@ -9,9 +9,14 @@ public class UnitManager : MonoBehaviour
     [SerializeField] private GameObject playerSpawnPoint;
     [SerializeField] private GameObject enemySpawnPoint;
     [SerializeField] private float playerSpawnRate;
+    [SerializeField] private float playerTankSpawnRate;
     private float playerSpawnStep;
+    private float playerTankStep;
     [SerializeField] private float enemySpawnRate;
+    [SerializeField] private float enemyTankSpawnRate;
     private float enemySpawnStep;
+    private float enemyTankStep;
+    private bool unitsCanMove = true;
     private void Start()
     {
         instance = this;
@@ -21,7 +26,9 @@ public class UnitManager : MonoBehaviour
         if (GameManager.instance.GetState() == GameManager.State.Normal)
         {
             playerSpawnStep += 1;
-            enemySpawnStep += 3;
+            enemySpawnStep += 1;
+            playerTankStep += 1;
+            enemyTankStep += 1;
         }
 
         if(playerSpawnStep >= (playerSpawnRate - GearManager.instance.GetSpawnSpeedMod()))
@@ -32,9 +39,28 @@ public class UnitManager : MonoBehaviour
 
         if(enemySpawnStep >= enemySpawnRate)
         {
-            Instantiate(UnitList[3], enemySpawnPoint.transform.position, Quaternion.identity);
+            Instantiate(UnitList[1], enemySpawnPoint.transform.position, Quaternion.identity);
             enemySpawnStep = 0;
         }
-        
+
+        if(playerTankStep >= (playerTankSpawnRate - GearManager.instance.GetSpawnSpeedMod()))
+        {
+            Instantiate(UnitList[2], playerSpawnPoint.transform.position, Quaternion.identity);
+            playerTankStep = 0;
+        }
+
+        if(enemyTankStep >= enemyTankSpawnRate)
+        {
+            Instantiate(UnitList[3], enemySpawnPoint.transform.position,Quaternion.identity);
+            enemyTankStep = 0;
+        }
+    }
+    public bool GetUnitsCanMove()
+    {
+        return unitsCanMove;
+    }
+    public void SetUnitsCanMove(bool newSet)
+    {
+        unitsCanMove = newSet;
     }
 }

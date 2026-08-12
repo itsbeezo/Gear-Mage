@@ -4,3 +4,6 @@
 ﻿<Solution>
   <Project Path="Assembly-CSharp.csproj" />
 </Solution>
+﻿<Solution>
+  <Project Path="Assembly-CSharp.csproj" />
+</Solution>

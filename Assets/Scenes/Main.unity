@@ -612,12 +612,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -10
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 71f96846f6d53304f8e7d6ac3728f83c, type: 3}
+  m_Sprite: {fileID: -8582838764827823237, guid: 71f96846f6d53304f8e7d6ac3728f83c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 5.142857, y: 9.142858}
+  m_Size: {x: 10.8, y: 19.2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -1117,7 +1117,9 @@ MonoBehaviour:
   playerSpawnPoint: {fileID: 332127163}
   enemySpawnPoint: {fileID: 104887242}
   playerSpawnRate: 400
+  playerTankSpawnRate: 600
   enemySpawnRate: 400
+  enemyTankSpawnRate: 900
 --- !u!4 &450164474
 Transform:
   m_ObjectHideFlags: 0

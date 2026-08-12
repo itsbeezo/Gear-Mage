@@ -30,6 +30,7 @@ public class BaseBase : MonoBehaviour
     public void DestroySelf()
     {
         GameManager.instance.SetStateEndGame();
+        UnitManager.instance.SetUnitsCanMove(false);
         Destroy(gameObject);
     }
 }
