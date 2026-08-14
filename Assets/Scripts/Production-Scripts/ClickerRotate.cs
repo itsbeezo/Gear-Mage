@@ -32,7 +32,7 @@ public class ClickerRotate : MonoBehaviour
         if (tickTimer >= rotationInterval)
         {
             tickTimer = 0;
-            totalRotations += 1;
+            totalRotations += rotationPerTick;
             ClickerRotation();
         }
 

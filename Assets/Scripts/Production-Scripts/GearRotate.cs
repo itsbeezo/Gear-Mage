@@ -8,17 +8,40 @@ public class GearRotate : MonoBehaviour
 
     public GameObject Gear;
 
+    private float tickTimer = 0;
+
+
     [Header("Gear Settings")]
     [SerializeField]
     public float RotationSpeed = 50f;
     public float rotationStep = 90f;
 
+    [Header("Production Settings")]
+    [SerializeField]
+    public float totalRotations;
+    public float rotationPerTick = .25f;
+    public float gearspeed;
+    public float tickProgress = 0f;
 
     private List<GearRotate> neighbors = new List<GearRotate>();
 
     // Update is called once per frame
     void Update()
     {
+
+        // if (GearRotation())
+        // {
+            gearspeed = 2f;
+            tickTimer += Time.deltaTime;
+
+            tickProgress = Mathf.Clamp01(tickTimer / gearspeed);
+        
+            if (tickTimer >= gearspeed)
+            {
+            tickTimer = 0;
+            totalRotations += rotationPerTick;
+            }
+        // }
         //if (Input.GetKeyDown(KeyCode.E))
         //{
         //    Debug.Log("E was pressed");

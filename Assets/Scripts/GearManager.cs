@@ -11,10 +11,10 @@ public class GearManager : MonoBehaviour
 
 
     public static GearManager instance { get; private set; }
-    private int[,] GearMatrix = { {0, 4, 4, 6, 9, 0, 4, 4, 3},
-                                  {0, 3, 5, 2, 5, 3, 2, 0, 6},
-                                  {0, 2, 6, 1, 5, 0, 1, 9, 4},
-                                  {0, 0, 7, 8, 9, 0, 2, 0, 8} };
+    private int[,] GearMatrix = { {0, 10, 4, 6, 9, 0, 4, 4, 3},
+                                  {0, 3, 5, 0, 5, 3, 11, 9, 6},
+                                  {0, 2, 6, 1, 5, 0, 1, 0, 4},
+                                  {0, 0, 7, 0, 9, 6, 2, 8, 8} };
     [SerializeField] private List<GameObject> GearList;
     [SerializeField] private List<GearBox> GearBoxList1;
     [SerializeField] private List<GearBox> GearBoxList2;
@@ -39,6 +39,32 @@ public class GearManager : MonoBehaviour
     private void SetGear(int i, int j, int g)
     {
         GearMatrix[i, j] = g;
+    }// override object.Equals
+    public override bool Equals(object obj)
+    {
+        //
+        // See the full list of guidelines at
+        //   http://go.microsoft.com/fwlink/?LinkID=85237
+        // and also the guidance for operator== at
+        //   http://go.microsoft.com/fwlink/?LinkId=85238
+        //
+        
+        if (obj == null || GetType() != obj.GetType())
+        {
+            return false;
+        }
+        
+        // TODO: write your implementation of Equals() here
+        throw new System.NotImplementedException();
+        return base.Equals (obj);
+    }
+    
+    // override object.GetHashCode
+    public override int GetHashCode()
+    {
+        // TODO: write your implementation of GetHashCode() here
+        throw new System.NotImplementedException();
+        return base.GetHashCode();
     }
     private void DrawGears()
     {
