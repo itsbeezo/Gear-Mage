@@ -55,7 +55,7 @@ public class GearRotate : MonoBehaviour
         if (neighbor != null && !neighbors.Contains(neighbor))
         {
             neighbors.Add(neighbor);
-            Debug.Log(gameObject.name + " added neighbor " + neighbor.gameObject.name + " | neighbor count now: " + neighbors.Count);
+            //Debug.Log(gameObject.name + " added neighbor " + neighbor.gameObject.name + " | neighbor count now: " + neighbors.Count);
         }
     }
 
