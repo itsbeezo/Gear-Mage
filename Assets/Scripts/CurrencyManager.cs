@@ -11,6 +11,8 @@ public class CurrencyManager : MonoBehaviour
     [SerializeField] private GameObject coinFallArea;
     private int goldCount;
 
+    private const string GOLD_SAVE_KEY = "SavedGoldCount";
+
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -40,7 +42,7 @@ public class CurrencyManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        goldCount = 0;
+        LoadGold();
     }
 
     public void FindSceneReferences()
@@ -71,7 +73,7 @@ public class CurrencyManager : MonoBehaviour
         if (goldPrefab == null)
         {
             goldCount += goldAmount;
-
+            SaveGold();
             UpdateDisplayText();
 
             return;
@@ -108,7 +110,8 @@ public class CurrencyManager : MonoBehaviour
 
         Destroy(goldInstance);
         goldCount += goldAmount;
-        
+
+        SaveGold();
         UpdateDisplayText();
     }
 
@@ -116,6 +119,31 @@ public class CurrencyManager : MonoBehaviour
     {
         if (goldCountDisplay != null)
             goldCountDisplay.text = "Gold:" + goldCount;
+    }
+
+    public void SaveGold()
+    {
+        PlayerPrefs.SetInt(GOLD_SAVE_KEY, goldCount);
+        PlayerPrefs.Save(); 
+    }
+
+    public void LoadGold()
+    {
+        goldCount = PlayerPrefs.GetInt(GOLD_SAVE_KEY, 0);
+        UpdateDisplayText();
+    }
+
+    private void OnApplicationQuit()
+    {
+        SaveGold();
+    }
+
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        if (pauseStatus)
+        {
+            SaveGold();
+        }
     }
 
 }
