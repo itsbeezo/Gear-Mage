@@ -41,11 +41,10 @@ public class UnitBase : MonoBehaviour
         {
             if (moveRateStep >= moveRate && !isColliding && UnitManager.instance.GetUnitsCanMove())
             {
-                //this.GetComponent<Rigidbody2D>().linearVelocityX = moveSpeed + GearManager.instance.GetMoveSpeedMod();
-                if(EnemyList.Length <= 0)
-                    this.transform.position = Vector2.MoveTowards(this.transform.position, EnemyBase.instance.transform.position, (moveSpeed + GearManager.instance.GetMoveSpeedMod()) * Time.deltaTime);
+                if (EnemyList.Length <= 0)
+                    this.GetComponent<Rigidbody2D>().linearVelocity = (EnemyBase.instance.transform.position - this.transform.position) / Mathf.Max(((EnemyBase.instance.transform.position - this.transform.position).magnitude / moveSpeed), Time.fixedDeltaTime);
                 else
-                    this.transform.position = Vector2.MoveTowards(this.transform.position, GetClosestEnemy(this).transform.position, (moveSpeed + GearManager.instance.GetMoveSpeedMod()) * Time.deltaTime);
+                    this.GetComponent<Rigidbody2D>().linearVelocity = (GetClosestEnemy(this).transform.position - this.transform.position) / Mathf.Max(((GetClosestEnemy(this).transform.position - this.transform.position).magnitude / moveSpeed), Time.fixedDeltaTime);
                 moveRateStep = 0;
             }
             if (attackRateStep >= (attackRate - GearManager.instance.GetAttackSpeedMod()))
@@ -68,11 +67,10 @@ public class UnitBase : MonoBehaviour
         {
             if (moveRateStep >= moveRate && !isColliding && UnitManager.instance.GetUnitsCanMove())
             {
-                //this.GetComponent<Rigidbody2D>().linearVelocityX = moveSpeed;
-                if(PlayerList.Length <= 0)
-                    this.transform.position = Vector2.MoveTowards(this.transform.position, PlayerBase.instance.transform.position, moveSpeed * Time.deltaTime);
+                if (PlayerList.Length <= 0)
+                    this.GetComponent<Rigidbody2D>().linearVelocity = (EnemyBase.instance.transform.position - this.transform.position) / Mathf.Max(((PlayerBase.instance.transform.position - this.transform.position).magnitude / moveSpeed), Time.fixedDeltaTime);
                 else
-                    this.transform.position = Vector2.MoveTowards(this.transform.position, GetClosestPlayer(this).transform.position, moveSpeed * Time.deltaTime);
+                    this.GetComponent<Rigidbody2D>().linearVelocity = (GetClosestPlayer(this).transform.position - this.transform.position) / Mathf.Max(((GetClosestPlayer(this).transform.position - this.transform.position).magnitude / moveSpeed), Time.fixedDeltaTime);
 
                 moveRateStep = 0;
             }
