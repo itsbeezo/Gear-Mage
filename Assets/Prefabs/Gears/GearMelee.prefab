@@ -226,6 +226,7 @@ MonoBehaviour:
   Gear: {fileID: 90250563080744765}
   RotationSpeed: 50
   rotationStep: 90
+  productionType: 1
 --- !u!50 &1138898228214303372
 Rigidbody2D:
   serializedVersion: 5

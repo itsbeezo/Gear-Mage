@@ -23,11 +23,13 @@ public class UnitManager : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        // playerSpawnStep/playerTankStep are no longer ticked here - they're driven
+        // entirely by GearMelee/GearTank production gears via AddPlayerSpawnStep/
+        // AddPlayerTankStep (see GearRotate.ApplyProductionStep). Enemy steps still
+        // run on the fixed timer since there's no enemy-side gear production yet.
         if (GameManager.instance.GetState() == GameManager.State.Normal)
         {
-            playerSpawnStep += 1;
             enemySpawnStep += 1;
-            playerTankStep += 1;
             enemyTankStep += 1;
         }
 
@@ -54,6 +56,16 @@ public class UnitManager : MonoBehaviour
             Instantiate(UnitList[3], enemySpawnPoint.transform.position,Quaternion.identity);
             enemyTankStep = 0;
         }
+    }
+    public void AddPlayerSpawnStep(float amount)
+    {
+        playerSpawnStep += amount;
+        print("Player spawn step increased by " + amount + ", new value: " + playerSpawnStep);
+    }
+    public void AddPlayerTankStep(float amount)
+    {
+        playerTankStep += amount;
+        print("Player tank step increased by " + amount + ", new value: " + playerTankStep);
     }
     public bool GetUnitsCanMove()
     {

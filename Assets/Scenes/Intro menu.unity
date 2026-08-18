@@ -1452,8 +1452,8 @@ MonoBehaviour:
   - {fileID: 4339258691962507569, guid: 924c540cec4c6ae45a9451a0610aa599, type: 3}
   playerSpawnPoint: {fileID: 332127163}
   enemySpawnPoint: {fileID: 104887242}
-  playerSpawnRate: 400
-  playerTankSpawnRate: 600
+  playerSpawnRate: 1
+  playerTankSpawnRate: 3
   enemySpawnRate: 400
   enemyTankSpawnRate: 900
 --- !u!4 &450164474

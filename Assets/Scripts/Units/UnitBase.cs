@@ -104,7 +104,7 @@ public class UnitBase : MonoBehaviour
             DestroySelf();
         }
         healthBar.fillAmount = currentHP / maxHP;
-        Debug.Log(currentEnemyGO);
+        //Debug.Log(currentEnemyGO);
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
