@@ -10,12 +10,16 @@ public class UnitManager : MonoBehaviour
     [SerializeField] private GameObject enemySpawnPoint;
     [SerializeField] private float playerSpawnRate;
     [SerializeField] private float playerTankSpawnRate;
+    [SerializeField] private float playerArcherSpawnRate;
     private float playerSpawnStep;
     private float playerTankStep;
+    private float playerArcherStep;
     [SerializeField] private float enemySpawnRate;
     [SerializeField] private float enemyTankSpawnRate;
+    [SerializeField] private float enemyArcherSpawnRate;
     private float enemySpawnStep;
     private float enemyTankStep;
+    private float enemyArcherStep;
     private bool unitsCanMove = true;
     private void Start()
     {
@@ -29,31 +33,73 @@ public class UnitManager : MonoBehaviour
             enemySpawnStep += 1;
             playerTankStep += 1;
             enemyTankStep += 1;
+            playerArcherStep += 1;
+            enemyArcherStep += 1;
         }
 
         if(playerSpawnStep >= (playerSpawnRate - GearManager.instance.GetSpawnSpeedMod()))
         {
-            Instantiate(UnitList[0], playerSpawnPoint.transform.position, Quaternion.identity);
+            //SpawnPlayerSoldier(playerSpawnPoint.transform.position);
             playerSpawnStep = 0;
         }
 
         if(enemySpawnStep >= enemySpawnRate)
         {
-            Instantiate(UnitList[1], enemySpawnPoint.transform.position, Quaternion.identity);
+            //Instantiate(UnitList[1], enemySpawnPoint.transform.position, Quaternion.identity);
             enemySpawnStep = 0;
         }
 
         if(playerTankStep >= (playerTankSpawnRate - GearManager.instance.GetSpawnSpeedMod()))
         {
-            Instantiate(UnitList[2], playerSpawnPoint.transform.position, Quaternion.identity);
+            //Instantiate(UnitList[2], playerSpawnPoint.transform.position, Quaternion.identity);
             playerTankStep = 0;
         }
 
         if(enemyTankStep >= enemyTankSpawnRate)
         {
-            Instantiate(UnitList[3], enemySpawnPoint.transform.position,Quaternion.identity);
+            //Instantiate(UnitList[3], enemySpawnPoint.transform.position,Quaternion.identity);
             enemyTankStep = 0;
         }
+
+        if(playerArcherStep >= (playerArcherSpawnRate - GearManager.instance.GetSpawnSpeedMod()))
+        {
+            Instantiate(UnitList[4], playerSpawnPoint.transform.position , Quaternion.identity);
+            playerArcherStep = 0;
+        }
+
+        if(enemyArcherStep >= enemyArcherSpawnRate)
+        {
+            //Instantiate(UnitList[5], enemySpawnPoint.transform.position, Quaternion.identity);
+            enemyArcherStep = 0;
+        }
+    }
+    public void SpawnPlayerSoldier(Vector3 spawnPosition)
+    {
+        Instantiate(UnitList[0], spawnPosition, Quaternion.identity);
+    }
+    public void SpawnEnemySoldier(Vector3 spawnPosition)
+    {
+        Instantiate(UnitList[1], spawnPosition, Quaternion.identity);
+    }
+    public void SpawnPlayerTank(Vector3 spawnPosition)
+    {
+        Instantiate(UnitList[2], spawnPosition, Quaternion.identity);
+    }
+    public void SpawnEnemyTank(Vector3 spawnPosition)
+    {
+        Instantiate(UnitList[3], spawnPosition, Quaternion.identity);
+    }
+    public void SpawnPlayerArcher(Vector3 spawnPosition)
+    {
+        Instantiate(UnitList[4], spawnPosition, Quaternion.identity);
+    }
+    public void SpawnEnemyArcher(Vector3 spawnPosition)
+    {
+        Instantiate(UnitList[5], spawnPosition, Quaternion.identity);
+    }
+    public void SpawnUnit(int unitIndex,  Vector3 spawnPosition)
+    {
+        Instantiate(UnitList[unitIndex], spawnPosition, Quaternion.identity);
     }
     public bool GetUnitsCanMove()
     {

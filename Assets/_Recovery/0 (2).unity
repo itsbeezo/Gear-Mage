@@ -1120,7 +1120,7 @@ MonoBehaviour:
   enemySpawnPoint: {fileID: 104887242}
   playerSpawnRate: 400
   playerTankSpawnRate: 1800
-  playerArcherSpawnRate: 500
+  playerArcherSpawnRate: 900
   enemySpawnRate: 400
   enemyTankSpawnRate: 1800
   enemyArcherSpawnRate: 900
