@@ -11,10 +11,10 @@ public class GearManager : MonoBehaviour
 
 
     public static GearManager instance { get; private set; }
-    private int[,] GearMatrix = { {0, 10, 4, 6, 9, 0, 4, 4, 3},
-                                  {0, 3, 5, 6, 5, 3, 11, 9, 6},
-                                  {0, 2, 6, 1, 5, 0, 1, 0, 4},
-                                  {0, 0, 7, 0, 9, 6, 2, 8, 8} };
+    private int[,] GearMatrix = { {1, 2, 3, 0, 4, 5, 6, 7, 8},
+                                  {9, 10, 11, 0, 0, 0, 0, 0, 0},
+                                  {0, 0, 0, 1, 0, 0, 1, 0, 0},
+                                  {0, 0, 0, 0, 0, 0, 0, 0, 0} };
     [SerializeField] private List<GameObject> GearList;
     [SerializeField] private List<GearBox> GearBoxList1;
     [SerializeField] private List<GearBox> GearBoxList2;
@@ -36,7 +36,7 @@ public class GearManager : MonoBehaviour
     {
         return GearList[i];
     }
-    private void SetGear(int i, int j, int g)
+    public void SetGear(int i, int j, int g)
     {
         GearMatrix[i, j] = g;
     }// override object.Equals
@@ -66,7 +66,7 @@ public class GearManager : MonoBehaviour
         throw new System.NotImplementedException();
         return base.GetHashCode();
     }
-    private void DrawGears()
+    public void DrawGears()
     {
         for(int i = 0; i < GearMatrix.GetLength(0); i++)
         {
@@ -130,4 +130,30 @@ public class GearManager : MonoBehaviour
     {
         return attackSpeedMod;
     }
+    public void SpawnSingleGear(int i, int j, int gearNum)
+    {
+        if (gearNum <= 0) return;
+
+        Vector3 spawnPos = Vector3.zero;
+
+        switch (i)
+        {
+            case 0:
+                spawnPos = GearBoxList1[j].transform.position;
+                break;
+            case 1:
+                spawnPos = GearBoxList2[j].transform.position;
+                break;
+            case 2:
+                spawnPos = GearBoxList3[j].transform.position;
+                break;
+            case 3:
+                spawnPos = GearBoxList4[j].transform.position;
+                break;
+        }
+
+        Instantiate(GetGear(gearNum), spawnPos, Quaternion.identity);
+        AddStats(gearNum);
+    }
+
 }

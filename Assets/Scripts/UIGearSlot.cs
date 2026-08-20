@@ -9,9 +9,13 @@ public class UIGearSlot : MonoBehaviour, IDropHandler
         {
             GameObject draggedObject = eventData.pointerDrag;
 
-            //This is a temporary solution, I plan on changing the logic here shortly. 
-            draggedObject.transform.SetParent(transform);
-            draggedObject.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+            UIDragHandler uiDragHandler = draggedObject.GetComponent<UIDragHandler>();
+
+            GearBox thisGearBox = gameObject.GetComponent<GearBox>();
+
+            GearManager.instance.SetGear(thisGearBox.GetXIndex(), thisGearBox.GetYIndex(), uiDragHandler.gearNum);
+
+            GearManager.instance.SpawnSingleGear(thisGearBox.GetXIndex(), thisGearBox.GetYIndex(), uiDragHandler.gearNum); 
         }
     }
 
