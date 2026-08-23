@@ -96,7 +96,7 @@ public class CurrencyManager : MonoBehaviour
                 if ((Vector2.Distance(goldInstance.transform.position, targetPos) < 1.25f))
                     goldInstance.transform.localScale = Vector2.MoveTowards(goldInstance.transform.localScale, new Vector2(0, 0), 1.000001f * Time.deltaTime);
 
-                yield return null;
+                yield return null;;
             }
         }
         else if(coinFallArea == null)
