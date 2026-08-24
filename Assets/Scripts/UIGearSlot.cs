@@ -3,10 +3,13 @@ using UnityEngine.EventSystems;
 
 public class UIGearSlot : MonoBehaviour, IDropHandler
 {
+    public bool isFull = false;
     public void OnDrop(PointerEventData eventData)
     {
-        if (eventData.pointerDrag != null)
+        if (eventData.pointerDrag != null && !isFull)
         {
+            isFull = true;
+
             GameObject draggedObject = eventData.pointerDrag;
 
             UIDragHandler uiDragHandler = draggedObject.GetComponent<UIDragHandler>();

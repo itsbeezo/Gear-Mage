@@ -11,9 +11,9 @@ public class GearManager : MonoBehaviour
 
 
     public static GearManager instance { get; private set; }
-    private int[,] GearMatrix = { {1, 2, 3, 0, 4, 5, 6, 7, 8},
-                                  {9, 10, 11, 0, 0, 0, 0, 0, 0},
-                                  {0, 0, 0, 1, 0, 0, 1, 0, 0},
+    private int[,] GearMatrix = { {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                  {0, 0, 0, 0, 0, 0, 0, 0, 0},
+                                  {0, 0, 0, 0, 0, 0, 0, 0, 0},
                                   {0, 0, 0, 0, 0, 0, 0, 0, 0} };
     [SerializeField] private List<GameObject> GearList;
     [SerializeField] private List<GearBox> GearBoxList1;
