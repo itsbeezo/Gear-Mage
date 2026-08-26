@@ -11,6 +11,8 @@ public class CurrencyManager : MonoBehaviour
     [SerializeField] private GameObject coinFallArea;
     private int goldCount;
 
+    private const string GOLD_SAVE_KEY = "SavedGoldCount";
+
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;

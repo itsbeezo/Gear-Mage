@@ -18,7 +18,7 @@ public class GearRotate : MonoBehaviour
 
     private float tickTimer = 0;
 
-    private float gearspeed = 10f;
+    private float gearspeed = 3f;
 
 
     [Header("Gear Settings")]
