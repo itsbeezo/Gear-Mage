@@ -18,6 +18,8 @@ public class GearRotate : MonoBehaviour
 
     private float tickTimer = 0;
 
+    private float gearspeed = 10f;
+
 
     [Header("Gear Settings")]
     [SerializeField]
@@ -26,9 +28,9 @@ public class GearRotate : MonoBehaviour
 
     [Header("Production Settings")]
     [SerializeField]
-    public float totalRotations;
-    public float rotationPerTick = .25f;
-    public float gearspeed;
+    private int unitsSpawned;
+
+
     public float tickProgress = 0f;
 
     [Header("Unit Production")]
@@ -37,7 +39,7 @@ public class GearRotate : MonoBehaviour
     // Player spawn-step contribution added each time this gear's tick completes.
     // UnitManager.playerSpawnRate / playerTankSpawnRate were rebalanced around
     // the board's current gear count (1 Melee, 2 Tank) assuming this value - see UnitManager.cs.
-    public float productionStepAmount = 0.2f;
+    public float productionStepAmount = 0.4f;
 
     private List<GearRotate> neighbors = new List<GearRotate>();
 
@@ -47,7 +49,7 @@ public class GearRotate : MonoBehaviour
 
         // if (GearRotation())
         // {
-            gearspeed = 2f;
+            // gearspeed = 2f;
             tickTimer += Time.deltaTime;
 
             tickProgress = Mathf.Clamp01(tickTimer / gearspeed);
@@ -55,7 +57,7 @@ public class GearRotate : MonoBehaviour
             if (tickTimer >= gearspeed)
             {
             tickTimer = 0;
-            totalRotations += rotationPerTick;
+            unitsSpawned += 1;
             ApplyProductionStep();
             }
         // }
