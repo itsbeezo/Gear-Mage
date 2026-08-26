@@ -20,6 +20,7 @@ public class GearRotate : MonoBehaviour
 
     private float gearspeed = 3f;
 
+    private int counter = 0;
 
     [Header("Gear Settings")]
     [SerializeField]
@@ -29,6 +30,7 @@ public class GearRotate : MonoBehaviour
     [Header("Production Settings")]
     [SerializeField]
     private int unitsSpawned;
+    public int RorationsToComplete;
 
 
     public float tickProgress = 0f;
@@ -47,9 +49,11 @@ public class GearRotate : MonoBehaviour
     void Update()
     {
 
-        // if (GearRotation())
-        // {
+        //if (GearRotation())
+        //{
             // gearspeed = 2f;
+
+            // FINISH GETTING RID OF THIS AND PUTTING THE LOGIC IN THE PULSE METHOD
             tickTimer += Time.deltaTime;
 
             tickProgress = Mathf.Clamp01(tickTimer / gearspeed);
@@ -60,7 +64,7 @@ public class GearRotate : MonoBehaviour
             unitsSpawned += 1;
             ApplyProductionStep();
             }
-        // }
+        //}
         //if (Input.GetKeyDown(KeyCode.E))
         //{
         //    Debug.Log("E was pressed");
@@ -90,7 +94,11 @@ public class GearRotate : MonoBehaviour
     public void pulse(HashSet<GearRotate> hasPulsed)
     {
         //Debug.Log(gameObject.name + " is pulsing. Neighbor count: " + neighbors.Count); 
-        if (hasPulsed.Contains(this)) return;
+        if (hasPulsed.Contains(this)) 
+        {
+            tickProgress = counter / RorationsToComplete;
+            return;
+        }
         hasPulsed.Add(this);
 
         transform.Rotate(0,0, -rotationStep);
