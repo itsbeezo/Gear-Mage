@@ -84,14 +84,12 @@ public class UnitBase : MonoBehaviour
                         this.GetComponent<Rigidbody2D>().linearVelocity = (GetClosestEnemy(this).transform.position - this.transform.position) / Mathf.Max(((GetClosestEnemy(this).transform.position - this.transform.position).magnitude / moveSpeed), Time.fixedDeltaTime);
                     moveRateStep = 0;
                 }
-
                 if (attackRateStep >= (attackRate - GearManager.instance.GetAttackSpeedMod()))
                 {
                     SpawnProjectile();
                     attackRateStep = 0;
                 }
-
-                    if (isColliding || inAttackRange)
+                if (isColliding || inAttackRange)
                 {
                     this.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
                 }
@@ -102,7 +100,7 @@ public class UnitBase : MonoBehaviour
             if (moveRateStep >= moveRate && !isColliding && UnitManager.instance.GetUnitsCanMove())
             {
                 if (PlayerList.Length <= 0)
-                    this.GetComponent<Rigidbody2D>().linearVelocity = (EnemyBase.instance.transform.position - this.transform.position) / Mathf.Max(((PlayerBase.instance.transform.position - this.transform.position).magnitude / moveSpeed), Time.fixedDeltaTime);
+                    this.GetComponent<Rigidbody2D>().linearVelocity = (PlayerBase.instance.transform.position - this.transform.position) / Mathf.Max(((PlayerBase.instance.transform.position - this.transform.position).magnitude / moveSpeed), Time.fixedDeltaTime);
                 else
                     this.GetComponent<Rigidbody2D>().linearVelocity = (GetClosestPlayer(this).transform.position - this.transform.position) / Mathf.Max(((GetClosestPlayer(this).transform.position - this.transform.position).magnitude / moveSpeed), Time.fixedDeltaTime);
             }
@@ -222,6 +220,7 @@ public class UnitBase : MonoBehaviour
     private void SpawnProjectile()
     {
         thisProjectile = Instantiate(projectile, this.transform.position, Quaternion.identity);
+        thisProjectile.SetAttack(attack);
         if(EnemyList.Length > 0)
             thisProjectile.SetTarget(GetClosestEnemy(this).gameObject);
         else

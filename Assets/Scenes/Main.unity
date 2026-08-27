@@ -1121,8 +1121,8 @@ MonoBehaviour:
   playerSpawnRate: 400
   playerTankSpawnRate: 1800
   playerArcherSpawnRate: 500
-  enemySpawnRate: 400
-  enemyTankSpawnRate: 1800
+  enemySpawnRate: 900
+  enemyTankSpawnRate: 4000
   enemyArcherSpawnRate: 900
 --- !u!4 &450164474
 Transform:

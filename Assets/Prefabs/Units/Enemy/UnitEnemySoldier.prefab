@@ -101,6 +101,10 @@ PrefabInstance:
       value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 7954044642175405548, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
+      propertyPath: m_Mass
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7954044642175405548, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
       propertyPath: m_BodyType
       value: 0
       objectReference: {fileID: 0}
