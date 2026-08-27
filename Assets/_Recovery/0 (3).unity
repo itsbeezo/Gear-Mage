@@ -1123,7 +1123,7 @@ MonoBehaviour:
   playerArcherSpawnRate: 500
   enemySpawnRate: 900
   enemyTankSpawnRate: 4000
-  enemyArcherSpawnRate: 200
+  enemyArcherSpawnRate: 500
 --- !u!4 &450164474
 Transform:
   m_ObjectHideFlags: 0

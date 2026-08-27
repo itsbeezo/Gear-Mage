@@ -108,6 +108,10 @@ PrefabInstance:
       propertyPath: attackRate
       value: 80
       objectReference: {fileID: 0}
+    - target: {fileID: 5892114524667890432, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
+      propertyPath: projectile
+      value: 
+      objectReference: {fileID: 2076642875657000992, guid: 92444080ff657d6458c3fd1263e47be5, type: 3}
     - target: {fileID: 7954044642175405548, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
       propertyPath: m_Mass
       value: 100
