@@ -33,11 +33,11 @@ public class UnitManager : MonoBehaviour
             enemyTankStep += 1;
         }
 
-        if(playerSpawnStep >= (playerSpawnRate - GearManager.instance.GetSpawnSpeedMod()))
-        {
-            Instantiate(UnitList[0], playerSpawnPoint.transform.position, Quaternion.identity);
-            playerSpawnStep = 0;
-        }
+        // if(playerSpawnStep >= (playerSpawnRate - GearManager.instance.GetSpawnSpeedMod()))
+        // {
+        //     Instantiate(UnitList[0], playerSpawnPoint.transform.position, Quaternion.identity);
+        //     playerSpawnStep = 0;
+        // }
 
         if(enemySpawnStep >= enemySpawnRate)
         {
@@ -45,11 +45,11 @@ public class UnitManager : MonoBehaviour
             enemySpawnStep = 0;
         }
 
-        if(playerTankStep >= (playerTankSpawnRate - GearManager.instance.GetSpawnSpeedMod()))
-        {
-            Instantiate(UnitList[2], playerSpawnPoint.transform.position, Quaternion.identity);
-            playerTankStep = 0;
-        }
+        // if(playerTankStep >= (playerTankSpawnRate - GearManager.instance.GetSpawnSpeedMod()))
+        // {
+        //     Instantiate(UnitList[2], playerSpawnPoint.transform.position, Quaternion.identity);
+        //     playerTankStep = 0;
+        // }
 
         if(enemyTankStep >= enemyTankSpawnRate)
         {
@@ -67,6 +67,12 @@ public class UnitManager : MonoBehaviour
         playerTankStep += amount;
         print("Player tank step increased by " + amount + ", new value: " + playerTankStep);
     }
+
+    public void SpawnUnit(int unitIndex,  Vector3 spawnPosition)
+    {
+        Instantiate(UnitList[unitIndex], spawnPosition, Quaternion.identity);
+    }
+
     public bool GetUnitsCanMove()
     {
         return unitsCanMove;
@@ -74,5 +80,13 @@ public class UnitManager : MonoBehaviour
     public void SetUnitsCanMove(bool newSet)
     {
         unitsCanMove = newSet;
+    }
+    public GameObject GetPlayerSpawnPoint()
+    {
+        return playerSpawnPoint;
+    }
+    public GameObject GetEnemySpawnPoint()
+    {
+        return enemySpawnPoint;
     }
 }

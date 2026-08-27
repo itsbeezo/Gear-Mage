@@ -67,6 +67,8 @@ public class ClickerRotate : MonoBehaviour
     {
         Clicker.transform.Rotate(0, 0, -90);
 
+        currentTouchingGear?.pulse(new HashSet<GearRotate>());
+
         //GearRotate firstGear = Gear.GetComponent<GearRotate>();
         //if (firstGear != null)
         //{

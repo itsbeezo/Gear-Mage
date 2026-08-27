@@ -125,10 +125,10 @@ public class GearRotate : MonoBehaviour
         switch (productionType)
         {
             case GearProductionType.Melee:
-                UnitManager.instance.AddPlayerSpawnStep(productionStepAmount);
+                UnitManager.instance.SpawnUnit(0, UnitManager.instance.GetPlayerSpawnPoint().transform.position);
                 break;
             case GearProductionType.Tank:
-                UnitManager.instance.AddPlayerTankStep(productionStepAmount);
+                UnitManager.instance.SpawnUnit(2, UnitManager.instance.GetPlayerSpawnPoint().transform.position);
                 break;
         }
     }
