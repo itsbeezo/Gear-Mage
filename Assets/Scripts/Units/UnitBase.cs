@@ -27,8 +27,6 @@ public class UnitBase : MonoBehaviour
     [SerializeField] private float range;
     [SerializeField] private ProjectileBase projectile;
     private ProjectileBase thisProjectile;
-
-
     private void Start()
     {
         if (this.TryGetComponent(out UnitPlayer unitPlayer))
@@ -84,14 +82,12 @@ public class UnitBase : MonoBehaviour
                         this.GetComponent<Rigidbody2D>().linearVelocity = (GetClosestEnemy(this).transform.position - this.transform.position) / Mathf.Max(((GetClosestEnemy(this).transform.position - this.transform.position).magnitude / moveSpeed), Time.fixedDeltaTime);
                     moveRateStep = 0;
                 }
-
                 if (attackRateStep >= (attackRate - GearManager.instance.GetAttackSpeedMod()))
                 {
                     SpawnProjectile();
                     attackRateStep = 0;
                 }
-
-                    if (isColliding || inAttackRange)
+                if (isColliding || inAttackRange)
                 {
                     this.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
                 }
@@ -99,41 +95,64 @@ public class UnitBase : MonoBehaviour
         }
         else if (this.TryGetComponent(out UnitEnemy unitEnemy))
         {
-            if (moveRateStep >= moveRate && !isColliding && UnitManager.instance.GetUnitsCanMove())
+            if (this.TryGetComponent(out UnitSoldier unitSoldier) || this.TryGetComponent(out UnitTank unitTank))
             {
-                if (PlayerList.Length <= 0)
-                    this.GetComponent<Rigidbody2D>().linearVelocity = (EnemyBase.instance.transform.position - this.transform.position) / Mathf.Max(((PlayerBase.instance.transform.position - this.transform.position).magnitude / moveSpeed), Time.fixedDeltaTime);
-                else
-                    this.GetComponent<Rigidbody2D>().linearVelocity = (GetClosestPlayer(this).transform.position - this.transform.position) / Mathf.Max(((GetClosestPlayer(this).transform.position - this.transform.position).magnitude / moveSpeed), Time.fixedDeltaTime);
+                if (moveRateStep >= moveRate && !isColliding && UnitManager.instance.GetUnitsCanMove())
+                {
+                    if (PlayerList.Length <= 0)
+                        this.GetComponent<Rigidbody2D>().linearVelocity = (PlayerBase.instance.transform.position - this.transform.position) / Mathf.Max(((PlayerBase.instance.transform.position - this.transform.position).magnitude / moveSpeed), Time.fixedDeltaTime);
+                    else
+                        this.GetComponent<Rigidbody2D>().linearVelocity = (GetClosestPlayer(this).transform.position - this.transform.position) / Mathf.Max(((GetClosestPlayer(this).transform.position - this.transform.position).magnitude / moveSpeed), Time.fixedDeltaTime);
+                }
+                if (attackRateStep >= attackRate)
+                {
+                    if (currentEnemyGO.TryGetComponent(out UnitBase unitBase))
+                    {
+                        currentEnemy = currentEnemyGO.GetComponent<UnitBase>();
+                        currentEnemy.SetHP(currentEnemy.GetCurrentHP() - GetAttack());
+                    }
+                    else if (currentEnemyGO.TryGetComponent(out BaseBase baseBase))
+                    {
+                        currentBase = currentEnemyGO.GetComponent<BaseBase>();
+                        currentBase.SetHP(currentBase.GetCurrentHP() - GetAttack());
+                    }
+                    attackRateStep = 0;
+                }
             }
-            if (attackRateStep >= attackRate)
+            else if(this.TryGetComponent(out UnitArcher unitArcher1))
             {
-                if (currentEnemyGO.TryGetComponent(out UnitBase unitBase))
+                inAttackRange = IsInRange();
+                if (moveRateStep >= moveRate && !isColliding && UnitManager.instance.GetUnitsCanMove() && !inAttackRange)
                 {
-                    currentEnemy = currentEnemyGO.GetComponent<UnitBase>();
-                    currentEnemy.SetHP(currentEnemy.GetCurrentHP() - GetAttack());
+                    if (PlayerList.Length <= 0)
+                        this.GetComponent<Rigidbody2D>().linearVelocity = (PlayerBase.instance.transform.position - this.transform.position) / Mathf.Max(((PlayerBase.instance.transform.position - this.transform.position).magnitude / moveSpeed), Time.fixedDeltaTime);
+                    else
+                        this.GetComponent<Rigidbody2D>().linearVelocity = (GetClosestPlayer(this).transform.position - this.transform.position) / Mathf.Max(((GetClosestPlayer(this).transform.position - this.transform.position).magnitude / moveSpeed), Time.fixedDeltaTime);
+                    moveRateStep = 0;
                 }
-                else if (currentEnemyGO.TryGetComponent(out BaseBase baseBase))
+                if (attackRateStep >= (attackRate - GearManager.instance.GetAttackSpeedMod()))
                 {
-                    currentBase = currentEnemyGO.GetComponent<BaseBase>();
-                    currentBase.SetHP(currentBase.GetCurrentHP() - GetAttack());
+                    SpawnProjectile();
+                    attackRateStep = 0;
                 }
-                attackRateStep = 0;
+                if (isColliding || inAttackRange)
+                {
+                    this.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
+                }
             }
         }
 
-        if(isColliding)
+        if(isColliding)//Freeze movement when colliding with another object
         {
-            this.GetComponent<Rigidbody2D>().linearVelocityX = 0;
-            this.GetComponent<Rigidbody2D>().linearVelocityY = 0;
+            this.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
             this.GetComponent<Rigidbody2D>().freezeRotation = true;
         }
 
-        if (currentHP <= 0)
+        if (currentHP <= 0)//Destroy when HP is zero
         {
             DestroySelf();
         }
-        healthBar.fillAmount = currentHP / maxHP;
+        healthBar.fillAmount = currentHP / maxHP;//Update the healthbar
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -152,7 +171,7 @@ public class UnitBase : MonoBehaviour
     }
     private UnitPlayer GetClosestPlayer(UnitBase enemy)
     {
-        Vector3 heading;
+        Vector2 heading;
         float distanceBetween = 100;
         float distanceBetweenTemp;
         int index = 0;
@@ -169,7 +188,7 @@ public class UnitBase : MonoBehaviour
     }
     private UnitEnemy GetClosestEnemy(UnitBase player)
     {
-        Vector3 heading;
+        Vector2 heading;
         float distanceBetween = 100;
         float distanceBetweenTemp;
         int index = 0;
@@ -191,13 +210,9 @@ public class UnitBase : MonoBehaviour
             if (EnemyList.Length > 0)
             {
                 if ((GetClosestEnemy(this).transform.position - this.transform.position).sqrMagnitude <= range)
-                {
                     return true;
-                }
                 else
-                {
                     return false;
-                }
             }
             else
             {
@@ -209,10 +224,20 @@ public class UnitBase : MonoBehaviour
         }
         else if(this.TryGetComponent(out UnitEnemy unitEnemy))
         {
-            if ((GetClosestPlayer(this).transform.position - this.transform.position).sqrMagnitude <= range)
-                return true;
+            if(PlayerList.Length > 0)
+            {
+                if((GetClosestPlayer(this).transform.position - this.transform.position).sqrMagnitude <= range)
+                    return true;
+                else
+                    return false;
+            }
             else
-                return false;
+            {
+                if((PlayerBase.instance.transform.position - this.transform.position).sqrMagnitude <= range)
+                    return true;
+                else
+                    return false;    
+            }
         }
         else
         {
@@ -222,10 +247,21 @@ public class UnitBase : MonoBehaviour
     private void SpawnProjectile()
     {
         thisProjectile = Instantiate(projectile, this.transform.position, Quaternion.identity);
-        if(EnemyList.Length > 0)
-            thisProjectile.SetTarget(GetClosestEnemy(this).gameObject);
-        else
-            thisProjectile.SetTarget(EnemyBase.instance.gameObject);
+        thisProjectile.SetAttack(attack);
+        if (this.TryGetComponent(out UnitPlayer unitPlayer))
+        {
+            if (EnemyList.Length > 0)
+                thisProjectile.SetTarget(GetClosestEnemy(this).gameObject);
+            else
+                thisProjectile.SetTarget(EnemyBase.instance.gameObject);
+        }
+        else if(this.TryGetComponent(out UnitEnemy unitEnemy))
+        {
+            if (PlayerList.Length > 0)
+                thisProjectile.SetTarget(GetClosestPlayer(this).gameObject);
+            else
+                thisProjectile.SetTarget(PlayerBase.instance.gameObject);
+        }
     }
     public float GetCurrentHP()
     {

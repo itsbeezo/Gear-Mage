@@ -365,6 +365,8 @@ MonoBehaviour:
   moveSpeed: 0
   attackRate: 0
   healthBar: {fileID: 8072071979933498348}
+  range: 0
+  projectile: {fileID: 0}
 --- !u!1001 &8103580874246498036
 PrefabInstance:
   m_ObjectHideFlags: 0
