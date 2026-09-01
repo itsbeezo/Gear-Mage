@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7005524931833596957}
   - component: {fileID: 1529202583558142232}
   - component: {fileID: 9171224623889224965}
+  - component: {fileID: 7408938194695873208}
   m_Layer: 0
   m_Name: GearBase 1
   m_TagString: Untagged
@@ -126,3 +127,20 @@ MonoBehaviour:
   Gear: {fileID: 0}
   RotationSpeed: 50
   rotationStep: 90
+  totalRotations: 0
+  rotationPerTick: 0.25
+  gearspeed: 0
+  tickProgress: 0
+--- !u!114 &7408938194695873208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4894015876460603445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05aa7f0b169f7f14488f473512a7b96f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIDragHandler
+  gearNum: 0

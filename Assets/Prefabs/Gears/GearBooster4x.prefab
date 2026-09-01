@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2197254119057594583}
   - component: {fileID: 1138898228214303372}
   - component: {fileID: 6867647186320334993}
+  - component: {fileID: 4940868298670620013}
   m_Layer: 0
   m_Name: GearBooster4x
   m_TagString: Gears
@@ -226,6 +227,10 @@ MonoBehaviour:
   Gear: {fileID: 90250563080744765}
   RotationSpeed: 50
   rotationStep: 90
+  totalRotations: 0
+  rotationPerTick: 0.25
+  gearspeed: 0
+  tickProgress: 0
 --- !u!50 &1138898228214303372
 Rigidbody2D:
   serializedVersion: 5
@@ -270,6 +275,19 @@ MonoBehaviour:
   spawnSpeedBonus: 0
   moveSpeedBonus: 0
   attackSpeedBonus: 0
+--- !u!114 &4940868298670620013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 90250563080744765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05aa7f0b169f7f14488f473512a7b96f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIDragHandler
+  gearNum: 0
 --- !u!1 &1719288217505048799
 GameObject:
   m_ObjectHideFlags: 0

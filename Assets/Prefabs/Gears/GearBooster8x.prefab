@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2197254119057594583}
   - component: {fileID: 1138898228214303372}
   - component: {fileID: 6867647186320334993}
+  - component: {fileID: -1708485921668397485}
   m_Layer: 0
   m_Name: GearBooster8x
   m_TagString: Gears
@@ -142,8 +143,8 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.31049344, y: 0.0032857233}
-      - {x: 0.3104934, y: 0.0032857198}
+    - - {x: 0.28254396, y: 0.0032857233}
+      - {x: 0.27179408, y: 0.0032857198}
       - {x: 0.27461487, y: 0.03221343}
       - {x: 0.23686573, y: 0.06264934}
       - {x: 0.23353001, y: 0.080653556}
@@ -152,17 +153,17 @@ PolygonCollider2D:
       - {x: 0.11040782, y: 0.18861341}
       - {x: 0.079091206, y: 0.20180237}
       - {x: 0.080872685, y: 0.20700862}
-      - {x: -0.00029954873, y: 0.30231956}
+      - {x: 0.0018503852, y: 0.2657702}
       - {x: -0.07988451, y: 0.21140425}
       - {x: -0.13090414, y: 0.14398786}
       - {x: -0.20369288, y: 0.08134409}
-      - {x: -0.3340569, y: -0.0034467706}
+      - {x: -0.27385795, y: 0.0030031477}
       - {x: -0.21180356, y: -0.063010015}
       - {x: -0.1912755, y: -0.11262806}
       - {x: -0.14186436, y: -0.13716924}
       - {x: -0.09627756, y: -0.19197977}
       - {x: -0.09849307, y: -0.19209565}
-      - {x: 0.002188484, y: -0.3104934}
+      - {x: 0.000038550003, y: -0.27824393}
       - {x: 0.08, y: -0.23475328}
       - {x: 0.14663379, y: -0.13564694}
       - {x: 0.19794784, y: -0.11108212}
@@ -226,6 +227,10 @@ MonoBehaviour:
   Gear: {fileID: 90250563080744765}
   RotationSpeed: 50
   rotationStep: 90
+  totalRotations: 0
+  rotationPerTick: 0.25
+  gearspeed: 0
+  tickProgress: 0
 --- !u!50 &1138898228214303372
 Rigidbody2D:
   serializedVersion: 5
@@ -270,6 +275,19 @@ MonoBehaviour:
   spawnSpeedBonus: 0
   moveSpeedBonus: 0
   attackSpeedBonus: 0
+--- !u!114 &-1708485921668397485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 90250563080744765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05aa7f0b169f7f14488f473512a7b96f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIDragHandler
+  gearNum: 0
 --- !u!1 &1719288217505048799
 GameObject:
   m_ObjectHideFlags: 0

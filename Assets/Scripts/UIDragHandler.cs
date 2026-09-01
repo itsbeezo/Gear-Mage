@@ -11,6 +11,7 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private Vector3 offset;
 
     public int gearNum = 0;
+    private UIGearSlot currentSlot;
 
     private void Awake()
     {
@@ -27,6 +28,17 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         Vector3 mouseWorldPos = mainCamera.ScreenToWorldPoint(eventData.position);
         mouseWorldPos.z = 0f;
         offset = transform.position - mouseWorldPos;
+
+        Collider2D[] hits = Physics2D.OverlapPointAll(transform.position);
+        foreach (Collider2D hit in hits)
+        {
+            UIGearSlot slot = hit.GetComponent<UIGearSlot>();
+            if (slot != null)
+            {
+                currentSlot = slot;
+                break;
+            }
+        }
 
         if (spriteRenderer != null)
         {
@@ -91,23 +103,76 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         {
             gearNum = 11;
         }
+        else if (gameObject.CompareTag("Gears") || gameObject.CompareTag("Clicker"))
+        {
+            if (gameObject.name.Contains("Clicker"))
+            {
+                gearNum = 1;
+            }
+            else if (gameObject.name.Contains("GAttack"))
+            {
+                gearNum = 9;
+            }
+            else if (gameObject.name.Contains("GBooster"))
+            {
+                gearNum = 3;
+            }
+            else if (gameObject.name.Contains("2x"))
+            {
+                gearNum = 4;
+            }
+            else if (gameObject.name.Contains("4x"))
+            {
+                gearNum = 5;
+            }
+            else if (gameObject.name.Contains("8x"))
+            {
+                gearNum = 6;
+            }
+            else if (gameObject.name.Contains("HP"))
+            {
+                gearNum = 11;
+            }
+            else if (gameObject.name.Contains("Melee"))
+            {
+                gearNum = 7;
+            }
+            else if (gameObject.name.Contains("Tank"))
+            {
+                gearNum = 8;
+            }
+            else if (gameObject.name.Contains("Speed"))
+            {
+                gearNum = 10;
+            }
+
+            currentSlot.ClearSlot();
+        }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (spriteRenderer != null)
+        if (gameObject.CompareTag("Gears") || gameObject.CompareTag("Clicker"))
         {
-            Color color = spriteRenderer.color;
-            color.a = 1.0f;
-            spriteRenderer.color = color;
+            Destroy(gameObject);
         }
-
-        if (col2D != null)
+        else
         {
-            col2D.enabled = true;
-        }
+            if (spriteRenderer != null)
+            {
+                Color color = spriteRenderer.color;
+                color.a = 1.0f;
+                spriteRenderer.color = color;
+            }
 
-        transform.position = originalPosition;
+            if (col2D != null)
+            {
+                col2D.enabled = true;
+            }
+
+            transform.position = originalPosition;
+        }
+        
     }
 
 }

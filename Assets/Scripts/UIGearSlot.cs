@@ -22,4 +22,15 @@ public class UIGearSlot : MonoBehaviour, IDropHandler
         }
     }
 
+    public void ClearSlot()
+    {
+        isFull = false;
+
+        GearBox thisGearBox = GetComponent<GearBox>();
+        if (thisGearBox != null)
+        {
+            GearManager.instance.SetGear(thisGearBox.GetXIndex(), thisGearBox.GetYIndex(), 0);
+        }
+    }
+
 }

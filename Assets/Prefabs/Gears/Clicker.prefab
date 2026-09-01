@@ -105,6 +105,8 @@ GameObject:
   - component: {fileID: 1486162076990589730}
   - component: {fileID: -65259492613735012}
   - component: {fileID: -4025736726954723723}
+  - component: {fileID: -5679525387095471590}
+  - component: {fileID: 5137821620111320480}
   m_Layer: 0
   m_Name: Clicker
   m_TagString: Clicker
@@ -221,7 +223,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.002694916, y: 0.5038172}
+  m_Offset: {x: -0.009995207, y: 0.31036043}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -231,7 +233,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.23834142, y: 0.45659518}
+  m_Size: {x: 0.3405449, y: 0.8435087}
   m_EdgeRadius: 0
 --- !u!50 &1486162076990589730
 Rigidbody2D:
@@ -296,3 +298,29 @@ MonoBehaviour:
   spawnSpeedBonus: 0
   moveSpeedBonus: 0
   attackSpeedBonus: 0
+--- !u!114 &-5679525387095471590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4609109518383377074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05aa7f0b169f7f14488f473512a7b96f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIDragHandler
+  gearNum: 0
+--- !u!114 &5137821620111320480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4609109518383377074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05aa7f0b169f7f14488f473512a7b96f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIDragHandler
+  gearNum: 0
