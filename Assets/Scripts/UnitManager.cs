@@ -45,25 +45,25 @@ public class UnitManager : MonoBehaviour
 
         if(enemySpawnStep >= enemySpawnRate)
         {
-           // Instantiate(UnitList[1], enemySpawnPoint.transform.position, Quaternion.identity);
+            Instantiate(UnitList[1], enemySpawnPoint.transform.position, Quaternion.identity);
             enemySpawnStep = 0;
         }
 
         if(playerTankStep >= (playerTankSpawnRate - GearManager.instance.GetSpawnSpeedMod()))
         {
-            //Instantiate(UnitList[2], playerSpawnPoint.transform.position, Quaternion.identity);
+            Instantiate(UnitList[2], playerSpawnPoint.transform.position, Quaternion.identity);
             playerTankStep = 0;
         }
 
         if(enemyTankStep >= enemyTankSpawnRate)
         {
-           // Instantiate(UnitList[3], enemySpawnPoint.transform.position,Quaternion.identity);
+            Instantiate(UnitList[3], enemySpawnPoint.transform.position,Quaternion.identity);
             enemyTankStep = 0;
         }
 
         if(playerArcherStep >= (playerArcherSpawnRate - GearManager.instance.GetSpawnSpeedMod()))
         {
-            //Instantiate(UnitList[4], playerSpawnPoint.transform.position , Quaternion.identity);
+            Instantiate(UnitList[4], playerSpawnPoint.transform.position , Quaternion.identity);
             playerArcherStep = 0;
         }
 
