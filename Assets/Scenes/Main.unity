@@ -321,6 +321,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.3, y: -2.37, z: 0}
+  m_LocalPosition: {x: 3.05, y: -3.45, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1238,12 +1239,20 @@ MonoBehaviour:
   - {fileID: 5316558727970891029, guid: f38edf8508fc9154b8d04e290cdb59a1, type: 3}
   - {fileID: 7054986192369688039, guid: a3c0a8eb92de9454d81f2cae9454cfbe, type: 3}
   - {fileID: 4339258691962507569, guid: 924c540cec4c6ae45a9451a0610aa599, type: 3}
+  - {fileID: 895518432327844343, guid: c0418a39849eb5e4482d352cce45ff48, type: 3}
+  - {fileID: 6349767722936066256, guid: ae2aa805e43d07249ba3d2b468b09153, type: 3}
   playerSpawnPoint: {fileID: 332127163}
   enemySpawnPoint: {fileID: 104887242}
   playerSpawnRate: 1
   playerTankSpawnRate: 3
   enemySpawnRate: 400
   enemyTankSpawnRate: 900
+  playerSpawnRate: 400
+  playerTankSpawnRate: 1800
+  playerArcherSpawnRate: 500
+  enemySpawnRate: 900
+  enemyTankSpawnRate: 4000
+  enemyArcherSpawnRate: 200
 --- !u!4 &450164474
 Transform:
   m_ObjectHideFlags: 0
