@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1138898228214303372}
   - component: {fileID: 6867647186320334993}
   m_Layer: 0
-  m_Name: GearTank
+  m_Name: GearArcher
   m_TagString: Gears
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -230,7 +230,7 @@ MonoBehaviour:
   RotationsToComplete: 0
   counter: 0
   tickProgress: 0
-  productionType: 3
+  productionType: 2
   productionStepAmount: 0.4
 --- !u!50 &1138898228214303372
 Rigidbody2D:
@@ -303,7 +303,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.006, y: 0, z: 0}
-  m_LocalScale: {x: 0.27, y: 0.27, z: 0.51983726}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.23103875}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 7588565462223544449}
@@ -357,8 +357,8 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0, g: 0.10602964, b: 0.8962264, a: 1}
+  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Color: {r: 0.07262372, g: 0.17294095, b: 0.9056604, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

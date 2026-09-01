@@ -9,6 +9,7 @@ public class GearRotate : MonoBehaviour
     {
         None,
         Melee,
+        Archer,
         Tank
     }
 
@@ -105,7 +106,7 @@ public class GearRotate : MonoBehaviour
             case false when neighbors.Count >= 1:
                 foreach(var neighbor in neighbors)
                 {
-                    counter -= 1;
+                    counter += 1;
                 }   
                 break;
            case false when (counter <= 1):
@@ -119,14 +120,15 @@ public class GearRotate : MonoBehaviour
         //Debug.Log(gameObject.name + " is pulsing. Neighbor count: " + neighbors.Count); 
         if (hasPulsed.Contains(this)) 
         {
-            tickProgress = tickTimer / RotationsToComplete;
+            RotationsToComplete = 5;
+            tickProgress = Mathf.Clamp01(tickTimer / RotationsToComplete);
 
             if (tickTimer >= RotationsToComplete)
             {
             tickTimer = 0;
             unitsSpawned += 1;
             ApplyProductionStep();
-            CreateCounter();
+            //CreateCounter();
             }
 
             return;
@@ -158,6 +160,9 @@ public class GearRotate : MonoBehaviour
         {
             case GearProductionType.Melee:
                 UnitManager.instance.SpawnUnit(0, UnitManager.instance.GetPlayerSpawnPoint().transform.position);
+                break;
+            case GearProductionType.Archer:
+                UnitManager.instance.SpawnUnit(4, UnitManager.instance.GetPlayerSpawnPoint().transform.position);
                 break;
             case GearProductionType.Tank:
                 UnitManager.instance.SpawnUnit(2, UnitManager.instance.GetPlayerSpawnPoint().transform.position);

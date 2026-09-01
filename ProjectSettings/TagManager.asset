@@ -14,11 +14,11 @@ TagManager:
   - Drag4
   - Drag5
   - Drag6
-  - Drag7
-  - Drag8
-  - Drag9
   - Drag10
   - Drag11
+  - Melee
+  - Archer
+  - Tank
   layers:
   - Default
   - TransparentFX
