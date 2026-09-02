@@ -77,22 +77,22 @@ public class GearManager : MonoBehaviour
                     {
                         case 0:
                         {
-                            Instantiate(GetGear(GearMatrix[i, j]), GearBoxList1[j].transform.position, Quaternion.identity);
+                            Instantiate(GetGear(GearMatrix[i, j]), GearBoxList1[j].transform.position, GearBoxList1[j].transform.rotation);
                             break;
                         }
                         case 1:
                         {
-                            Instantiate(GetGear(GearMatrix[i, j]), GearBoxList2[j].transform.position, Quaternion.identity);
+                            Instantiate(GetGear(GearMatrix[i, j]), GearBoxList2[j].transform.position, GearBoxList2[j].transform.rotation);
                             break;
                         }
                         case 2:
                         {
-                            Instantiate(GetGear(GearMatrix[i, j]), GearBoxList3[j].transform.position, Quaternion.identity);
+                            Instantiate(GetGear(GearMatrix[i, j]), GearBoxList3[j].transform.position, GearBoxList3[j].transform.rotation);
                             break;
                         }
                         case 3:
                         {
-                            Instantiate(GetGear(GearMatrix[i, j]), GearBoxList4[j].transform.position, Quaternion.identity);
+                            Instantiate(GetGear(GearMatrix[i, j]), GearBoxList4[j].transform.position, GearBoxList4[j].transform.rotation);
                             break;
                         }
                     }
@@ -152,7 +152,7 @@ public class GearManager : MonoBehaviour
                 break;
         }
 
-        Instantiate(GetGear(gearNum), spawnPos, Quaternion.identity);
+        Instantiate(GetGear(gearNum), spawnPos, GetGear(gearNum).transform.rotation);
         AddStats(gearNum);
     }
 
