@@ -35,6 +35,7 @@ public class UnitManager : MonoBehaviour
         {
             enemySpawnStep += 1;
             enemyTankStep += 1;
+            playerArcherStep += 1;
             enemyArcherStep += 1;
         }
 
@@ -46,8 +47,7 @@ public class UnitManager : MonoBehaviour
 
         if(enemySpawnStep >= enemySpawnRate)
         {
-            SpawnUnit(1, GetEnemySpawnPoint().transform.position);
-            //Instantiate(UnitList[1], enemySpawnPoint.transform.position, Quaternion.identity);
+            Instantiate(UnitList[1], enemySpawnPoint.transform.position, Quaternion.identity);
             enemySpawnStep = 0;
         }
 
@@ -59,29 +59,25 @@ public class UnitManager : MonoBehaviour
 
         if(enemyTankStep >= enemyTankSpawnRate)
         {
-            SpawnUnit(3, GetEnemySpawnPoint().transform.position);
-            //Instantiate(UnitList[3], enemySpawnPoint.transform.position,Quaternion.identity);
+            Instantiate(UnitList[3], enemySpawnPoint.transform.position,Quaternion.identity);
             enemyTankStep = 0;
         }
 
-        // if(playerArcherStep >= (playerArcherSpawnRate - GearManager.instance.GetSpawnSpeedMod()))
-        // {
-             //SpawnUnit(4, GetPlayerSpawnPoint().transform.position);
-             //Instantiate(UnitList[4], playerSpawnPoint.transform.position , Quaternion.identity);
-             // playerArcherStep = 0;
-        // }
+        if(playerArcherStep >= (playerArcherSpawnRate - GearManager.instance.GetSpawnSpeedMod()))
+        {
+            Instantiate(UnitList[4], playerSpawnPoint.transform.position , Quaternion.identity);
+            playerArcherStep = 0;
+        }
 
         if(enemyArcherStep >= enemyArcherSpawnRate)
         {
-            SpawnUnit(5, GetEnemySpawnPoint().transform.position);
-            //Instantiate(UnitList[5], enemySpawnPoint.transform.position, Quaternion.identity);
+            Instantiate(UnitList[5], enemySpawnPoint.transform.position, Quaternion.identity);
             enemyArcherStep = 0;
         }
     }
     public void SpawnUnit(int unitIndex,  Vector3 spawnPosition)
     {
         Instantiate(UnitList[unitIndex], spawnPosition, Quaternion.identity);
-        Debug.Log("Spawned " + UnitList[unitIndex].name);
     }
     public bool GetUnitsCanMove()
     {
@@ -90,13 +86,5 @@ public class UnitManager : MonoBehaviour
     public void SetUnitsCanMove(bool newSet)
     {
         unitsCanMove = newSet;
-    }
-    public GameObject GetPlayerSpawnPoint()
-    {
-        return playerSpawnPoint;
-    }
-    public GameObject GetEnemySpawnPoint()
-    {
-        return enemySpawnPoint;
     }
 }

@@ -227,10 +227,9 @@ MonoBehaviour:
   RotationSpeed: 50
   rotationStep: 90
   unitsSpawned: 0
-  RotationsToComplete: 0
-  counter: 0
+  RorationsToComplete: 0
   tickProgress: 0
-  productionType: 3
+  productionType: 2
   productionStepAmount: 0.4
 --- !u!50 &1138898228214303372
 Rigidbody2D:

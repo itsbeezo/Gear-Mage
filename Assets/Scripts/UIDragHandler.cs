@@ -71,15 +71,15 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         {
             gearNum = 6;
         }
-        else if (gameObject.CompareTag("Melee"))
+        else if (gameObject.CompareTag("Drag7"))
         {
             gearNum = 7;
         }
-        else if (gameObject.CompareTag("Archer"))
+        else if (gameObject.CompareTag("Drag8"))
         {
             gearNum = 8;
         }
-        else if (gameObject.CompareTag("Tank"))
+        else if (gameObject.CompareTag("Drag9"))
         {
             gearNum = 9;
         }
