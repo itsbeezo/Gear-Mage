@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &7925449393221425713
+--- !u!1001 &709905080063077328
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 1070403774991244222, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -8425342331420507976, guid: e1657c19e907a734eb3973f83b0641b6, type: 3}
+      objectReference: {fileID: 1833151917600471431, guid: 0553b267bbbfc7d4cbe37fe59b019383, type: 3}
     - target: {fileID: 1070403774991244222, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
       propertyPath: m_Color.b
       value: 0
@@ -38,7 +38,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4896557751681769747, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
       propertyPath: m_Name
-      value: UnitEnemyTank
+      value: UnitEnemyArcher
       objectReference: {fileID: 0}
     - target: {fileID: 4896557751681769747, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
       propertyPath: m_Layer
@@ -84,58 +84,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5760388690269059019, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -0.004
-      objectReference: {fileID: 0}
-    - target: {fileID: 5760388690269059019, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0.595
-      objectReference: {fileID: 0}
     - target: {fileID: 5892114524667890432, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
       propertyPath: maxHP
-      value: 20
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5892114524667890432, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
+      propertyPath: range
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5892114524667890432, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
       propertyPath: attack
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5892114524667890432, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
       propertyPath: moveSpeed
-      value: 0.8
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 5892114524667890432, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
       propertyPath: unitIndex
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5892114524667890432, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
       propertyPath: attackRate
-      value: 40
+      value: 80
       objectReference: {fileID: 0}
-    - target: {fileID: 7178841596972279710, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
-      propertyPath: m_Size.x
-      value: 0.9410627
-      objectReference: {fileID: 0}
-    - target: {fileID: 7178841596972279710, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
-      propertyPath: m_Size.y
-      value: 0.9207543
-      objectReference: {fileID: 0}
-    - target: {fileID: 7178841596972279710, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
-      propertyPath: m_Offset.x
-      value: 0.0069381
-      objectReference: {fileID: 0}
-    - target: {fileID: 7178841596972279710, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
-      propertyPath: m_Offset.y
-      value: -0.0018094629
-      objectReference: {fileID: 0}
-    - target: {fileID: 7178841596972279710, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 0.9
-      objectReference: {fileID: 0}
-    - target: {fileID: 7178841596972279710, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 0.9
-      objectReference: {fileID: 0}
+    - target: {fileID: 5892114524667890432, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
+      propertyPath: projectile
+      value: 
+      objectReference: {fileID: 2076642875657000992, guid: 92444080ff657d6458c3fd1263e47be5, type: 3}
     - target: {fileID: 7954044642175405548, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
       propertyPath: m_Mass
       value: 100
@@ -146,37 +122,37 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4896557751681769747, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 166588329077824932}
+      addedObject: {fileID: -7513771769111247426}
     - targetCorrespondingSourceObject: {fileID: 4896557751681769747, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8162703711421705577}
+      addedObject: {fileID: -8881539984782707766}
   m_SourcePrefab: {fileID: 100100000, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
---- !u!1 &3317124800935181090 stripped
+--- !u!1 &5345218319191034563 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4896557751681769747, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
-  m_PrefabInstance: {fileID: 7925449393221425713}
+  m_PrefabInstance: {fileID: 709905080063077328}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &166588329077824932
+--- !u!114 &-7513771769111247426
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3317124800935181090}
+  m_GameObject: {fileID: 5345218319191034563}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ad566863207b6544aca063aada277e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitEnemy
---- !u!114 &8162703711421705577
+--- !u!114 &-8881539984782707766
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3317124800935181090}
+  m_GameObject: {fileID: 5345218319191034563}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e326c507ba689c4583ffd2efc3fab79, type: 3}
+  m_Script: {fileID: 11500000, guid: b1b54964eb560b04bacff80625feb3b5, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UnitTank
+  m_EditorClassIdentifier: Assembly-CSharp::UnitArcher
