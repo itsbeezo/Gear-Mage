@@ -25,13 +25,6 @@ public class ClickerRotate : MonoBehaviour
 
     void Update()
     {
-
-        if (UnitManager.instance == null) return;
-        // Match the same "only while playing" gating UnitManager used to apply to its
-        // own step timer, so gears can't pre-fill spawn progress before Start / after EndGame.
-        if (GameManager.instance == null || GameManager.instance.GetState() != GameManager.State.Normal) return;
-
-
         tickTimer += Time.deltaTime;
 
         tickProgress = Mathf.Clamp01(tickTimer / rotationInterval);

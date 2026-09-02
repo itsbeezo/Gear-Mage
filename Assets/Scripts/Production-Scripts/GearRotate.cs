@@ -10,9 +10,7 @@ public class GearRotate : MonoBehaviour
         None,
         Melee,
         Archer,
-        Tank,
-        Booster,
-        Stats
+        Tank
     }
 
     public GameObject Clicker;
@@ -31,8 +29,10 @@ public class GearRotate : MonoBehaviour
     public float rotationStep = 90f;
 
     [Header("Production Settings")]
-    [SerializeField] private int unitsSpawned;
-    [SerializeField] private int RotationsToComplete;
+    [SerializeField]
+    private int unitsSpawned;
+    public int RotationsToComplete;
+    public int counter = 0;
     public float tickProgress = 0f;
 
     [Header("Unit Production")]
@@ -96,32 +96,31 @@ public class GearRotate : MonoBehaviour
         }
     }
 
-
-    // private void CreateCounter()
-    // {
-    //     switch (neighbors.Count <= 0)
-    //     {
-    //         case true:
-    //             counter = 10;
-    //             break;
-    //         case false when neighbors.Count >= 1:
-    //             foreach(var neighbor in neighbors)
-    //             {
-    //                 counter += 1;
-    //             }   
-    //             break;
-    //        case false when (counter <= 1):
-    //             counter = 1;
-    //             break;            
-    //     }
-    // }
+    private void CreateCounter()
+    {
+        switch (neighbors.Count <= 0)
+        {
+            case true:
+                counter = 10;
+                break;
+            case false when neighbors.Count >= 1:
+                foreach(var neighbor in neighbors)
+                {
+                    counter += 1;
+                }   
+                break;
+           case false when (counter <= 1):
+                counter = 1;
+                break;            
+        }
+    }
 
     public void pulse(HashSet<GearRotate> hasPulsed)
     {
         //Debug.Log(gameObject.name + " is pulsing. Neighbor count: " + neighbors.Count); 
         if (hasPulsed.Contains(this)) 
         {
-            GetRotationSpeed();
+            RotationsToComplete = 5;
             tickProgress = Mathf.Clamp01(tickTimer / RotationsToComplete);
 
             if (tickTimer >= RotationsToComplete)
@@ -150,27 +149,6 @@ public class GearRotate : MonoBehaviour
         //Gear.transform.Rotate(0, 0, -45);
     }
 
-    public void GetRotationSpeed()
-    {
-        if (UnitManager.instance == null) return;
-        // Match the same "only while playing" gating UnitManager used to apply to its
-        // own step timer, so gears can't pre-fill spawn progress before Start / after EndGame.
-        if (GameManager.instance == null || GameManager.instance.GetState() != GameManager.State.Normal) return;
-
-        switch (productionType)
-        {
-            case GearProductionType.Melee:
-                this.RotationsToComplete = 7;
-                break;
-            case GearProductionType.Archer:
-                this.RotationsToComplete = 5;
-                break;
-            case GearProductionType.Tank:
-                this.RotationsToComplete = 9;
-                break;
-        }
-    }
-
     private void ApplyProductionStep()
     {
         if (UnitManager.instance == null) return;
@@ -181,7 +159,6 @@ public class GearRotate : MonoBehaviour
         switch (productionType)
         {
             case GearProductionType.Melee:
-                this.RotationsToComplete = 5;
                 UnitManager.instance.SpawnUnit(0, UnitManager.instance.GetPlayerSpawnPoint().transform.position);
                 break;
             case GearProductionType.Archer:
@@ -190,13 +167,6 @@ public class GearRotate : MonoBehaviour
             case GearProductionType.Tank:
                 UnitManager.instance.SpawnUnit(2, UnitManager.instance.GetPlayerSpawnPoint().transform.position);
                 break;
-            // case GearProductionType.Booster:
-            //     if (pulse.hasPulsed.Contains(this))
-            //     {
-            //         RotationsToComplete * (RotationsToComplete*0.8f);
-            //         Debug.Log("RotationsToComplete");
-            //     }
-
         }
     }
 }

@@ -107,15 +107,6 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             col2D.enabled = true;
         }
 
-        // if (GearRotate.instance != null)
-        // {
-        //     GearRotate.instance.GetRotationSpeed(gearNum);
-        // }
-        // else
-        // {
-        //     Debug.LogWarning("GearRotate.instance is null; cannot call GetRotationSpeed");
-        // }
-
         transform.position = originalPosition;
     }
 
