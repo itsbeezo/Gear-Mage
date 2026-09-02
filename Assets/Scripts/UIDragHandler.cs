@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -12,12 +13,16 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public int gearNum = 0;
     private UIGearSlot currentSlot;
+    public bool isConnected = false;
+
+    private GameObject gearFallArea;
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         col2D = GetComponent<Collider2D>();
         mainCamera = Camera.main;
+        gearFallArea = GameObject.Find("GearFallArea");
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -152,9 +157,15 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (gameObject.CompareTag("Gears") || gameObject.CompareTag("Clicker"))
+        if ((gameObject.CompareTag("Gears") || gameObject.CompareTag("Clicker")) && isConnected)
         {
             Destroy(gameObject);
+            Debug.Log("reached " + isConnected);
+        }
+        else if ((gameObject.CompareTag("Gears") || gameObject.CompareTag("Clicker")) && !isConnected)
+        {
+            StartCoroutine(GearAnimation());
+            Debug.Log("reachedfalseoutcome " + isConnected);
         }
         else
         {
@@ -173,6 +184,34 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             transform.position = originalPosition;
         }
         
+    }
+
+    IEnumerator GearAnimation()
+    {
+        if (gearFallArea != null)
+        {
+            Vector2 targetPos = gearFallArea.transform.position;
+
+            while (Vector2.Distance(gameObject.transform.position, targetPos) > 0.1f)
+            {
+                gameObject.transform.position = Vector2.MoveTowards(gameObject.transform.position, targetPos, 8f * Time.deltaTime);
+
+                if ((Vector2.Distance(gameObject.transform.position, targetPos) < 1.25f))
+                    gameObject.transform.localScale = Vector2.MoveTowards(gameObject.transform.localScale, new Vector2(0, 0), 1.00001f * Time.deltaTime);
+
+                yield return null;
+            }
+        }
+        else if (gearFallArea == null)
+        {
+            while (gameObject.transform.localScale != Vector3.zero)
+            {
+                gameObject.transform.localScale = Vector2.MoveTowards(gameObject.transform.localScale, new Vector2(0, 0), 1.1f * Time.deltaTime);
+                yield return null;
+            }
+        }
+
+        Destroy(gameObject);
     }
 
 }

@@ -14,6 +14,9 @@ public class UIGearSlot : MonoBehaviour, IDropHandler
 
             UIDragHandler uiDragHandler = draggedObject.GetComponent<UIDragHandler>();
 
+            uiDragHandler.isConnected = true;
+            Debug.Log(uiDragHandler.isConnected);
+
             GearBox thisGearBox = gameObject.GetComponent<GearBox>();
 
             GearManager.instance.SetGear(thisGearBox.GetXIndex(), thisGearBox.GetYIndex(), uiDragHandler.gearNum);
