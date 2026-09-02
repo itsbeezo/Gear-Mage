@@ -9,7 +9,10 @@ public class GearRotate : MonoBehaviour
     {
         None,
         Melee,
-        Tank
+        Archer,
+        Tank,
+        Booster,
+        Stats
     }
 
     public GameObject Clicker;
@@ -114,11 +117,34 @@ public class GearRotate : MonoBehaviour
         }
     }
 
+        public void GetRotationSpeed()
+    {
+        if (UnitManager.instance == null) return;
+        // Match the same "only while playing" gating UnitManager used to apply to its
+        // own step timer, so gears can't pre-fill spawn progress before Start / after EndGame.
+        if (GameManager.instance == null || GameManager.instance.GetState() != GameManager.State.Normal) return;
+
+        switch (productionType)
+        {
+            case GearProductionType.Melee:
+                this.RotationsToComplete = 7;
+                break;
+            case GearProductionType.Archer:
+                this.RotationsToComplete = 5;
+                break;
+            case GearProductionType.Tank:
+                this.RotationsToComplete = 9;
+                break;
+        }
+    }
+
+
     public void pulse(HashSet<GearRotate> hasPulsed)
     {
         //Debug.Log(gameObject.name + " is pulsing. Neighbor count: " + neighbors.Count); 
         if (hasPulsed.Contains(this)) 
         {
+            GetRotationSpeed();
             tickProgress = tickTimer / RotationsToComplete;
 
             if (tickTimer >= RotationsToComplete)
@@ -161,6 +187,9 @@ public class GearRotate : MonoBehaviour
                 break;
             case GearProductionType.Tank:
                 UnitManager.instance.SpawnUnit(2, UnitManager.instance.GetPlayerSpawnPoint().transform.position);
+                break;
+            case GearProductionType.Archer:
+                UnitManager.instance.SpawnUnit(4, UnitManager.instance.GetPlayerSpawnPoint().transform.position);
                 break;
         }
     }

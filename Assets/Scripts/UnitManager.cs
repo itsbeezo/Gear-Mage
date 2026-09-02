@@ -35,7 +35,6 @@ public class UnitManager : MonoBehaviour
         {
             enemySpawnStep += 1;
             enemyTankStep += 1;
-            playerArcherStep += 1;
             enemyArcherStep += 1;
         }
 
@@ -63,11 +62,11 @@ public class UnitManager : MonoBehaviour
             enemyTankStep = 0;
         }
 
-        if(playerArcherStep >= (playerArcherSpawnRate - GearManager.instance.GetSpawnSpeedMod()))
-        {
-            Instantiate(UnitList[4], playerSpawnPoint.transform.position , Quaternion.identity);
-            playerArcherStep = 0;
-        }
+        // if(playerArcherStep >= (playerArcherSpawnRate - GearManager.instance.GetSpawnSpeedMod()))
+        // {
+        //     Instantiate(UnitList[4], playerSpawnPoint.transform.position , Quaternion.identity);
+        //     playerArcherStep = 0;
+        // }
 
         if(enemyArcherStep >= enemyArcherSpawnRate)
         {
@@ -78,6 +77,7 @@ public class UnitManager : MonoBehaviour
     public void SpawnUnit(int unitIndex,  Vector3 spawnPosition)
     {
         Instantiate(UnitList[unitIndex], spawnPosition, Quaternion.identity);
+        Debug.Log("Spawned " + UnitList[unitIndex].name);
     }
     public bool GetUnitsCanMove()
     {
@@ -87,4 +87,14 @@ public class UnitManager : MonoBehaviour
     {
         unitsCanMove = newSet;
     }
+    public GameObject GetPlayerSpawnPoint()
+    {
+        return playerSpawnPoint;
+    }
+    public GameObject GetEnemySpawnPoint()
+    {
+        return enemySpawnPoint;
+    }
+    
+
 }
