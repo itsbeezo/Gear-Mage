@@ -114,7 +114,8 @@ MonoBehaviour:
   RotationSpeed: 50
   rotationStep: 90
   unitsSpawned: 0
-  RorationsToComplete: 0
+  RotationsToComplete: 0
+  counter: 0
   tickProgress: 0
   productionType: 0
   productionStepAmount: 0.4
@@ -175,6 +176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIDragHandler
   gearNum: 0
+  isConnected: 0
 --- !u!61 &7867122564400098282
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -246,13 +248,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1719288217505048799}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0.92387956, w: 0.38268343}
-  m_LocalPosition: {x: 0.006, y: 0, z: 0}
-  m_LocalScale: {x: 0.06893258, y: 0.059564672, z: 0.115519375}
+  m_LocalRotation: {x: -0, y: -0, z: -0.025207102, w: 0.99968225}
+  m_LocalPosition: {x: -0.0021, y: 0.0131, z: 0}
+  m_LocalScale: {x: 0.5964665, y: 0.5844821, z: 0.8243936}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7588565462223544449}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 135}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -2.889}
 --- !u!212 &1172908546825740572
 SpriteRenderer:
   serializedVersion: 2

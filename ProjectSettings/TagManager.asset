@@ -19,6 +19,9 @@ TagManager:
   - Drag9
   - Drag10
   - Drag11
+  - Melee
+  - Archer
+  - Tank
   layers:
   - Default
   - TransparentFX

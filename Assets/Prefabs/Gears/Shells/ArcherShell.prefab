@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 2529313021691728938}
   m_Layer: 0
   m_Name: ArcherShell
-  m_TagString: Drag7
+  m_TagString: Archer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -119,7 +119,7 @@ Transform:
   m_GameObject: {fileID: 7777553711265266488}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.22508, y: -1.0072999, z: 0}
+  m_LocalPosition: {x: -0.777, y: -1.017, z: 0}
   m_LocalScale: {x: 0.8625, y: 0.8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -176,7 +176,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2056607905343865691, guid: 46485a3f03deb6c4c8c310f0f1ff816a, type: 3}
-  m_Color: {r: 0.4509804, g: 0.4, b: 0.4, a: 1}
+  m_Color: {r: 0.735849, g: 0.73237807, b: 0.73237807, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -198,6 +198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIDragHandler
   gearNum: 0
+  isConnected: 0
 --- !u!58 &2529313021691728938
 CircleCollider2D:
   m_ObjectHideFlags: 0
