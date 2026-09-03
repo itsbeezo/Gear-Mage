@@ -68,7 +68,7 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         {
             gearNum = 1;
         } 
-        else if (gameObject.CompareTag("Drag2"))
+        else if (gameObject.CompareTag("Archer"))
         {
             gearNum = 2;
         } 
@@ -88,7 +88,7 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         {
             gearNum = 6;
         }
-        else if (gameObject.CompareTag("Drag7"))
+        else if (gameObject.CompareTag("Melee"))
         {
             gearNum = 7;
         }
@@ -96,7 +96,7 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         {
             gearNum = 8;
         }
-        else if (gameObject.CompareTag("Drag9"))
+        else if (gameObject.CompareTag("Tank"))
         {
             gearNum = 9;
         }
@@ -116,7 +116,7 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             }
             else if (gameObject.name.Contains("GAttack"))
             {
-                gearNum = 9;
+                gearNum = 10;
             }
             else if (gameObject.name.Contains("GBooster"))
             {
@@ -128,15 +128,15 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             }
             else if (gameObject.name.Contains("4x"))
             {
-                gearNum = 5;
+                gearNum = 6;
             }
             else if (gameObject.name.Contains("8x"))
             {
-                gearNum = 6;
+                gearNum = 5;
             }
             else if (gameObject.name.Contains("HP"))
             {
-                gearNum = 11;
+                gearNum = 12;
             }
             else if (gameObject.name.Contains("Melee"))
             {
@@ -144,14 +144,18 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             }
             else if (gameObject.name.Contains("Tank"))
             {
-                gearNum = 8;
+                gearNum = 9;
             }
             else if (gameObject.name.Contains("Speed"))
             {
-                gearNum = 10;
+                gearNum = 11;
+            }
+            else if (gameObject.name.Contains("Archer"))
+            {
+                gearNum = 2;
             }
 
-            currentSlot.ClearSlot();
+                currentSlot.ClearSlot();
         }
     }
 

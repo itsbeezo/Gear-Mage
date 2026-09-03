@@ -114,7 +114,8 @@ MonoBehaviour:
   RotationSpeed: 50
   rotationStep: 90
   unitsSpawned: 0
-  RorationsToComplete: 0
+  RotationsToComplete: 0
+  counter: 0
   tickProgress: 0
   productionType: 2
   productionStepAmount: 0.4
@@ -175,6 +176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIDragHandler
   gearNum: 0
+  isConnected: 0
 --- !u!61 &1771489182124634618
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -300,7 +302,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 8
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0, g: 0.10602964, b: 0.8962264, a: 1}

@@ -22,4 +22,5 @@ public class ShopManager : MonoBehaviour
     {
         SceneManager.LoadScene("Main");
     }
+
 }
