@@ -13,7 +13,9 @@ public class BaseBase : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if(currentHP <= 0)
+        this.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
+        this.GetComponent<Rigidbody2D>().freezeRotation = true;
+        if (currentHP <= 0)
         {
             DestroySelf();
         }
@@ -30,6 +32,7 @@ public class BaseBase : MonoBehaviour
     public void DestroySelf()
     {
         GameManager.instance.SetStateEndGame();
+        UnitManager.instance.SetUnitsCanMove(false);
         Destroy(gameObject);
     }
 }
