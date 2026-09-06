@@ -102,7 +102,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5892114524667890432, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
       propertyPath: moveSpeed
-      value: -0.5
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 5892114524667890432, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
       propertyPath: unitIndex
@@ -136,6 +136,10 @@ PrefabInstance:
       propertyPath: m_SpriteTilingProperty.oldSize.y
       value: 0.9
       objectReference: {fileID: 0}
+    - target: {fileID: 7954044642175405548, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
+      propertyPath: m_Mass
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -143,6 +147,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4896557751681769747, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 166588329077824932}
+    - targetCorrespondingSourceObject: {fileID: 4896557751681769747, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8162703711421705577}
   m_SourcePrefab: {fileID: 100100000, guid: 2164ccd727b48c2478864767ccc71cb2, type: 3}
 --- !u!1 &3317124800935181090 stripped
 GameObject:
@@ -161,3 +168,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ad566863207b6544aca063aada277e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitEnemy
+--- !u!114 &8162703711421705577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3317124800935181090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e326c507ba689c4583ffd2efc3fab79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitTank

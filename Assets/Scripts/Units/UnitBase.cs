@@ -1,4 +1,6 @@
+using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,6 +20,13 @@ public class UnitBase : MonoBehaviour
     private UnitBase currentEnemy;
     private BaseBase currentBase;
     [SerializeField] private Image healthBar;
+    private UnitPlayer[] PlayerList;
+    private UnitEnemy[] EnemyList;
+    //Archer Stuff
+    private bool inAttackRange = false;
+    [SerializeField] private float range;
+    [SerializeField] private ProjectileBase projectile;
+    private ProjectileBase thisProjectile;
     private void Start()
     {
         if (this.TryGetComponent(out UnitPlayer unitPlayer))
@@ -26,68 +35,124 @@ public class UnitBase : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        moveRateStep += 1;
-        if (isColliding)
+        PlayerList = FindObjectsByType<UnitPlayer>();
+        EnemyList = FindObjectsByType<UnitEnemy>();
+
+        if(UnitManager.instance.GetUnitsCanMove() && !isColliding)
+            moveRateStep += 1;
+        if (isColliding || (this.TryGetComponent(out UnitArcher unitArcher) && inAttackRange))
             attackRateStep += 1;
 
         if (this.TryGetComponent(out UnitPlayer unitPlayer))
         {
-            if (moveRateStep >= moveRate && !isColliding)
+            if (this.TryGetComponent(out UnitSoldier unitSoldier) || this.TryGetComponent(out UnitTank unitTank))
             {
-                this.GetComponent<Rigidbody2D>().linearVelocityX = moveSpeed + GearManager.instance.GetMoveSpeedMod();
-                moveRateStep = 0;
+                if (moveRateStep >= moveRate && !isColliding && UnitManager.instance.GetUnitsCanMove())
+                {
+                    if (EnemyList.Length <= 0)
+                        this.GetComponent<Rigidbody2D>().linearVelocity = (EnemyBase.instance.transform.position - this.transform.position) / Mathf.Max(((EnemyBase.instance.transform.position - this.transform.position).magnitude / moveSpeed), Time.fixedDeltaTime);
+                    else
+                        this.GetComponent<Rigidbody2D>().linearVelocity = (GetClosestEnemy(this).transform.position - this.transform.position) / Mathf.Max(((GetClosestEnemy(this).transform.position - this.transform.position).magnitude / moveSpeed), Time.fixedDeltaTime);
+                    moveRateStep = 0;
+                }
+                if (attackRateStep >= (attackRate - GearManager.instance.GetAttackSpeedMod()))
+                {
+                    if (currentEnemyGO.TryGetComponent(out UnitBase unitBase))
+                    {
+                        currentEnemy = currentEnemyGO.GetComponent<UnitBase>();
+                        currentEnemy.SetHP(currentEnemy.GetCurrentHP() - (GetAttack() + GearManager.instance.GetAttackMod()));
+                    }
+                    else if (currentEnemyGO.TryGetComponent(out BaseBase baseBase))
+                    {
+                        currentBase = currentEnemyGO.GetComponent<BaseBase>();
+                        currentBase.SetHP(currentBase.GetCurrentHP() - (GetAttack() + GearManager.instance.GetAttackMod()));
+                        CurrencyManager.instance.AddGold(1, transform.position);
+                    }
+                    attackRateStep = 0;
+                }
             }
-            if (attackRateStep >= (attackRate - GearManager.instance.GetAttackSpeedMod()))
+            if(this.TryGetComponent(out UnitArcher unitArcher1))
             {
-                if (currentEnemyGO.TryGetComponent(out UnitBase unitBase))
+                inAttackRange = IsInRange();
+                if (moveRateStep >= moveRate && !isColliding && UnitManager.instance.GetUnitsCanMove() && !inAttackRange)
                 {
-                    currentEnemy = currentEnemyGO.GetComponent<UnitBase>();
-                    currentEnemy.SetHP(currentEnemy.GetCurrentHP() - (GetAttack() + GearManager.instance.GetAttackMod()));
+                    if (EnemyList.Length <= 0)
+                        this.GetComponent<Rigidbody2D>().linearVelocity = (EnemyBase.instance.transform.position - this.transform.position) / Mathf.Max(((EnemyBase.instance.transform.position - this.transform.position).magnitude / moveSpeed), Time.fixedDeltaTime);
+                    else
+                        this.GetComponent<Rigidbody2D>().linearVelocity = (GetClosestEnemy(this).transform.position - this.transform.position) / Mathf.Max(((GetClosestEnemy(this).transform.position - this.transform.position).magnitude / moveSpeed), Time.fixedDeltaTime);
+                    moveRateStep = 0;
                 }
-                else if (currentEnemyGO.TryGetComponent(out BaseBase baseBase))
+                if (attackRateStep >= (attackRate - GearManager.instance.GetAttackSpeedMod()))
                 {
-                    currentBase = currentEnemyGO.GetComponent<BaseBase>();
-                    currentBase.SetHP(currentBase.GetCurrentHP() - (GetAttack() + GearManager.instance.GetAttackMod()));
+                    SpawnProjectile();
+                    attackRateStep = 0;
                 }
-                attackRateStep = 0;
+                if (isColliding || inAttackRange)
+                {
+                    this.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
+                }
             }
         }
         else if (this.TryGetComponent(out UnitEnemy unitEnemy))
         {
-            if (moveRateStep >= moveRate && !isColliding)
+            if (this.TryGetComponent(out UnitSoldier unitSoldier) || this.TryGetComponent(out UnitTank unitTank))
             {
-                this.GetComponent<Rigidbody2D>().linearVelocityX = moveSpeed;
-                moveRateStep = 0;
+                if (moveRateStep >= moveRate && !isColliding && UnitManager.instance.GetUnitsCanMove())
+                {
+                    if (PlayerList.Length <= 0)
+                        this.GetComponent<Rigidbody2D>().linearVelocity = (PlayerBase.instance.transform.position - this.transform.position) / Mathf.Max(((PlayerBase.instance.transform.position - this.transform.position).magnitude / moveSpeed), Time.fixedDeltaTime);
+                    else
+                        this.GetComponent<Rigidbody2D>().linearVelocity = (GetClosestPlayer(this).transform.position - this.transform.position) / Mathf.Max(((GetClosestPlayer(this).transform.position - this.transform.position).magnitude / moveSpeed), Time.fixedDeltaTime);
+                }
+                if (attackRateStep >= attackRate)
+                {
+                    if (currentEnemyGO.TryGetComponent(out UnitBase unitBase))
+                    {
+                        currentEnemy = currentEnemyGO.GetComponent<UnitBase>();
+                        currentEnemy.SetHP(currentEnemy.GetCurrentHP() - GetAttack());
+                    }
+                    else if (currentEnemyGO.TryGetComponent(out BaseBase baseBase))
+                    {
+                        currentBase = currentEnemyGO.GetComponent<BaseBase>();
+                        currentBase.SetHP(currentBase.GetCurrentHP() - GetAttack());
+                    }
+                    attackRateStep = 0;
+                }
             }
-            if (attackRateStep >= attackRate)
+            else if(this.TryGetComponent(out UnitArcher unitArcher1))
             {
-                if (currentEnemyGO.TryGetComponent(out UnitBase unitBase))
+                inAttackRange = IsInRange();
+                if (moveRateStep >= moveRate && !isColliding && UnitManager.instance.GetUnitsCanMove() && !inAttackRange)
                 {
-                    currentEnemy = currentEnemyGO.GetComponent<UnitBase>();
-                    currentEnemy.SetHP(currentEnemy.GetCurrentHP() - GetAttack());
+                    if (PlayerList.Length <= 0)
+                        this.GetComponent<Rigidbody2D>().linearVelocity = (PlayerBase.instance.transform.position - this.transform.position) / Mathf.Max(((PlayerBase.instance.transform.position - this.transform.position).magnitude / moveSpeed), Time.fixedDeltaTime);
+                    else
+                        this.GetComponent<Rigidbody2D>().linearVelocity = (GetClosestPlayer(this).transform.position - this.transform.position) / Mathf.Max(((GetClosestPlayer(this).transform.position - this.transform.position).magnitude / moveSpeed), Time.fixedDeltaTime);
+                    moveRateStep = 0;
                 }
-                else if (currentEnemyGO.TryGetComponent(out BaseBase baseBase))
+                if (attackRateStep >= (attackRate - GearManager.instance.GetAttackSpeedMod()))
                 {
-                    currentBase = currentEnemyGO.GetComponent<BaseBase>();
-                    currentBase.SetHP(currentBase.GetCurrentHP() - GetAttack());
+                    SpawnProjectile();
+                    attackRateStep = 0;
                 }
-                attackRateStep = 0;
+                if (isColliding || inAttackRange)
+                {
+                    this.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
+                }
             }
         }
 
-        if(isColliding)
+        if(isColliding)//Freeze movement when colliding with another object
         {
-            this.GetComponent<Rigidbody2D>().linearVelocityX = 0;
-            this.GetComponent<Rigidbody2D>().linearVelocityY = 0;
+            this.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
             this.GetComponent<Rigidbody2D>().freezeRotation = true;
         }
 
-        if (currentHP <= 0)
+        if (currentHP <= 0)//Destroy when HP is zero
         {
             DestroySelf();
         }
-        healthBar.fillAmount = currentHP / maxHP;
-        Debug.Log(currentEnemyGO);
+        healthBar.fillAmount = currentHP / maxHP;//Update the healthbar
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -103,6 +168,100 @@ public class UnitBase : MonoBehaviour
     {
         isColliding = false;
         attackRateStep = 0;
+    }
+    private UnitPlayer GetClosestPlayer(UnitBase enemy)
+    {
+        Vector2 heading;
+        float distanceBetween = 100;
+        float distanceBetweenTemp;
+        int index = 0;
+        for (int i = 0; i < PlayerList.Length; i++)
+        {
+            heading = PlayerList[i].transform.position - enemy.transform.position;
+            distanceBetweenTemp = heading.sqrMagnitude;
+            if(distanceBetweenTemp < distanceBetween)
+            {
+                index = i;
+            }
+        }
+        return PlayerList[index];
+    }
+    private UnitEnemy GetClosestEnemy(UnitBase player)
+    {
+        Vector2 heading;
+        float distanceBetween = 100;
+        float distanceBetweenTemp;
+        int index = 0;
+        for (int i = 0; i < EnemyList.Length; i++)
+        {
+            heading = EnemyList[i].transform.position - player.transform.position;
+            distanceBetweenTemp = heading.sqrMagnitude;
+            if (distanceBetweenTemp < distanceBetween)
+            {
+                index = i;
+            }
+        }
+        return EnemyList[index];
+    }
+    private bool IsInRange()
+    {
+        if(this.TryGetComponent(out UnitPlayer unitPlayer))
+        {
+            if (EnemyList.Length > 0)
+            {
+                if ((GetClosestEnemy(this).transform.position - this.transform.position).sqrMagnitude <= range)
+                    return true;
+                else
+                    return false;
+            }
+            else
+            {
+                if((EnemyBase.instance.transform.position - this.transform.position).sqrMagnitude <= range)
+                    return true;
+                else
+                    return false;
+            }
+        }
+        else if(this.TryGetComponent(out UnitEnemy unitEnemy))
+        {
+            if(PlayerList.Length > 0)
+            {
+                if((GetClosestPlayer(this).transform.position - this.transform.position).sqrMagnitude <= range)
+                    return true;
+                else
+                    return false;
+            }
+            else
+            {
+                if((PlayerBase.instance.transform.position - this.transform.position).sqrMagnitude <= range)
+                    return true;
+                else
+                    return false;    
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+    private void SpawnProjectile()
+    {
+        thisProjectile = Instantiate(projectile, this.transform.position, Quaternion.identity);
+        thisProjectile.SetAttack(attack);
+        if (this.TryGetComponent(out UnitPlayer unitPlayer))
+        {
+            if (EnemyList.Length > 0)
+                thisProjectile.SetTarget(GetClosestEnemy(this).gameObject);
+            else
+                thisProjectile.SetTarget(EnemyBase.instance.gameObject);
+        }
+        else if(this.TryGetComponent(out UnitEnemy unitEnemy))
+        {
+            if (PlayerList.Length > 0)
+                thisProjectile.SetTarget(GetClosestPlayer(this).gameObject);
+            else
+                thisProjectile.SetTarget(PlayerBase.instance.gameObject);
+        }
     }
     public float GetCurrentHP()
     {
@@ -125,8 +284,12 @@ public class UnitBase : MonoBehaviour
         //Checks if defeated unit is from enemy or player 
         if (TryGetComponent(out UnitEnemy enemy))
         {
-            CurrencyManager.instance.AddGold(10, transform.position);
+            if(TryGetComponent(out UnitSoldier soldier))
+                CurrencyManager.instance.AddGold(10, transform.position);
+            if (TryGetComponent(out UnitTank tank))
+                CurrencyManager.instance.AddGold(30, transform.position);
         }
         Destroy(gameObject);
     }
+
 }
