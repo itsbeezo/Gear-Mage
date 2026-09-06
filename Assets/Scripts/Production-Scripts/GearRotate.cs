@@ -151,7 +151,7 @@ public class GearRotate : MonoBehaviour
             tickTimer = 0;
             unitsSpawned += 1;
             ApplyProductionStep();
-            CreateCounter();
+
             }
 
             return;
