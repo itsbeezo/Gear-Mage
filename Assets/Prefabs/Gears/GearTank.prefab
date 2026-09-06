@@ -117,7 +117,7 @@ MonoBehaviour:
   RotationsToComplete: 0
   counter: 0
   tickProgress: 0
-  productionType: 2
+  productionType: 3
   productionStepAmount: 0.4
 --- !u!50 &1138898228214303372
 Rigidbody2D:
