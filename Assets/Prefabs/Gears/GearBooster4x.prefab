@@ -113,10 +113,12 @@ MonoBehaviour:
   Gear: {fileID: 90250563080744765}
   RotationSpeed: 50
   rotationStep: 90
-  totalRotations: 0
-  rotationPerTick: 0.25
-  gearspeed: 0
+  unitsSpawned: 0
+  RotationsToComplete: 0
+  counter: 0
   tickProgress: 0
+  productionType: 4
+  productionStepAmount: 0.4
 --- !u!50 &1138898228214303372
 Rigidbody2D:
   serializedVersion: 5
@@ -174,6 +176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIDragHandler
   gearNum: 0
+  isConnected: 0
 --- !u!61 &-4001187123924659806
 BoxCollider2D:
   m_ObjectHideFlags: 0
