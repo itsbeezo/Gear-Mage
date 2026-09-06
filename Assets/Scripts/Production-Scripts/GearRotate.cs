@@ -34,7 +34,6 @@ public class GearRotate : MonoBehaviour
     [SerializeField]
     private int unitsSpawned;
     public int RotationsToComplete;
-    public int counter = 0;
     public float tickProgress = 0f;
 
     [Header("Unit Production")]
@@ -98,26 +97,26 @@ public class GearRotate : MonoBehaviour
         }
     }
 
-    private void CreateCounter()
-    {
-        switch (neighbors.Count <= 0)
-        {
-            case true:
-                counter = 10;
-                break;
-            case false when neighbors.Count >= 1:
-                foreach(var neighbor in neighbors)
-                {
-                    counter -= 1;
-                }   
-                break;
-           case false when (counter <= 1):
-                counter = 1;
-                break;            
-        }
-    }
+    // private void CreateCounter()
+    // {
+    //     switch (neighbors.Count <= 0)
+    //     {
+    //         case true:
+    //             counter = 10;
+    //             break;
+    //         case false when neighbors.Count >= 1:
+    //             foreach(var neighbor in neighbors)
+    //             {
+    //                 counter -= 1;
+    //             }   
+    //             break;
+    //        case false when (counter <= 1):
+    //             counter = 1;
+    //             break;            
+    //     }
+    //}
 
-        public void GetRotationSpeed()
+    public void GetRotationSpeed()
     {
         if (UnitManager.instance == null) return;
         // Match the same "only while playing" gating UnitManager used to apply to its
