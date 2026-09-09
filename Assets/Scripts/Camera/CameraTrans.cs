@@ -41,4 +41,5 @@ public class CameraTrans : MonoBehaviour
             SwtichCamera();
         }
     }
+
 }

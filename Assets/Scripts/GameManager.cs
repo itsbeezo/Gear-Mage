@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Button button;
     [SerializeField] private Button buttonShop;
     [SerializeField] private TextMeshProUGUI buttonTM;
+    public ShopManager shopManager;
     public enum State
     {
         BeforeStart,
@@ -21,6 +22,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        shopManager = GameObject.Find("ShopManager").GetComponent<ShopManager>();
         instance = this;
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(SetStateNormal);
@@ -68,7 +70,9 @@ public class GameManager : MonoBehaviour
 
     public void ShopScene()
     {
-        SceneManager.LoadScene("Shop-Scene");
+        shopManager.OpenShop();
+        button.gameObject.SetActive(false);
+        buttonShop.gameObject.SetActive(false);
     }
 
 }
