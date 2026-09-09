@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
             ShowButton();
         }
     }
+
     public State GetState()
     {
         return state;

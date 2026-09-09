@@ -19,12 +19,6 @@ public class GearRotate : MonoBehaviour
 
     public GameObject Gear;
 
-    private float tickTimer = 0;
-
-    private float gearspeed = 3f;
-
-
-
     [Header("Gear Settings")]
     [SerializeField]
     public float RotationSpeed = 50f;
@@ -35,6 +29,10 @@ public class GearRotate : MonoBehaviour
     private int unitsSpawned;
     public int RotationsToComplete;
     public float tickProgress = 0f;
+    // Counts actual pulse() calls (clicker/neighbor spins), not elapsed time -
+    // replaces the old tickTimer, which was Time.deltaTime-based and got left
+    // running unconditionally in Update() even after pulse-based fill was added.
+    private int pulseCount = 0;
 
     [Header("Unit Production")]
     [SerializeField]
@@ -45,38 +43,6 @@ public class GearRotate : MonoBehaviour
     public float productionStepAmount = 0.4f;
 
     private List<GearRotate> neighbors = new List<GearRotate>();
-
-    // Update is called once per frame
-    void Update()
-    {
-
-        //if (GearRotation())
-        //{
-            // gearspeed = 2f;
-            
-            // FINISH GETTING RID OF THIS AND PUTTING THE LOGIC IN THE PULSE METHOD
-            tickTimer += Time.deltaTime;
-
-            // tickProgress = Mathf.Clamp01(tickTimer / gearspeed);
-        
-            // if (tickTimer >= gearspeed)
-            // {
-            // tickTimer = 0;
-            // unitsSpawned += 1;
-            // ApplyProductionStep();
-            // CreateCounter();
-            // }
-            // else
-            // {
-            //     tickTimer = 0;
-            // }
-        //}
-        //if (Input.GetKeyDown(KeyCode.E))
-        //{
-        //    Debug.Log("E was pressed");
-        //    GearRotation();
-        //}
-    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -90,6 +56,7 @@ public class GearRotate : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        
         GearRotate neighbor = collision.gameObject.GetComponent<GearRotate>();
         if (neighbor != null)
         {
@@ -119,8 +86,6 @@ public class GearRotate : MonoBehaviour
     public void GetRotationSpeed()
     {
         if (UnitManager.instance == null) return;
-        // Match the same "only while playing" gating UnitManager used to apply to its
-        // own step timer, so gears can't pre-fill spawn progress before Start / after EndGame.
         if (GameManager.instance == null || GameManager.instance.GetState() != GameManager.State.Normal) return;
 
         switch (productionType)
@@ -140,31 +105,38 @@ public class GearRotate : MonoBehaviour
 
     public void pulse(HashSet<GearRotate> hasPulsed)
     {
-        //Debug.Log(gameObject.name + " is pulsing. Neighbor count: " + neighbors.Count); 
-        if (hasPulsed.Contains(this)) 
-        {
-            GetRotationSpeed();
-            tickProgress = tickTimer / RotationsToComplete;
-
-            if (tickTimer >= RotationsToComplete)
+        if (UnitManager.instance == null) return;
+        if (GameManager.instance == null || GameManager.instance.GetState() != GameManager.State.Normal) return;
+        //Debug.Log(gameObject.name + " is pulsing. Neighbor count: " + neighbors.Count);
+            if (hasPulsed.Contains(this))
             {
-            tickTimer = 0;
-            unitsSpawned += 1;
-            ApplyProductionStep();
-
+                // Already pulsed earlier in this same chain (reachable again via a
+                // mutual neighbor link) - just stop here so we don't recurse forever.
+                // Production logic used to live in this branch, which meant a gear
+                // with no neighbors (never revisited) could never reach it at all.
+                return;
             }
+            hasPulsed.Add(this);
 
-            return;
-        }
-        hasPulsed.Add(this);
+            transform.Rotate(0,0, -rotationStep);
+            Debug.Log("Pulse method"); // TEMP - remove after diagnosing double-spin
 
-        transform.Rotate(0,0, -rotationStep);
+            GetRotationSpeed();
+            pulseCount += 1;
+            tickProgress = RotationsToComplete > 0 ? (float)pulseCount / RotationsToComplete : 0f;
+
+            if (RotationsToComplete > 0 && pulseCount >= RotationsToComplete)
+            {
+                pulseCount = 0;
+                unitsSpawned += 1;
+                ApplyProductionStep();
+            }
 
             foreach (var neighbor in neighbors)
             {
                 neighbor.pulse(hasPulsed);
             }
-    }
+        }
 
     public void GearRotation()
     {

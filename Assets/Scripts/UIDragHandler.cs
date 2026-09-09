@@ -10,6 +10,7 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private Transform originalParent;
     private Camera mainCamera;
     private Vector3 offset;
+    private Camera GearBoxCamera;
 
     public int gearNum = 0;
     private UIGearSlot currentSlot;
@@ -23,6 +24,7 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         col2D = GetComponent<Collider2D>();
         mainCamera = Camera.main;
         gearFallArea = GameObject.Find("GearFallArea");
+        GearBoxCamera = GameObject.Find("GearBoxCamera").GetComponent<Camera>();
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -30,7 +32,7 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         originalPosition = transform.position;
         originalParent = transform.parent;
 
-        Vector3 mouseWorldPos = mainCamera.ScreenToWorldPoint(eventData.position);
+        Vector3 mouseWorldPos = GearBoxCamera.ScreenToWorldPoint(eventData.position);
         mouseWorldPos.z = 0f;
         offset = transform.position - mouseWorldPos;
 
@@ -60,7 +62,7 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnDrag(PointerEventData eventData)
     {
-        Vector3 mouseWorldPos = mainCamera.ScreenToWorldPoint(eventData.position);
+        Vector3 mouseWorldPos = GearBoxCamera.ScreenToWorldPoint(eventData.position);
         mouseWorldPos.z = 0f;
         transform.position = mouseWorldPos + offset;
 

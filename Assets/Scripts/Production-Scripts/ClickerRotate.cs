@@ -27,8 +27,6 @@ public class ClickerRotate : MonoBehaviour
     {
 
         if (UnitManager.instance == null) return;
-        // Match the same "only while playing" gating UnitManager used to apply to its
-        // own step timer, so gears can't pre-fill spawn progress before Start / after EndGame.
         if (GameManager.instance == null || GameManager.instance.GetState() != GameManager.State.Normal) return;
 
 
@@ -58,6 +56,7 @@ public class ClickerRotate : MonoBehaviour
         if (gear != null)
         {
             currentTouchingGear = gear;
+            Debug.Log($"[DIAG] Enter-pulse on {gear.name} at t={Time.time:F2}"); // TEMP - remove after diagnosing double-spin
             gear.pulse(new HashSet<GearRotate>());
         }
     }
@@ -75,7 +74,13 @@ public class ClickerRotate : MonoBehaviour
     {
         Clicker.transform.Rotate(0, 0, -90);
 
-        currentTouchingGear?.pulse(new HashSet<GearRotate>());
+        // Pulsing currentTouchingGear here was redundant with OnTriggerEnter2D:
+        // this tick fires on its own independent clock, so any tick landing
+        // while contact was still ongoing from a prior Enter re-pulsed the same
+        // gear a second time for what was really one pass - the "double spin" bug.
+        // Enter already pulses exactly once per genuine contact start; this method's
+        // only remaining job is spinning the Clicker itself, which is what sweeps
+        // it into new gears (producing the next Enter) in the first place.
 
         //GearRotate firstGear = Gear.GetComponent<GearRotate>();
         //if (firstGear != null)
