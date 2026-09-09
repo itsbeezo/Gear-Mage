@@ -169,7 +169,7 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
         foreach (Collider2D hit in hits)
         {
-            // Ignores this dragged object, but detects ANY other gear with a UIDragHandler
+            // Ignores this gear, but detects gears below
             if (hit.gameObject != gameObject && hit.GetComponent<UIDragHandler>() != null)
             {
                 gearUnderneath = true;
@@ -219,7 +219,7 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         yield return null;
 
-        // 1. Re-occupy currentSlot and spawn gear back at original location
+        // Reslot currentSlot and spawn gear back at original position
         GearBox box = currentSlot.GetComponent<GearBox>();
         if (box != null)
         {
@@ -230,7 +230,6 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
         yield return null;
 
-        // 2. Destroy the dragged temporary object
         Destroy(gameObject);
     }
 
