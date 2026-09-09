@@ -4208,6 +4208,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UIDragHandler
   gearNum: 0
   isConnected: 0
+  attemptButFull: 0
 --- !u!58 &1209939239
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -6272,6 +6273,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UIDragHandler
   gearNum: 0
   isConnected: 0
+  attemptButFull: 0
 --- !u!212 &1771412653
 SpriteRenderer:
   serializedVersion: 2
@@ -7023,7 +7025,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2117889073}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &2117889076
 Camera:
   m_ObjectHideFlags: 0

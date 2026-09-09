@@ -15,6 +15,7 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public int gearNum = 0;
     private UIGearSlot currentSlot;
     public bool isConnected = false;
+    public bool attemptButFull = false;
 
     private GameObject gearFallArea;
 
@@ -157,21 +158,43 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
                 gearNum = 2;
             }
 
-                currentSlot.ClearSlot();
+                
         }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        bool gearUnderneath = false;
+        Collider2D[] hits = Physics2D.OverlapPointAll(transform.position);
+
+        foreach (Collider2D hit in hits)
+        {
+            // Ignores this dragged object, but detects ANY other gear with a UIDragHandler
+            if (hit.gameObject != gameObject && hit.GetComponent<UIDragHandler>() != null)
+            {
+                gearUnderneath = true;
+                break;
+            }
+        }
+
         if ((gameObject.CompareTag("Gears") || gameObject.CompareTag("Clicker")) && isConnected)
         {
+            currentSlot.ClearSlot();
             Destroy(gameObject);
             Debug.Log("reached " + isConnected);
         }
         else if ((gameObject.CompareTag("Gears") || gameObject.CompareTag("Clicker")) && !isConnected)
         {
-            StartCoroutine(GearAnimation());
-            Debug.Log("reachedfalseoutcome " + isConnected);
+            if (gearUnderneath)
+            {
+                StartCoroutine(ReSlot());
+            }
+            else
+            {
+                currentSlot.ClearSlot();
+                StartCoroutine(GearAnimation());
+                Debug.Log("reachedfalseoutcome " + isConnected);
+            }
         }
         else
         {
@@ -190,6 +213,25 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             transform.position = originalPosition;
         }
         
+    }
+
+    public IEnumerator ReSlot()
+    {
+        yield return null;
+
+        // 1. Re-occupy currentSlot and spawn gear back at original location
+        GearBox box = currentSlot.GetComponent<GearBox>();
+        if (box != null)
+        {
+            currentSlot.isFull = true;
+            GearManager.instance.SetGear(box.GetXIndex(), box.GetYIndex(), gearNum);
+            GearManager.instance.SpawnSingleGear(box.GetXIndex(), box.GetYIndex(), gearNum);
+        }
+
+        yield return null;
+
+        // 2. Destroy the dragged temporary object
+        Destroy(gameObject);
     }
 
     IEnumerator GearAnimation()
