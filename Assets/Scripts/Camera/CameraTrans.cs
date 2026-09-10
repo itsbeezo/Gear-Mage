@@ -3,6 +3,8 @@ using UnityEngine;
 public class CameraTrans : MonoBehaviour
 {
 
+    public static CameraTrans instance { get; private set; }
+
     public Camera LevelCamera;
     public Camera GearBoxCamera;
 
@@ -19,7 +21,7 @@ public class CameraTrans : MonoBehaviour
         GearBoxCamera.enabled = true;
     }
 
-    void SwtichCamera()
+    public void SwtichCamera()
     {
         if (LevelCamera.enabled == true)
         {

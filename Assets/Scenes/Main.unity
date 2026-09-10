@@ -928,7 +928,7 @@ Transform:
   m_GameObject: {fileID: 217107408}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.297, y: 2.46, z: 0}
+  m_LocalPosition: {x: -2.297, y: 0.52, z: 0}
   m_LocalScale: {x: 0.19710326, y: 0.19710326, z: 0.19710326}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7023,7 +7023,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2117889073}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &2117889076
 Camera:
   m_ObjectHideFlags: 0
