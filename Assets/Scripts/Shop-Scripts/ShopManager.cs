@@ -13,9 +13,11 @@ public class ShopManager : MonoBehaviour
 
     [SerializeField] private Button gearBoxToggle;
 
-    [SerializeField] private SortingGroup gearBoxGroupToggle;
+    [SerializeField] private SortingGroup shopGroupLayer;
 
     [SerializeField] private GameObject returnButton;
+
+    [SerializeField] private GameObject inventoryGears;
 
     private CameraTrans cameraScript;
 
@@ -35,6 +37,7 @@ public class ShopManager : MonoBehaviour
     {
         if (shopGroup != null)
         {
+            inventoryGears.SetActive(true);// Might never make this true again after first placement
             shopGroup.SetActive(false);
             gearBoxToggle.gameObject.SetActive(false);
             contButton.gameObject.SetActive(true);
@@ -44,20 +47,17 @@ public class ShopManager : MonoBehaviour
 
     public void ToggleGearbox()
     {
-        if (gearBoxGroupToggle.sortingOrder < 10)
-        {
-            gearBoxGroupToggle.sortingOrder = 10;
-        }
-        else
-        {
-            gearBoxGroupToggle.sortingOrder = -9;
-        }
+        int oldOrder = shopGroupLayer.sortingOrder;
+        int newOrder = (oldOrder > 9) ? 8 : 12;
+
+        shopGroupLayer.sortingOrder = newOrder;
     }
 
     public void OpenShop()
     {
         if (shopGroup != null)
         {
+            inventoryGears.SetActive(false);
             shopGroup.SetActive(true);
             gearBoxToggle.gameObject.SetActive(true);
             returnButton.gameObject.SetActive(true);

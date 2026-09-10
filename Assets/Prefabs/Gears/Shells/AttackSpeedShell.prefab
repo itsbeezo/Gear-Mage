@@ -81,7 +81,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2056607905343865691, guid: 46485a3f03deb6c4c8c310f0f1ff816a, type: 3}
   m_Color: {r: 0.76862746, g: 0.77254903, b: 0.3019608, a: 1}
@@ -107,6 +107,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UIDragHandler
   gearNum: 0
   isConnected: 0
+  attemptButFull: 0
 --- !u!58 &3273536578450307387
 CircleCollider2D:
   m_ObjectHideFlags: 0

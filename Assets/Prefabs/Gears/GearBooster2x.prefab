@@ -85,7 +85,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2056607905343865691, guid: 46485a3f03deb6c4c8c310f0f1ff816a, type: 3}
   m_Color: {r: 0.15205587, g: 0.19084531, b: 0.6320754, a: 1}
@@ -176,6 +176,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UIDragHandler
   gearNum: 0
   isConnected: 0
+  attemptButFull: 0
 --- !u!61 &2539926582998582391
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -301,7 +302,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 11
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 50f7a3e9878119a4da02f38cf05d75ba, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

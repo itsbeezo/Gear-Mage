@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        shopManager = GameObject.Find("ShopManager").GetComponent<ShopManager>();
+        //shopManager = GameObject.Find("ShopManager").GetComponent<ShopManager>();
         instance = this;
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(SetStateNormal);
