@@ -10,6 +10,10 @@ public class GameManager : MonoBehaviour
     public static GameManager instance { get; private set; }
     [SerializeField] private Button buttonShop;
     public ShopManager shopManager;
+    public GameObject startButton;
+    public GameObject playButton;
+    public GameObject upgradeButton;
+    public GameObject permShopButton;
     public enum State
     {
         BeforeStart,
@@ -40,22 +44,28 @@ public class GameManager : MonoBehaviour
     public void SetStateBeforeStart()
     {
         state = State.BeforeStart;
+        buttonShop.gameObject.SetActive(true);
     }
     public void SetStateUpgradeMenu()
     {
         state = State.UpgradeMenu;
+        buttonShop.gameObject.SetActive(false);
     }
     public void SetStatePShopMenu()
     {
         state = State.PShopMenu;
+        buttonShop.gameObject.SetActive(false);
     }
     public void SetStateNormal()
     {
         state = State.Normal;
+        buttonShop.gameObject.SetActive(false);
     }
     public void SetStateEndGame()
     {
         state = State.EndGame;
+        buttonShop.gameObject.SetActive(true);
+        UIManager.instance.SwitchCamera();
     }
     private void ResetScene()
     {
@@ -65,5 +75,11 @@ public class GameManager : MonoBehaviour
     {
         shopManager.OpenShop();
         buttonShop.gameObject.SetActive(false);
+        startButton.gameObject.SetActive(false);
+        playButton.gameObject.SetActive(false);
+        permShopButton.gameObject.SetActive(false);
+        upgradeButton.gameObject.SetActive(false);
+
     }
+
 }

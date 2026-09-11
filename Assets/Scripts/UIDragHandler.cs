@@ -121,7 +121,7 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             {
                 gearNum = 10;
             }
-            else if (gameObject.name.Contains("GBooster"))
+            else if (gameObject.name.Contains("1x"))
             {
                 gearNum = 3;
             }

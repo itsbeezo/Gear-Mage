@@ -31,8 +31,13 @@ public class ShopManager : MonoBehaviour
             inventoryGears.SetActive(true);// Might never make this true again after first placement
             shopGroup.SetActive(false);
             gearBoxToggle.gameObject.SetActive(false);
-            contButton.gameObject.SetActive(true);
+            //contButton.gameObject.SetActive(true);
+            GameManager.instance.upgradeButton.SetActive(true);
+            GameManager.instance.permShopButton.SetActive(true);
+            GameManager.instance.startButton.SetActive(true);
+            GameManager.instance.playButton.SetActive(true);
             returnButton.gameObject.SetActive(false);
+            //gearBox.transform.position = new Vector3(-2.02f, 2.9f, 11);
         }
     }
 
@@ -52,6 +57,7 @@ public class ShopManager : MonoBehaviour
             shopGroup.SetActive(true);
             gearBoxToggle.gameObject.SetActive(true);
             returnButton.gameObject.SetActive(true);
+            //gearBox.transform.position = new Vector3(-2.02f, 4.31f,11);
         }
     }
 
