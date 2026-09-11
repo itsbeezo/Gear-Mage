@@ -5,6 +5,9 @@ public class GearRotate : MonoBehaviour
 {
     // Which player-unit spawn step this gear feeds when its tick completes.
     // None = a stat/booster gear that only rotates; no spawn-step output.
+
+    public GearRotate instance;
+
     public enum GearProductionType
     {
         None,
@@ -44,6 +47,11 @@ public class GearRotate : MonoBehaviour
 
     private List<GearRotate> neighbors = new List<GearRotate>();
 
+    private void Awake()
+    {
+        GetRotationSpeed();
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         GearRotate neighbor = collision.gameObject.GetComponent<GearRotate>();
@@ -64,29 +72,10 @@ public class GearRotate : MonoBehaviour
         }
     }
 
-    // private void CreateCounter()
-    // {
-    //     switch (neighbors.Count <= 0)
-    //     {
-    //         case true:
-    //             counter = 10;
-    //             break;
-    //         case false when neighbors.Count >= 1:
-    //             foreach(var neighbor in neighbors)
-    //             {
-    //                 counter -= 1;
-    //             }   
-    //             break;
-    //        case false when (counter <= 1):
-    //             counter = 1;
-    //             break;            
-    //     }
-    //}
-
     public void GetRotationSpeed()
     {
-        if (UnitManager.instance == null) return;
-        if (GameManager.instance == null || GameManager.instance.GetState() != GameManager.State.Normal) return;
+        // if (UnitManager.instance == null) return;
+        // if (GameManager.instance == null || GameManager.instance.GetState() != GameManager.State.Normal) return;
 
         switch (productionType)
         {
@@ -121,7 +110,7 @@ public class GearRotate : MonoBehaviour
             transform.Rotate(0,0, -rotationStep);
             Debug.Log("Pulse method"); // TEMP - remove after diagnosing double-spin
 
-            GetRotationSpeed();
+            //GetRotationSpeed();
             pulseCount += 1;
             tickProgress = RotationsToComplete > 0 ? (float)pulseCount / RotationsToComplete : 0f;
 

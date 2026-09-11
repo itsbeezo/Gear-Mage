@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5970957320915196668}
   - component: {fileID: 7867122564400098282}
   m_Layer: 0
-  m_Name: GBooster
+  m_Name: GearBooster1x
   m_TagString: Gears
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

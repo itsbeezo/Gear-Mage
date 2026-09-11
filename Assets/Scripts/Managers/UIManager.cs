@@ -35,7 +35,7 @@ public class UIManager : MonoBehaviour
             startButton.onClick.RemoveAllListeners();
             startButton.onClick.AddListener(GameManager.instance.SetStateNormal);
             startButton.onClick.AddListener(SwitchCamera);
-            startButton.onClick.SpawnMage();
+            // startButton.onClick.AddListener(SpawnMage);
 
             upgradeButton.onClick.RemoveAllListeners();
             upgradeButton.onClick.AddListener(GameManager.instance.SetStateUpgradeMenu);
@@ -94,8 +94,8 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void SpawnMage()
-    {
-        GearMage.enabled = true;
-    }
+    // private void SpawnMage()
+    // {
+    //     GearMage.enabled = true;
+    // }
 }
