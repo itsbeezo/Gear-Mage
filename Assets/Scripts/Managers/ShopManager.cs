@@ -18,15 +18,6 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private GameObject returnButton;
 
     [SerializeField] private GameObject inventoryGears;
-
-    private CameraTrans cameraScript;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        cameraScript = GameObject.Find("LevelCamera").GetComponent<CameraTrans>();
-    }
-
     // Update is called once per frame
     void Update()
     {

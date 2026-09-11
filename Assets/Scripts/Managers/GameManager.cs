@@ -8,13 +8,13 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance { get; private set; }
-    [SerializeField] private Button button;
     [SerializeField] private Button buttonShop;
-    [SerializeField] private TextMeshProUGUI buttonTM;
     public ShopManager shopManager;
     public enum State
     {
         BeforeStart,
+        UpgradeMenu,
+        PShopMenu,
         Normal,
         EndGame,
     }
@@ -24,26 +24,30 @@ public class GameManager : MonoBehaviour
     {
         //shopManager = GameObject.Find("ShopManager").GetComponent<ShopManager>();
         instance = this;
-        button.onClick.RemoveAllListeners();
-        button.onClick.AddListener(SetStateNormal);
         state = State.BeforeStart;
     }
-    public void FixedUpdate()
+    private void Update()
     {
-        if (state == State.Normal)
-            HideButton();
-        if (state == State.EndGame)
+        if(Input.GetKeyDown(KeyCode.P))
         {
-            buttonTM.text = "Restart";
-            button.onClick.RemoveAllListeners();
-            button.onClick.AddListener(ResetScene);
-            ShowButton();
+            ResetScene();
         }
     }
-
     public State GetState()
     {
         return state;
+    }
+    public void SetStateBeforeStart()
+    {
+        state = State.BeforeStart;
+    }
+    public void SetStateUpgradeMenu()
+    {
+        state = State.UpgradeMenu;
+    }
+    public void SetStatePShopMenu()
+    {
+        state = State.PShopMenu;
     }
     public void SetStateNormal()
     {
@@ -53,26 +57,13 @@ public class GameManager : MonoBehaviour
     {
         state = State.EndGame;
     }
-    private void ShowButton()
-    {
-        button.gameObject.SetActive(true);
-        buttonShop.gameObject.SetActive(true);
-    }
-    private void HideButton()
-    {
-        button.gameObject.SetActive(false);
-        buttonShop.gameObject.SetActive(false);
-    }
     private void ResetScene()
     {
         SceneManager.LoadScene(0);
     }
-
     public void ShopScene()
     {
         shopManager.OpenShop();
-        button.gameObject.SetActive(false);
         buttonShop.gameObject.SetActive(false);
     }
-
 }

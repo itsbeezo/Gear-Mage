@@ -147,6 +147,10 @@ public class UnitBase : MonoBehaviour
             this.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
             this.GetComponent<Rigidbody2D>().freezeRotation = true;
         }
+        if(UnitManager.instance.GetUnitsCanMove() == false)
+        {
+            this.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
+        }
 
         if (currentHP <= 0)//Destroy when HP is zero
         {
@@ -216,10 +220,17 @@ public class UnitBase : MonoBehaviour
             }
             else
             {
-                if((EnemyBase.instance.transform.position - this.transform.position).sqrMagnitude <= range)
-                    return true;
-                else
+                if(GameManager.instance.GetState() == GameManager.State.EndGame)
+                {
                     return false;
+                }
+                else 
+                { 
+                    if((EnemyBase.instance.transform.position - this.transform.position).sqrMagnitude <= range)
+                        return true;
+                    else
+                        return false;
+                }
             }
         }
         else if(this.TryGetComponent(out UnitEnemy unitEnemy))
@@ -233,10 +244,17 @@ public class UnitBase : MonoBehaviour
             }
             else
             {
-                if((PlayerBase.instance.transform.position - this.transform.position).sqrMagnitude <= range)
-                    return true;
+                if (GameManager.instance.GetState() == GameManager.State.EndGame)
+                {
+                    return false;
+                }
                 else
-                    return false;    
+                {
+                    if ((PlayerBase.instance.transform.position - this.transform.position).sqrMagnitude <= range)
+                        return true;
+                    else
+                        return false;
+                }
             }
         }
         else
