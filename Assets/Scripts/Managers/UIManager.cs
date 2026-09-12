@@ -46,7 +46,6 @@ public class UIManager : MonoBehaviour
             pShopButton.onClick.RemoveAllListeners();
             pShopButton.onClick.AddListener(GameManager.instance.SetStatePShopMenu);
 
-            ShowUIElement(startButton.gameObject);
             HideUIElement(pShopGroup);
             HideUIElement(upgradeMenuGroup);
         }
@@ -79,8 +78,8 @@ public class UIManager : MonoBehaviour
     {
         elementToHide.SetActive(false);
     }
-    //Camera Functions (temp?)
-    private void SwitchCamera()
+    //Camera Functions (temp?) || I think this is helpful and shouldn't be removed - Antonio
+    public void SwitchCamera()
     {
         if (LevelCamera.enabled == true)
         {
