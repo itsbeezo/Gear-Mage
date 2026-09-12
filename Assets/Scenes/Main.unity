@@ -1210,7 +1210,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.9, y: 784.49}
+  m_AnchoredPosition: {x: -224, y: 821}
   m_SizeDelta: {x: 119.125, y: 46.9299}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &234074993
@@ -1235,7 +1235,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 1, g: 0.6946744, b: 0.4009434, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -1282,7 +1282,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.9150943, g: 0.60511327, b: 0.30647027, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -7102,7 +7102,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!223 &1418171736
 Canvas:
   m_ObjectHideFlags: 0
@@ -7112,7 +7112,7 @@ Canvas:
   m_GameObject: {fileID: 1418171732}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 2
+  m_RenderMode: 0
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -7134,23 +7134,22 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1418171732}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 15}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 118320622}
   - {fileID: 234074992}
-  - {fileID: 2132954755}
   - {fileID: 2044141306}
   - {fileID: 1500236247}
   m_Father: {fileID: 1437609706}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 540, y: 960}
-  m_SizeDelta: {x: 1080, y: 1920}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0, y: 0}
 --- !u!4 &1421021622 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8843027668709940253, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
@@ -9124,6 +9123,7 @@ RectTransform:
   - {fileID: 372766027}
   - {fileID: 2086501848}
   - {fileID: 1539035735}
+  - {fileID: 2132954755}
   m_Father: {fileID: 1437609706}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -10898,7 +10898,7 @@ GameObject:
   - component: {fileID: 2132954757}
   - component: {fileID: 2132954756}
   m_Layer: 5
-  m_Name: CurrencyUI
+  m_Name: w
   m_TagString: Gold Display
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10911,17 +10911,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2132954754}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 5}
   m_LocalScale: {x: 0.016698016, y: 0.016698016, z: 0.0055660056}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1418171737}
+  m_Father: {fileID: 1814116388}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -541.38, y: 1.7199707}
-  m_SizeDelta: {x: 136.5132, y: 50}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -1.773, y: 2.4699707}
+  m_SizeDelta: {x: 120.66, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2132954756
 MonoBehaviour:
@@ -11009,7 +11009,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -10.561989, w: 29.286137}
+  m_margin: {x: 0, y: 0, z: -5.8449097, w: 29.286137}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
