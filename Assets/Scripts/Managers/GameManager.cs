@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour
     {
         state = State.PShopMenu;
         buttonShop.gameObject.SetActive(false);
+        Debug.Log("Shop Menu");
     }
     public void SetStateNormal()
     {

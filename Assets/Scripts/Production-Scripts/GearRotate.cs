@@ -151,6 +151,9 @@ public class GearRotate : MonoBehaviour
             case GearProductionType.Archer:
                 UnitManager.instance.SpawnUnit(4, UnitManager.instance.GetPlayerSpawnPoint().transform.position);
                 break;
+            case GearProductionType.Booster:
+                
+                break;
         }
     }
 }
