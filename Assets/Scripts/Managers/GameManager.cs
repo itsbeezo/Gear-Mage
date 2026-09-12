@@ -8,17 +8,17 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance { get; private set; }
-    [SerializeField] private Button buttonShop;
-    public ShopManager shopManager;
     public enum State
     {
         BeforeStart,
         UpgradeMenu,
+        WaveVictory,
         PShopMenu,
         Normal,
         EndGame,
     }
     private State state;
+    private int wave = 1;
 
     private void Start()
     {
@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
         {
             ResetScene();
         }
+        Debug.Log(state);
     }
     public State GetState()
     {
@@ -53,17 +54,24 @@ public class GameManager : MonoBehaviour
     {
         state = State.Normal;
     }
+    public void SetStateWaveVictory()
+    {
+        state = State.WaveVictory;
+    }
     public void SetStateEndGame()
     {
         state = State.EndGame;
     }
-    private void ResetScene()
+    public int GetCurrentWave()
+    {
+        return wave;
+    }
+    public void NextWave()
+    {
+        wave += 1;
+    }
+    public void ResetScene()
     {
         SceneManager.LoadScene(0);
-    }
-    public void ShopScene()
-    {
-        shopManager.OpenShop();
-        buttonShop.gameObject.SetActive(false);
     }
 }
