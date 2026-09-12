@@ -10,6 +10,10 @@ public class GameManager : MonoBehaviour
     public static GameManager instance { get; private set; }
     [SerializeField] private Button buttonShop;
     public ShopManager shopManager;
+    public GameObject startButton;
+    public GameObject playButton;
+    public GameObject upgradeButton;
+    public GameObject permShopButton;
     public enum State
     {
         BeforeStart,
