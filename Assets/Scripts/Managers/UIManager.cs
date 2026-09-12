@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -12,6 +13,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Button pShopButton;
     [SerializeField] private GameObject upgradeMenuGroup;
     [SerializeField] private GameObject pShopGroup;
+    [SerializeField] private GameObject waveShopGroup;
+    [SerializeField] private Button nextWaveButton;
+    [SerializeField] private GameObject levelVictoryGroup;
+    [SerializeField] private Button restartButton;
     //Camera Variables (temp?)
     public Camera LevelCamera;
     public Camera GearBoxCamera;
@@ -56,6 +61,8 @@ public class UIManager : MonoBehaviour
             HideUIElement(upgradeButton.gameObject);
             HideUIElement(playButton.gameObject);
             HideUIElement(pShopButton.gameObject);
+            HideUIElement(waveShopGroup);
+            HideUIElement(levelVictoryGroup);
         }   
 
         if(GameManager.instance.GetState() == GameManager.State.PShopMenu)
@@ -68,6 +75,23 @@ public class UIManager : MonoBehaviour
         {
             ShowUIElement(upgradeMenuGroup);
             HideUIElement(pShopGroup);
+        }
+
+        if(GameManager.instance.GetState() == GameManager.State.WaveVictory)
+        {
+            ShowUIElement(waveShopGroup);
+
+            nextWaveButton.onClick.RemoveAllListeners();
+            nextWaveButton.onClick.AddListener(GameManager.instance.SetStateNormal);
+            nextWaveButton.onClick.AddListener(UnitManager.instance.OnNextWave);
+        }
+
+        if(GameManager.instance.GetState() == GameManager.State.EndGame)
+        {
+            ShowUIElement(levelVictoryGroup);
+
+            restartButton.onClick.RemoveAllListeners();
+            restartButton.onClick.AddListener(GameManager.instance.ResetScene);
         }
     }
     public void ShowUIElement(GameObject elementToShow)

@@ -10,19 +10,17 @@ public class GameManager : MonoBehaviour
     public static GameManager instance { get; private set; }
     [SerializeField] private Button buttonShop;
     public ShopManager shopManager;
-    public GameObject startButton;
-    public GameObject playButton;
-    public GameObject upgradeButton;
-    public GameObject permShopButton;
     public enum State
     {
         BeforeStart,
         UpgradeMenu,
+        WaveVictory,
         PShopMenu,
         Normal,
         EndGame,
     }
     private State state;
+    private int wave = 1;
 
     private void Start()
     {
@@ -36,6 +34,7 @@ public class GameManager : MonoBehaviour
         {
             ResetScene();
         }
+        Debug.Log(state);
     }
     public State GetState()
     {
@@ -62,13 +61,25 @@ public class GameManager : MonoBehaviour
         state = State.Normal;
         buttonShop.gameObject.SetActive(false);
     }
+    public void SetStateWaveVictory()
+    {
+        state = State.WaveVictory;
+    }
     public void SetStateEndGame()
     {
         state = State.EndGame;
         buttonShop.gameObject.SetActive(true);
         UIManager.instance.SwitchCamera();
     }
-    private void ResetScene()
+    public int GetCurrentWave()
+    {
+        return wave;
+    }
+    public void NextWave()
+    {
+        wave += 1;
+    }
+    public void ResetScene()
     {
         SceneManager.LoadScene(0);
     }
@@ -76,11 +87,5 @@ public class GameManager : MonoBehaviour
     {
         shopManager.OpenShop();
         buttonShop.gameObject.SetActive(false);
-        startButton.gameObject.SetActive(false);
-        playButton.gameObject.SetActive(false);
-        permShopButton.gameObject.SetActive(false);
-        upgradeButton.gameObject.SetActive(false);
-
     }
-
 }
