@@ -8,12 +8,6 @@ public class UnitManager : MonoBehaviour
     [SerializeField] List<UnitBase> UnitList;
     [SerializeField] private GameObject playerSpawnPoint;
     [SerializeField] private GameObject enemySpawnPoint;
-    [SerializeField] private float playerSpawnRate;
-    [SerializeField] private float playerTankSpawnRate;
-    [SerializeField] private float playerArcherSpawnRate;
-    private float playerSpawnStep;
-    private float playerTankStep;
-    private float playerArcherStep;
     [SerializeField] private float enemySpawnRate;
     [SerializeField] private float enemyTankSpawnRate;
     [SerializeField] private float enemyArcherSpawnRate;
@@ -21,53 +15,41 @@ public class UnitManager : MonoBehaviour
     private float enemyTankStep;
     private float enemyArcherStep;
     private bool unitsCanMove = true;
+    private UnitBase[] currentUnits;
     private void Start()
     {
         instance = this;
     }
     private void FixedUpdate()
     {
-        // playerSpawnStep/playerTankStep are no longer ticked here - they're driven
-        // entirely by GearMelee/GearTank production gears via AddPlayerSpawnStep/
-        // AddPlayerTankStep (see GearRotate.ApplyProductionStep). Enemy steps still
-        // run on the fixed timer since there's no enemy-side gear production yet.
-        if (GameManager.instance.GetState() == GameManager.State.Normal)
+        //All temp
+
+        if(GameManager.instance.GetState() == GameManager.State.Normal && GameManager.instance.GetCurrentWave() == 1)
         {
             enemySpawnStep += 1;
-            enemyTankStep += 1;
+        }
+        if (GameManager.instance.GetState() == GameManager.State.Normal && GameManager.instance.GetCurrentWave() == 2)
+        {
+            enemySpawnStep += 1;
             enemyArcherStep += 1;
         }
-
-        // if(playerSpawnStep >= (playerSpawnRate - GearManager.instance.GetSpawnSpeedMod()))
-        // {
-        //     SpawnUnit(0, playerSpawnPoint.transform.position);
-        //     playerSpawnStep = 0;
-        // }
+        if(GameManager.instance.GetState() == GameManager.State.Normal && GameManager.instance.GetCurrentWave() == 3)
+        {
+            enemySpawnStep += 1;
+            enemyArcherStep += 1;
+            enemyTankStep += 1;
+        }
 
         if(enemySpawnStep >= enemySpawnRate)
         {
             Instantiate(UnitList[1], enemySpawnPoint.transform.position, Quaternion.identity);
             enemySpawnStep = 0;
         }
-
-        // if(playerTankStep >= (playerTankSpawnRate - GearManager.instance.GetSpawnSpeedMod()))
-        // {
-        //     Instantiate(UnitList[2], playerSpawnPoint.transform.position, Quaternion.identity);
-        //     playerTankStep = 0;
-        // }
-
         if(enemyTankStep >= enemyTankSpawnRate)
         {
             Instantiate(UnitList[3], enemySpawnPoint.transform.position,Quaternion.identity);
             enemyTankStep = 0;
         }
-
-        // if(playerArcherStep >= (playerArcherSpawnRate - GearManager.instance.GetSpawnSpeedMod()))
-        // {
-        //     Instantiate(UnitList[4], playerSpawnPoint.transform.position , Quaternion.identity);
-        //     playerArcherStep = 0;
-        // }
-
         if(enemyArcherStep >= enemyArcherSpawnRate)
         {
             Instantiate(UnitList[5], enemySpawnPoint.transform.position, Quaternion.identity);
@@ -78,6 +60,19 @@ public class UnitManager : MonoBehaviour
     {
         Instantiate(UnitList[unitIndex], spawnPosition, Quaternion.identity);
         Debug.Log("Spawned " + UnitList[unitIndex].name);
+    }
+    public void OnNextWave()
+    {
+        currentUnits = FindObjectsByType<UnitBase>();
+        for (int i = 0; i < currentUnits.Length; i++)
+        {
+            currentUnits[i].DestroySelf();
+        }
+        PlayerBase.instance.gameObject.SetActive(true);
+        EnemyBase.instance.gameObject.SetActive(true);
+        PlayerBase.instance.GetComponent<BaseBase>().SetHPToMax();
+        EnemyBase.instance.GetComponent<BaseBase>().SetHPToMax();
+        SetUnitsCanMove(true);
     }
     public bool GetUnitsCanMove()
     {

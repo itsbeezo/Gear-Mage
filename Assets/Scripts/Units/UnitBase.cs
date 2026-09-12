@@ -220,7 +220,7 @@ public class UnitBase : MonoBehaviour
             }
             else
             {
-                if(GameManager.instance.GetState() == GameManager.State.EndGame)
+                if(GameManager.instance.GetState() == GameManager.State.EndGame || GameManager.instance.GetState() == GameManager.State.WaveVictory)
                 {
                     return false;
                 }
@@ -244,7 +244,7 @@ public class UnitBase : MonoBehaviour
             }
             else
             {
-                if (GameManager.instance.GetState() == GameManager.State.EndGame)
+                if (GameManager.instance.GetState() == GameManager.State.EndGame || GameManager.instance.GetState() == GameManager.State.WaveVictory)
                 {
                     return false;
                 }

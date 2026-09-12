@@ -29,10 +29,23 @@ public class BaseBase : MonoBehaviour
     {
         currentHP = newHP;
     }
+    public void SetHPToMax()
+    {
+        currentHP = maxHP;
+    }
     public void DestroySelf()
     {
-        GameManager.instance.SetStateEndGame();
+        //Temp if statements
+        if (GameManager.instance.GetCurrentWave() < 3 && TryGetComponent(out EnemyBase enemyBase))
+        {
+            GameManager.instance.SetStateWaveVictory();
+            GameManager.instance.NextWave();
+        }
+        else
+        {
+            GameManager.instance.SetStateEndGame();
+        }
         UnitManager.instance.SetUnitsCanMove(false);
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }
