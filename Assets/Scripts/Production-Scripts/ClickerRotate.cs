@@ -56,8 +56,7 @@ public class ClickerRotate : MonoBehaviour
         if (gear != null)
         {
             currentTouchingGear = gear;
-            Debug.Log($"[DIAG] Enter-pulse on {gear.name} at t={Time.time:F2}"); // TEMP - remove after diagnosing double-spin
-            gear.pulse(new HashSet<GearRotate>());
+            gear.Pulse();
         }
     }
         

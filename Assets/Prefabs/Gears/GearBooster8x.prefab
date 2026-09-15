@@ -118,6 +118,7 @@ MonoBehaviour:
   tickProgress: 0
   productionType: 4
   productionStepAmount: 0.4
+  boostMultiplier: 0.25
 --- !u!50 &1138898228214303372
 Rigidbody2D:
   serializedVersion: 5
