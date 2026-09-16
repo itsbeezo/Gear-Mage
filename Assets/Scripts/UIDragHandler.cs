@@ -12,6 +12,10 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private Vector3 offset;
     private Camera GearBoxCamera;
 
+    [Header("Drop Settings")]
+    [Tooltip("Maximum allowed distance from originalPosition to trigger ReSlot.")]
+    [SerializeField] private float maxReslotDistance = 1.5f;
+
     public int gearNum = 0;
     private UIGearSlot currentSlot;
     public bool isConnected = false;
@@ -25,7 +29,12 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         col2D = GetComponent<Collider2D>();
         mainCamera = Camera.main;
         gearFallArea = GameObject.Find("GearFallArea");
-        GearBoxCamera = GameObject.Find("GearBoxCamera").GetComponent<Camera>();
+
+        GameObject cameraObj = GameObject.Find("GearBoxCamera");
+        if (cameraObj != null)
+        {
+            GearBoxCamera = cameraObj.GetComponent<Camera>();
+        }
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -70,11 +79,11 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         if (gameObject.CompareTag("Drag1"))
         {
             gearNum = 1;
-        } 
+        }
         else if (gameObject.CompareTag("Archer"))
         {
             gearNum = 2;
-        } 
+        }
         else if (gameObject.CompareTag("Drag3"))
         {
             gearNum = 3;
@@ -157,8 +166,6 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             {
                 gearNum = 2;
             }
-
-                
         }
     }
 
@@ -177,6 +184,11 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             }
         }
 
+        // Calculate distance from drop location to original position in World Space
+        Vector3 dropWorldPos = GearBoxCamera.ScreenToWorldPoint(eventData.position);
+        dropWorldPos.z = originalPosition.z;
+        bool isCloseToOriginal = Vector2.Distance(originalPosition, dropWorldPos) <= maxReslotDistance;
+
         if ((gameObject.CompareTag("Gears") || gameObject.CompareTag("Clicker")) && isConnected)
         {
             currentSlot.ClearSlot();
@@ -185,7 +197,8 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         }
         else if ((gameObject.CompareTag("Gears") || gameObject.CompareTag("Clicker")) && !isConnected)
         {
-            if (gearUnderneath)
+            // Triggers ReSlot if dropped over another gear OR dropped close to its starting point
+            if (gearUnderneath || isCloseToOriginal)
             {
                 StartCoroutine(ReSlot());
             }
@@ -212,7 +225,6 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
             transform.position = originalPosition;
         }
-        
     }
 
     public IEnumerator ReSlot()
@@ -220,12 +232,15 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         yield return null;
 
         // Reslot currentSlot and spawn gear back at original position
-        GearBox box = currentSlot.GetComponent<GearBox>();
-        if (box != null)
+        if (currentSlot != null)
         {
-            currentSlot.isFull = true;
-            GearManager.instance.SetGear(box.GetXIndex(), box.GetYIndex(), gearNum);
-            GearManager.instance.SpawnSingleGear(box.GetXIndex(), box.GetYIndex(), gearNum);
+            GearBox box = currentSlot.GetComponent<GearBox>();
+            if (box != null)
+            {
+                currentSlot.isFull = true;
+                GearManager.instance.SetGear(box.GetXIndex(), box.GetYIndex(), gearNum);
+                GearManager.instance.SpawnSingleGear(box.GetXIndex(), box.GetYIndex(), gearNum);
+            }
         }
 
         yield return null;
@@ -249,7 +264,7 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
                 yield return null;
             }
         }
-        else if (gearFallArea == null)
+        else
         {
             while (gameObject.transform.localScale != Vector3.zero)
             {
@@ -260,5 +275,4 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
         Destroy(gameObject);
     }
-
 }
