@@ -391,7 +391,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: -7
   m_MaskInteraction: 0
   m_Sprite: {fileID: -186333419116414748, guid: 32784b3af0e54cfcbcd4a79fa0b2229d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -513,7 +513,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.5754717, g: 0.53107506, b: 0.08414916, a: 1}
     m_PressedColor: {r: 0.4245283, g: 0.3925005, b: 0.07008721, a: 1}
-    m_SelectedColor: {r: 0.4433962, g: 0.4127581, b: 0.123398006, a: 1}
+    m_SelectedColor: {r: 0.5283019, g: 0.49110436, b: 0.14702742, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -2757,7 +2757,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.57243216, g: 0.40650588, b: 0.990566, a: 1}
     m_PressedColor: {r: 0.3216615, g: 0.16104485, b: 0.7264151, a: 1}
-    m_SelectedColor: {r: 0.2318989, g: 0.10012461, b: 0.4716981, a: 1}
+    m_SelectedColor: {r: 0.32226625, g: 0.16487184, b: 0.6132076, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -2894,7 +2894,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: -6
   m_MaskInteraction: 0
   m_Sprite: {fileID: -186333419116414748, guid: 32784b3af0e54cfcbcd4a79fa0b2229d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3791,7 +3791,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -5
   m_MaskInteraction: 0
   m_Sprite: {fileID: -186333419116414748, guid: 32784b3af0e54cfcbcd4a79fa0b2229d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -5011,7 +5011,7 @@ Transform:
   m_GameObject: {fileID: 643258578}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.2924, y: -7.3519897, z: 0}
+  m_LocalPosition: {x: -3.003, y: -7.879, z: 0}
   m_LocalScale: {x: 0.31881237, y: 0.31881237, z: 0.31881237}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7124,7 +7124,7 @@ Transform:
   m_GameObject: {fileID: 899783430}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.42, y: 1.9, z: 0}
+  m_LocalPosition: {x: -1.639, y: 1.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8559,7 +8559,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingOrder: -8
   m_MaskInteraction: 0
   m_Sprite: {fileID: -186333419116414748, guid: 32784b3af0e54cfcbcd4a79fa0b2229d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -9192,7 +9192,7 @@ Transform:
   m_GameObject: {fileID: 1096461730}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.878, y: -7.045, z: 0}
+  m_LocalPosition: {x: -2.571, y: -7.106, z: 0}
   m_LocalScale: {x: 0.31881237, y: 0.31881237, z: 0.31881237}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -15712,7 +15712,7 @@ Transform:
   m_GameObject: {fileID: 1873166918}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.732, y: -6.019, z: 0}
+  m_LocalPosition: {x: -0.74, y: -5.922, z: 0}
   m_LocalScale: {x: 0.31881237, y: 0.31881237, z: 0.31881237}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -19286,15 +19286,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5868587963089370753, guid: af42ce8f676537824aa98e01a2c8e62d, type: 3}
       propertyPath: m_Colors.m_SelectedColor.b
-      value: 0.15650117
+      value: 0.19365443
       objectReference: {fileID: 0}
     - target: {fileID: 5868587963089370753, guid: af42ce8f676537824aa98e01a2c8e62d, type: 3}
       propertyPath: m_Colors.m_SelectedColor.g
-      value: 0.3679245
+      value: 0.4433962
       objectReference: {fileID: 0}
     - target: {fileID: 5868587963089370753, guid: af42ce8f676537824aa98e01a2c8e62d, type: 3}
       propertyPath: m_Colors.m_SelectedColor.r
-      value: 0.09198113
+      value: 0.11503205
       objectReference: {fileID: 0}
     - target: {fileID: 8326178746007292868, guid: af42ce8f676537824aa98e01a2c8e62d, type: 3}
       propertyPath: m_Pivot.x
