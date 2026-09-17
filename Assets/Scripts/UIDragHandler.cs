@@ -76,47 +76,47 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         mouseWorldPos.z = 0f;
         transform.position = mouseWorldPos + offset;
 
-        if (gameObject.CompareTag("Drag1"))
+        if (gameObject.CompareTag("ClickerShell"))
         {
             gearNum = 1;
         }
-        else if (gameObject.CompareTag("Archer"))
+        else if (gameObject.CompareTag("Melee"))
         {
             gearNum = 2;
         }
-        else if (gameObject.CompareTag("Drag3"))
+        else if (gameObject.CompareTag("Archer"))
         {
             gearNum = 3;
         }
-        else if (gameObject.CompareTag("Drag4"))
+        else if (gameObject.CompareTag("Tank"))
         {
             gearNum = 4;
         }
-        else if (gameObject.CompareTag("Drag5"))
+        else if (gameObject.CompareTag("Booster1"))
         {
             gearNum = 5;
         }
-        else if (gameObject.CompareTag("Drag6"))
+        else if (gameObject.CompareTag("Booster2"))
         {
             gearNum = 6;
         }
-        else if (gameObject.CompareTag("Melee"))
+        else if (gameObject.CompareTag("Booster4"))
         {
             gearNum = 7;
         }
-        else if (gameObject.CompareTag("Drag8"))
+        else if (gameObject.CompareTag("Booster8"))
         {
             gearNum = 8;
         }
-        else if (gameObject.CompareTag("Tank"))
+        else if (gameObject.CompareTag("Hp"))
         {
             gearNum = 9;
         }
-        else if (gameObject.CompareTag("Drag10"))
+        else if (gameObject.CompareTag("Attack"))
         {
             gearNum = 10;
         }
-        else if (gameObject.CompareTag("Drag11"))
+        else if (gameObject.CompareTag("AttackSpeed"))
         {
             gearNum = 11;
         }
@@ -132,31 +132,31 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             }
             else if (gameObject.name.Contains("1x"))
             {
-                gearNum = 3;
+                gearNum = 5;
             }
             else if (gameObject.name.Contains("2x"))
             {
-                gearNum = 4;
+                gearNum = 6;
             }
             else if (gameObject.name.Contains("4x"))
             {
-                gearNum = 6;
+                gearNum = 7;
             }
             else if (gameObject.name.Contains("8x"))
             {
-                gearNum = 5;
+                gearNum = 8;
             }
             else if (gameObject.name.Contains("HP"))
             {
-                gearNum = 12;
+                gearNum = 9;
             }
             else if (gameObject.name.Contains("Melee"))
             {
-                gearNum = 7;
+                gearNum = 2;
             }
             else if (gameObject.name.Contains("Tank"))
             {
-                gearNum = 9;
+                gearNum = 4;
             }
             else if (gameObject.name.Contains("Speed"))
             {
@@ -164,7 +164,7 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             }
             else if (gameObject.name.Contains("Archer"))
             {
-                gearNum = 2;
+                gearNum = 3;
             }
         }
     }
@@ -275,4 +275,5 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
         Destroy(gameObject);
     }
+
 }

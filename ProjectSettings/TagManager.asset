@@ -8,20 +8,17 @@ TagManager:
   - Gold Display
   - Gears
   - Clicker
-  - Drag1
-  - Drag2
-  - Drag3
-  - Drag4
-  - Drag5
-  - Drag6
-  - Drag7
-  - Drag8
-  - Drag9
-  - Drag10
-  - Drag11
   - Melee
   - Archer
   - Tank
+  - Booster1
+  - Booster2
+  - Booster4
+  - Booster8
+  - Hp
+  - AttackSpeed
+  - Attack
+  - ClickerShell
   layers:
   - Default
   - TransparentFX
