@@ -2651,11 +2651,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -2316638302542684252, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1807408492539632323, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1807408492539632323, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
+      propertyPath: isStagingSlot
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2288899052584022686, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
       propertyPath: xIndex
@@ -3370,11 +3374,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -2316638302542684252, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1807408492539632323, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1807408492539632323, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
+      propertyPath: isStagingSlot
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2288899052584022686, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
       propertyPath: xIndex
@@ -4055,11 +4063,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -2316638302542684252, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1807408492539632323, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1807408492539632323, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
+      propertyPath: isStagingSlot
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2288899052584022686, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
       propertyPath: xIndex
@@ -5429,11 +5441,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -2316638302542684252, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1807408492539632323, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1807408492539632323, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
+      propertyPath: isStagingSlot
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2288899052584022686, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
       propertyPath: xIndex
@@ -6973,11 +6989,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -2316638302542684252, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1807408492539632323, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1807408492539632323, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
+      propertyPath: isStagingSlot
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2288899052584022686, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
       propertyPath: xIndex
@@ -8550,11 +8570,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -2316638302542684252, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1807408492539632323, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1807408492539632323, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
+      propertyPath: isStagingSlot
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2288899052584022686, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
       propertyPath: xIndex
@@ -11042,11 +11066,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -2316638302542684252, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1807408492539632323, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1807408492539632323, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
+      propertyPath: isStagingSlot
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2288899052584022686, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
       propertyPath: xIndex
@@ -11965,11 +11993,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -2316638302542684252, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1807408492539632323, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1807408492539632323, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
+      propertyPath: isStagingSlot
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2288899052584022686, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
       propertyPath: xIndex
@@ -16792,11 +16824,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -2316638302542684252, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1807408492539632323, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1807408492539632323, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
+      propertyPath: isStagingSlot
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2288899052584022686, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
       propertyPath: xIndex
@@ -19290,11 +19326,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -2316638302542684252, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1807408492539632323, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1807408492539632323, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
+      propertyPath: isStagingSlot
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2288899052584022686, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
       propertyPath: xIndex
