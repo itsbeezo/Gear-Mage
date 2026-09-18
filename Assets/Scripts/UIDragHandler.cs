@@ -53,7 +53,8 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         foreach (Collider2D hit in hits)
         {
             UIGearSlot slot = hit.GetComponent<UIGearSlot>();
-            if (slot != null && slot.isFull)
+            if (slot != null && slot.isFull &&
+                (gameObject.CompareTag("Gears") || gameObject.CompareTag("Clicker")))
             {
                 currentSlot = slot;
                 break;
@@ -245,9 +246,9 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         {
             if (currentSlot.isStagingSlot)
             {
-                GameObject stagedCopy = Instantiate(gameObject, currentSlot.transform.position, currentSlot.transform.rotation, currentSlot.transform);
+                GameObject stagedCopy = Instantiate(gameObject, currentSlot.transform.position, currentSlot.transform.rotation);
                 stagedCopy.tag = "Gears";
-                stagedCopy.transform.localPosition = Vector3.zero;
+                stagedCopy.transform.SetParent(currentSlot.transform, true);
 
                 UIDragHandler copyHandler = stagedCopy.GetComponent<UIDragHandler>();
                 if (copyHandler != null)

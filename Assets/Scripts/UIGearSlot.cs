@@ -27,9 +27,9 @@ public class UIGearSlot : MonoBehaviour, IDropHandler
 
         if (isStagingSlot)
         {
-            GameObject stagedCopy = Instantiate(draggedObject, transform.position, transform.rotation, transform);
+            GameObject stagedCopy = Instantiate(draggedObject, transform.position, transform.rotation);
             stagedCopy.tag = "Gears";
-            stagedCopy.transform.localPosition = Vector3.zero;
+            stagedCopy.transform.SetParent(transform, true);
 
             UIDragHandler copyHandler = stagedCopy.GetComponent<UIDragHandler>();
             if (copyHandler != null)
