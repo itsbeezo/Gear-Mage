@@ -21,7 +21,6 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public bool isConnected = false;
     public bool attemptButFull = false;
     public bool startedOnBoard = false;
-    public bool landedInStagingSlot = false;
 
     private GameObject gearFallArea;
 
@@ -44,8 +43,7 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         originalPosition = transform.position;
         originalParent = transform.parent;
 
-        isConnected = false;
-        landedInStagingSlot = false;
+        currentSlot = null;
 
         Vector3 mouseWorldPos = GearBoxCamera.ScreenToWorldPoint(eventData.position);
         mouseWorldPos.z = 0f;
@@ -55,7 +53,7 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         foreach (Collider2D hit in hits)
         {
             UIGearSlot slot = hit.GetComponent<UIGearSlot>();
-            if (slot != null)
+            if (slot != null && slot.isFull)
             {
                 currentSlot = slot;
                 break;
@@ -178,32 +176,6 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (landedInStagingSlot)
-        {
-            // This drag's OnDrop just parked us in a staging slot - we ARE the
-            // persistent occupant now. Only remaining job is clearing whatever
-            // slot this drag started in (null-safe: a fresh tray object has no
-            // origin slot to clear). We survive this drag, so OnBeginDrag's
-            // dim/disable has to be undone here - the catch-all else that
-            // normally does it is never reached on this path.
-            if (spriteRenderer != null)
-            {
-                Color color = spriteRenderer.color;
-                color.a = 1.0f;
-                spriteRenderer.color = color;
-            }
-            if (col2D != null)
-            {
-                col2D.enabled = true;
-            }
-
-            if (currentSlot != null)
-            {
-                currentSlot.ClearSlot();
-            }
-            return;
-        }
-
         bool gearUnderneath = false;
         Collider2D[] hits = Physics2D.OverlapPointAll(transform.position);
 
@@ -222,15 +194,13 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         dropWorldPos.z = originalPosition.z;
         bool isCloseToOriginal = Vector2.Distance(originalPosition, dropWorldPos) <= maxReslotDistance;
 
-        bool isPlacedObject = gameObject.CompareTag("Gears") || gameObject.CompareTag("Clicker") || startedOnBoard;
-
-        if (isPlacedObject && isConnected)
+        if ((gameObject.CompareTag("Gears") || gameObject.CompareTag("Clicker")) && isConnected)
         {
             currentSlot.ClearSlot();
             Destroy(gameObject);
             Debug.Log("reached " + isConnected);
         }
-        else if (isPlacedObject && !isConnected)
+        else if ((gameObject.CompareTag("Gears") || gameObject.CompareTag("Clicker")) && !isConnected)
         {
             // Triggers ReSlot if dropped over another gear OR dropped close to its starting point
             if (gearUnderneath || isCloseToOriginal)
@@ -271,38 +241,31 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         yield return null;
 
-        // Reslot currentSlot and spawn gear back at original position
         if (currentSlot != null)
         {
             if (currentSlot.isStagingSlot)
             {
+                GameObject stagedCopy = Instantiate(gameObject, currentSlot.transform.position, currentSlot.transform.rotation, currentSlot.transform);
+                stagedCopy.tag = "Gears";
+                stagedCopy.transform.localPosition = Vector3.zero;
+
+                UIDragHandler copyHandler = stagedCopy.GetComponent<UIDragHandler>();
+                if (copyHandler != null)
+                {
+                    copyHandler.isConnected = false;
+                }
+
                 currentSlot.isFull = true;
-                landedInStagingSlot = true;
-                transform.SetParent(currentSlot.transform);
-                transform.localPosition = Vector3.zero;
-
-                // Same reason as OnEndDrag's staging early return: this object
-                // survives, so restore what OnBeginDrag dimmed/disabled.
-                if (spriteRenderer != null)
-                {
-                    Color color = spriteRenderer.color;
-                    color.a = 1.0f;
-                    spriteRenderer.color = color;
-                }
-                if (col2D != null)
-                {
-                    col2D.enabled = true;
-                }
-
-                yield break;
             }
-
-            GearBox box = currentSlot.GetComponent<GearBox>();
-            if (box != null)
+            else
             {
-                currentSlot.isFull = true;
-                GearManager.instance.SetGear(box.GetXIndex(), box.GetYIndex(), gearNum);
-                GearManager.instance.SpawnSingleGear(box.GetXIndex(), box.GetYIndex(), gearNum);
+                GearBox box = currentSlot.GetComponent<GearBox>();
+                if (box != null)
+                {
+                    currentSlot.isFull = true;
+                    GearManager.instance.SetGear(box.GetXIndex(), box.GetYIndex(), gearNum);
+                    GearManager.instance.SpawnSingleGear(box.GetXIndex(), box.GetYIndex(), gearNum);
+                }
             }
         }
 

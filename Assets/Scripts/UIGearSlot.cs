@@ -5,6 +5,7 @@ public class UIGearSlot : MonoBehaviour, IDropHandler
 {
     public bool isFull = false;
     public bool isStagingSlot = false;
+
     public void OnDrop(PointerEventData eventData)
     {
         if (eventData.pointerDrag == null || isFull) return;
@@ -17,10 +18,6 @@ public class UIGearSlot : MonoBehaviour, IDropHandler
             if (InventoryManager.instance != null &&
                 !InventoryManager.instance.TryConsume(uiDragHandler.gearNum))
             {
-                // Out of stock - reject the drop. isConnected stays false,
-                // so OnEndDrag's existing catch-all branch snaps the dragged
-                // object back to its original position - no new bounce-back
-                // code needed here.
                 return;
             }
         }
@@ -30,15 +27,17 @@ public class UIGearSlot : MonoBehaviour, IDropHandler
 
         if (isStagingSlot)
         {
-            // Staging never touches the board's gear grid - just park the
-            // actual Shell object here so it can be dragged again later.
-            uiDragHandler.landedInStagingSlot = true;
-            draggedObject.transform.SetParent(transform);
-            draggedObject.transform.localPosition = Vector3.zero;
+            GameObject stagedCopy = Instantiate(draggedObject, transform.position, transform.rotation, transform);
+            stagedCopy.tag = "Gears";
+            stagedCopy.transform.localPosition = Vector3.zero;
+
+            UIDragHandler copyHandler = stagedCopy.GetComponent<UIDragHandler>();
+            if (copyHandler != null)
+            {
+                copyHandler.isConnected = false;
+            }
             return;
         }
-
-        uiDragHandler.landedInStagingSlot = false;
 
         GearBox thisGearBox = gameObject.GetComponent<GearBox>();
         GearManager.instance.SetGear(thisGearBox.GetXIndex(), thisGearBox.GetYIndex(), uiDragHandler.gearNum);
@@ -57,5 +56,4 @@ public class UIGearSlot : MonoBehaviour, IDropHandler
             GearManager.instance.SetGear(thisGearBox.GetXIndex(), thisGearBox.GetYIndex(), 0);
         }
     }
-
 }
