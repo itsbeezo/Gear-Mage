@@ -183,7 +183,20 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             // This drag's OnDrop just parked us in a staging slot - we ARE the
             // persistent occupant now. Only remaining job is clearing whatever
             // slot this drag started in (null-safe: a fresh tray object has no
-            // origin slot to clear).
+            // origin slot to clear). We survive this drag, so OnBeginDrag's
+            // dim/disable has to be undone here - the catch-all else that
+            // normally does it is never reached on this path.
+            if (spriteRenderer != null)
+            {
+                Color color = spriteRenderer.color;
+                color.a = 1.0f;
+                spriteRenderer.color = color;
+            }
+            if (col2D != null)
+            {
+                col2D.enabled = true;
+            }
+
             if (currentSlot != null)
             {
                 currentSlot.ClearSlot();
@@ -267,6 +280,20 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
                 landedInStagingSlot = true;
                 transform.SetParent(currentSlot.transform);
                 transform.localPosition = Vector3.zero;
+
+                // Same reason as OnEndDrag's staging early return: this object
+                // survives, so restore what OnBeginDrag dimmed/disabled.
+                if (spriteRenderer != null)
+                {
+                    Color color = spriteRenderer.color;
+                    color.a = 1.0f;
+                    spriteRenderer.color = color;
+                }
+                if (col2D != null)
+                {
+                    col2D.enabled = true;
+                }
+
                 yield break;
             }
 
