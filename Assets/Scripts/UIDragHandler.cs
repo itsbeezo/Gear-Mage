@@ -44,6 +44,8 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         originalPosition = transform.position;
         originalParent = transform.parent;
 
+        isConnected = false;
+
         Vector3 mouseWorldPos = GearBoxCamera.ScreenToWorldPoint(eventData.position);
         mouseWorldPos.z = 0f;
         offset = transform.position - mouseWorldPos;
@@ -193,7 +195,9 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         dropWorldPos.z = originalPosition.z;
         bool isCloseToOriginal = Vector2.Distance(originalPosition, dropWorldPos) <= maxReslotDistance;
 
-        if ((gameObject.CompareTag("Gears") || gameObject.CompareTag("Clicker")) && isConnected)
+        bool isPlacedObject = gameObject.CompareTag("Gears") || gameObject.CompareTag("Clicker") || startedOnBoard;
+
+        if (isPlacedObject && isConnected)
         {
             currentSlot.ClearSlot();
             if (!landedInStagingSlot)
@@ -202,7 +206,7 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             }
             Debug.Log("reached " + isConnected);
         }
-        else if ((gameObject.CompareTag("Gears") || gameObject.CompareTag("Clicker")) && !isConnected)
+        else if (isPlacedObject && !isConnected)
         {
             // Triggers ReSlot if dropped over another gear OR dropped close to its starting point
             if (gearUnderneath || isCloseToOriginal)
