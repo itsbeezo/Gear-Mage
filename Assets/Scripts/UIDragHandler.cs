@@ -45,6 +45,7 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         originalParent = transform.parent;
 
         isConnected = false;
+        landedInStagingSlot = false;
 
         Vector3 mouseWorldPos = GearBoxCamera.ScreenToWorldPoint(eventData.position);
         mouseWorldPos.z = 0f;
@@ -177,6 +178,19 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (landedInStagingSlot)
+        {
+            // This drag's OnDrop just parked us in a staging slot - we ARE the
+            // persistent occupant now. Only remaining job is clearing whatever
+            // slot this drag started in (null-safe: a fresh tray object has no
+            // origin slot to clear).
+            if (currentSlot != null)
+            {
+                currentSlot.ClearSlot();
+            }
+            return;
+        }
+
         bool gearUnderneath = false;
         Collider2D[] hits = Physics2D.OverlapPointAll(transform.position);
 
@@ -200,10 +214,7 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         if (isPlacedObject && isConnected)
         {
             currentSlot.ClearSlot();
-            if (!landedInStagingSlot)
-            {
-                Destroy(gameObject);
-            }
+            Destroy(gameObject);
             Debug.Log("reached " + isConnected);
         }
         else if (isPlacedObject && !isConnected)
