@@ -21,6 +21,7 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public bool isConnected = false;
     public bool attemptButFull = false;
     public bool startedOnBoard = false;
+    public bool landedInStagingSlot = false;
 
     private GameObject gearFallArea;
 
@@ -195,7 +196,10 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         if ((gameObject.CompareTag("Gears") || gameObject.CompareTag("Clicker")) && isConnected)
         {
             currentSlot.ClearSlot();
-            Destroy(gameObject);
+            if (!landedInStagingSlot)
+            {
+                Destroy(gameObject);
+            }
             Debug.Log("reached " + isConnected);
         }
         else if ((gameObject.CompareTag("Gears") || gameObject.CompareTag("Clicker")) && !isConnected)
