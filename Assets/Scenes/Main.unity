@@ -2764,7 +2764,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 153d2a20b36028f4482ce482bbc87b93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryManager
-  startingEntries: []
+  startingEntries:
+  - id: 1
+    startingStock: 1
+    maxStock: 2
+  - id: 2
+    startingStock: 2
+    maxStock: 5
+  - id: 3
+    startingStock: 2
+    maxStock: 5
+  - id: 4
+    startingStock: 2
+    maxStock: 5
+  - id: 5
+    startingStock: 2
+    maxStock: 5
+  - id: 6
+    startingStock: 2
+    maxStock: 5
+  - id: 7
+    startingStock: 2
+    maxStock: 5
+  - id: 8
+    startingStock: 2
+    maxStock: 5
+  - id: 9
+    startingStock: 2
+    maxStock: 5
+  - id: 10
+    startingStock: 2
+    maxStock: 5
+  - id: 11
+    startingStock: 2
+    maxStock: 5
 --- !u!1 &363268878
 GameObject:
   m_ObjectHideFlags: 0
@@ -15202,6 +15235,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1792056919}
+  - component: {fileID: 9192837465102938}
   m_Layer: 0
   m_Name: GearCatalog
   m_TagString: Untagged
@@ -15224,6 +15258,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1397553239}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9192837465102938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1792056918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de1d3e21dacb56aa7a051a753786c5d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GearMage.Runtime::GearCatalog
+  definitions:
+  - id: 1
+    displayName: Clicker
+    icon: {fileID: 0}
+  - id: 2
+    displayName: Melee
+    icon: {fileID: 0}
+  - id: 3
+    displayName: Archer
+    icon: {fileID: 0}
+  - id: 4
+    displayName: Tank
+    icon: {fileID: 0}
+  - id: 5
+    displayName: Booster 1x
+    icon: {fileID: 0}
+  - id: 6
+    displayName: Booster 2x
+    icon: {fileID: 0}
+  - id: 7
+    displayName: Booster 4x
+    icon: {fileID: 0}
+  - id: 8
+    displayName: Booster 8x
+    icon: {fileID: 0}
+  - id: 9
+    displayName: HP
+    icon: {fileID: 0}
+  - id: 10
+    displayName: Attack
+    icon: {fileID: 0}
+  - id: 11
+    displayName: Attack Speed
+    icon: {fileID: 0}
 --- !u!1 &1805928578
 GameObject:
   m_ObjectHideFlags: 0
