@@ -2,7 +2,7 @@
     "name": "GearMage.Tests.Editor",
     "rootNamespace": "",
     "references": [
-        "Assembly-CSharp"
+        "GearMage.Runtime"
     ],
     "includePlatforms": [
         "Editor"
