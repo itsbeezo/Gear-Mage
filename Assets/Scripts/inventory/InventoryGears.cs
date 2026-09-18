@@ -7,7 +7,7 @@ public class InventoryGears : MonoBehaviour
 
     [SerializeField] private SpriteRenderer icon;
     [SerializeField] private Collider2D dragCollider;
-    [SerializeField] private TextMeshProUGUI stockBadge;
+    [SerializeField] private TextMeshPro stockBadge;
 
     private void Update()
     {
