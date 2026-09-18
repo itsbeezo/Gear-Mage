@@ -246,6 +246,15 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         // Reslot currentSlot and spawn gear back at original position
         if (currentSlot != null)
         {
+            if (currentSlot.isStagingSlot)
+            {
+                currentSlot.isFull = true;
+                landedInStagingSlot = true;
+                transform.SetParent(currentSlot.transform);
+                transform.localPosition = Vector3.zero;
+                yield break;
+            }
+
             GearBox box = currentSlot.GetComponent<GearBox>();
             if (box != null)
             {

@@ -49,6 +49,8 @@ public class UIGearSlot : MonoBehaviour, IDropHandler
     {
         isFull = false;
 
+        if (isStagingSlot) return;
+
         GearBox thisGearBox = GetComponent<GearBox>();
         if (thisGearBox != null)
         {
