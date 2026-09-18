@@ -20,6 +20,7 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private UIGearSlot currentSlot;
     public bool isConnected = false;
     public bool attemptButFull = false;
+    public bool startedOnBoard = false;
 
     private GameObject gearFallArea;
 
@@ -56,6 +57,8 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
                 break;
             }
         }
+
+        startedOnBoard = (currentSlot != null);
 
         if (spriteRenderer != null)
         {
@@ -204,6 +207,11 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             }
             else
             {
+                if (InventoryManager.instance != null)
+                {
+                    InventoryManager.instance.Refund(gearNum);
+                }
+
                 currentSlot.ClearSlot();
                 StartCoroutine(GearAnimation());
                 Debug.Log("reachedfalseoutcome " + isConnected);
