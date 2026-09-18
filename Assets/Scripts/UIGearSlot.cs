@@ -36,6 +36,26 @@ public class UIGearSlot : MonoBehaviour, IDropHandler
             {
                 copyHandler.isConnected = false;
             }
+
+            SpriteRenderer copySprite = stagedCopy.GetComponent<SpriteRenderer>();
+            if (copySprite != null)
+            {
+                Color color = copySprite.color;
+                color.a = 1.0f;
+                copySprite.color = color;
+            }
+
+            Collider2D copyCollider = stagedCopy.GetComponent<Collider2D>();
+            if (copyCollider != null)
+            {
+                copyCollider.enabled = true;
+            }
+
+            InventoryGears copyInventoryGears = stagedCopy.GetComponent<InventoryGears>();
+            if (copyInventoryGears != null)
+            {
+                copyInventoryGears.suppressVisibilityControl = true;
+            }
             return;
         }
 

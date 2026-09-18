@@ -4,6 +4,7 @@ using UnityEngine;
 public class InventoryGears : MonoBehaviour
 {
     public int gearId;
+    public bool suppressVisibilityControl = false;
 
     [SerializeField] private SpriteRenderer icon;
     [SerializeField] private Collider2D dragCollider;
@@ -17,13 +18,24 @@ public class InventoryGears : MonoBehaviour
         int max = InventoryManager.instance.GetMaxStock(gearId);
         bool visible = ShouldBeVisible(current);
 
-        if (icon != null) icon.enabled = visible;
-        if (dragCollider != null) dragCollider.enabled = visible;
+        if (!suppressVisibilityControl)
+        {
+            if (icon != null) icon.enabled = visible;
+            if (dragCollider != null) dragCollider.enabled = visible;
+        }
 
         if (stockBadge != null)
         {
-            stockBadge.gameObject.SetActive(visible);
-            if (visible) stockBadge.text = FormatBadge(current, max);
+            if (suppressVisibilityControl)
+            {
+                stockBadge.gameObject.SetActive(true);
+                stockBadge.text = FormatBadge(current, max);
+            }
+            else
+            {
+                stockBadge.gameObject.SetActive(visible);
+                if (visible) stockBadge.text = FormatBadge(current, max);
+            }
         }
     }
 
