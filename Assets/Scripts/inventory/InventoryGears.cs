@@ -10,6 +10,13 @@ public class InventoryGears : MonoBehaviour
     [SerializeField] private Collider2D dragCollider;
     [SerializeField] private TextMeshPro stockBadge;
 
+    private SpriteRenderer[] allRenderers;
+
+    private void Awake()
+    {
+        allRenderers = GetComponentsInChildren<SpriteRenderer>(true);
+    }
+
     private void Update()
     {
         if (InventoryManager.instance == null) return;
@@ -20,7 +27,10 @@ public class InventoryGears : MonoBehaviour
 
         if (!suppressVisibilityControl)
         {
-            if (icon != null) icon.enabled = visible;
+            foreach (SpriteRenderer renderer in allRenderers)
+            {
+                if (renderer != null) renderer.enabled = visible;
+            }
             if (dragCollider != null) dragCollider.enabled = visible;
         }
 
