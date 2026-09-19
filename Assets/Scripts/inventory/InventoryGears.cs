@@ -11,11 +11,20 @@ public class InventoryGears : MonoBehaviour
     [SerializeField] private TextMeshPro stockBadge;
 
     private SpriteRenderer[] allRenderers;
-    private string lastLoggedBadgeState;
 
     private void Awake()
     {
         allRenderers = GetComponentsInChildren<SpriteRenderer>(true);
+
+        // Force the badge active at spawn regardless of its prefab-authored
+        // default - Update() is the sole authority over its visibility from
+        // here on. Guards against the default accidentally getting baked to
+        // inactive on the shared Badge prefab (e.g. an "Apply to Prefab" on
+        // its Active-state override while testing in Play mode).
+        if (stockBadge != null)
+        {
+            stockBadge.gameObject.SetActive(true);
+        }
     }
 
     private void Update()
@@ -46,22 +55,6 @@ public class InventoryGears : MonoBehaviour
             {
                 stockBadge.gameObject.SetActive(visible);
                 if (visible) stockBadge.text = FormatBadge(current, max);
-            }
-
-            string debugState = $"{gameObject.name}|gearId={gearId}|current={current}|max={max}|visible={visible}|badgeActiveSelf={stockBadge.gameObject.activeSelf}|badgeTextNow=\"{stockBadge.text}\"";
-            if (debugState != lastLoggedBadgeState)
-            {
-                Debug.Log("[BadgeDebug] " + debugState);
-                lastLoggedBadgeState = debugState;
-            }
-        }
-        else
-        {
-            string debugState = $"{gameObject.name}|gearId={gearId}|stockBadge=NULL";
-            if (debugState != lastLoggedBadgeState)
-            {
-                Debug.Log("[BadgeDebug] " + debugState);
-                lastLoggedBadgeState = debugState;
             }
         }
     }
