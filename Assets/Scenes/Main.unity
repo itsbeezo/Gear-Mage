@@ -5607,75 +5607,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fbf8eaf0b86c9f4d9d00dfa55379d67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GearBox
---- !u!1001 &682696927
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 707268487}
-    m_Modifications:
-    - target: {fileID: 1315845301195632877, guid: 61a4119c08dadee43ba2036375ed6c16, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -1.681
-      objectReference: {fileID: 0}
-    - target: {fileID: 1315845301195632877, guid: 61a4119c08dadee43ba2036375ed6c16, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -1.019
-      objectReference: {fileID: 0}
-    - target: {fileID: 1315845301195632877, guid: 61a4119c08dadee43ba2036375ed6c16, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1315845301195632877, guid: 61a4119c08dadee43ba2036375ed6c16, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 1315845301195632877, guid: 61a4119c08dadee43ba2036375ed6c16, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1315845301195632877, guid: 61a4119c08dadee43ba2036375ed6c16, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1315845301195632877, guid: 61a4119c08dadee43ba2036375ed6c16, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 1315845301195632877, guid: 61a4119c08dadee43ba2036375ed6c16, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1315845301195632877, guid: 61a4119c08dadee43ba2036375ed6c16, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1315845301195632877, guid: 61a4119c08dadee43ba2036375ed6c16, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: -90
-      objectReference: {fileID: 0}
-    - target: {fileID: 2728848095692932276, guid: 61a4119c08dadee43ba2036375ed6c16, type: 3}
-      propertyPath: m_SortingOrder
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6675058890695725404, guid: 61a4119c08dadee43ba2036375ed6c16, type: 3}
-      propertyPath: m_Name
-      value: ClickerShell
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8215104306043706105, guid: 61a4119c08dadee43ba2036375ed6c16, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
-  m_SourcePrefab: {fileID: 100100000, guid: 61a4119c08dadee43ba2036375ed6c16, type: 3}
---- !u!4 &682696928 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1315845301195632877, guid: 61a4119c08dadee43ba2036375ed6c16, type: 3}
-  m_PrefabInstance: {fileID: 682696927}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &694297905
 GameObject:
   m_ObjectHideFlags: 0
@@ -12989,21 +12920,9 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 7836114305305895344, guid: a66f00f06661efd648850ab76b204218, type: 3}
-      propertyPath: m_Name
-      value: ClickerShell
-      objectReference: {fileID: 0}
-    - target: {fileID: 7836114305305895344, guid: a66f00f06661efd648850ab76b204218, type: 3}
-      propertyPath: m_TagString
-      value: ClickerShell
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 7836114305305895344, guid: a66f00f06661efd648850ab76b204218, type: 3}
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 5922029811441394017, guid: a66f00f06661efd648850ab76b204218, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 682696928}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a66f00f06661efd648850ab76b204218, type: 3}
 --- !u!1 &1500236246
