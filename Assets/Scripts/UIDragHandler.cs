@@ -18,7 +18,6 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public int gearNum = 0;
     private UIGearSlot currentSlot;
-    public bool isConnected = false;
     public bool attemptButFull = false;
     public bool startedOnBoard = false;
 
@@ -177,6 +176,49 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        UIGearSlot targetSlot = null;
+        Collider2D[] dropHits = Physics2D.OverlapPointAll(transform.position);
+        foreach (Collider2D hit in dropHits)
+        {
+            UIGearSlot slot = hit.GetComponent<UIGearSlot>();
+            if (slot != null && !slot.isFull && slot != currentSlot)
+            {
+                targetSlot = slot;
+                break;
+            }
+        }
+
+        if (targetSlot != null && targetSlot.TryPlaceGear(gameObject, this))
+        {
+            if (currentSlot != null)
+            {
+                currentSlot.ClearSlot();
+            }
+
+            if (gameObject.CompareTag("Gears") || gameObject.CompareTag("Clicker"))
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                if (spriteRenderer != null)
+                {
+                    Color color = spriteRenderer.color;
+                    color.a = 1.0f;
+                    spriteRenderer.color = color;
+                }
+
+                if (col2D != null)
+                {
+                    col2D.enabled = true;
+                }
+
+                transform.position = originalPosition;
+            }
+
+            return;
+        }
+
         bool gearUnderneath = false;
         Collider2D[] hits = Physics2D.OverlapPointAll(transform.position);
 
@@ -195,13 +237,7 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         dropWorldPos.z = originalPosition.z;
         bool isCloseToOriginal = Vector2.Distance(originalPosition, dropWorldPos) <= maxReslotDistance;
 
-        if ((gameObject.CompareTag("Gears") || gameObject.CompareTag("Clicker")) && isConnected)
-        {
-            currentSlot.ClearSlot();
-            Destroy(gameObject);
-            Debug.Log("reached " + isConnected);
-        }
-        else if ((gameObject.CompareTag("Gears") || gameObject.CompareTag("Clicker")) && !isConnected)
+        if (gameObject.CompareTag("Gears") || gameObject.CompareTag("Clicker"))
         {
             // Triggers ReSlot if dropped over another gear OR dropped close to its starting point
             if (gearUnderneath || isCloseToOriginal)
@@ -215,9 +251,12 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
                     InventoryManager.instance.Refund(gearNum);
                 }
 
-                currentSlot.ClearSlot();
+                if (currentSlot != null)
+                {
+                    currentSlot.ClearSlot();
+                }
+
                 StartCoroutine(GearAnimation());
-                Debug.Log("reachedfalseoutcome " + isConnected);
             }
         }
         else
@@ -249,12 +288,6 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
                 GameObject stagedCopy = Instantiate(gameObject, currentSlot.transform.position, currentSlot.transform.rotation);
                 stagedCopy.tag = "Gears";
                 stagedCopy.transform.SetParent(currentSlot.transform, true);
-
-                UIDragHandler copyHandler = stagedCopy.GetComponent<UIDragHandler>();
-                if (copyHandler != null)
-                {
-                    copyHandler.isConnected = false;
-                }
 
                 SpriteRenderer copySprite = stagedCopy.GetComponent<SpriteRenderer>();
                 if (copySprite != null)

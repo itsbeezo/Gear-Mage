@@ -1,41 +1,30 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-public class UIGearSlot : MonoBehaviour, IDropHandler
+public class UIGearSlot : MonoBehaviour
 {
     public bool isFull = false;
     public bool isStagingSlot = false;
 
-    public void OnDrop(PointerEventData eventData)
+    public bool TryPlaceGear(GameObject draggedObject, UIDragHandler uiDragHandler)
     {
-        if (eventData.pointerDrag == null || isFull) return;
-
-        GameObject draggedObject = eventData.pointerDrag;
-        UIDragHandler uiDragHandler = draggedObject.GetComponent<UIDragHandler>();
+        if (isFull) return false;
 
         if (!uiDragHandler.startedOnBoard)
         {
             if (InventoryManager.instance != null &&
                 !InventoryManager.instance.TryConsume(uiDragHandler.gearNum))
             {
-                return;
+                return false;
             }
         }
 
         isFull = true;
-        uiDragHandler.isConnected = true;
 
         if (isStagingSlot)
         {
             GameObject stagedCopy = Instantiate(draggedObject, transform.position, transform.rotation);
             stagedCopy.tag = "Gears";
             stagedCopy.transform.SetParent(transform, true);
-
-            UIDragHandler copyHandler = stagedCopy.GetComponent<UIDragHandler>();
-            if (copyHandler != null)
-            {
-                copyHandler.isConnected = false;
-            }
 
             SpriteRenderer copySprite = stagedCopy.GetComponent<SpriteRenderer>();
             if (copySprite != null)
@@ -56,12 +45,15 @@ public class UIGearSlot : MonoBehaviour, IDropHandler
             {
                 copyInventoryGears.suppressVisibilityControl = true;
             }
-            return;
+        }
+        else
+        {
+            GearBox thisGearBox = gameObject.GetComponent<GearBox>();
+            GearManager.instance.SetGear(thisGearBox.GetXIndex(), thisGearBox.GetYIndex(), uiDragHandler.gearNum);
+            GearManager.instance.SpawnSingleGear(thisGearBox.GetXIndex(), thisGearBox.GetYIndex(), uiDragHandler.gearNum);
         }
 
-        GearBox thisGearBox = gameObject.GetComponent<GearBox>();
-        GearManager.instance.SetGear(thisGearBox.GetXIndex(), thisGearBox.GetYIndex(), uiDragHandler.gearNum);
-        GearManager.instance.SpawnSingleGear(thisGearBox.GetXIndex(), thisGearBox.GetYIndex(), uiDragHandler.gearNum);
+        return true;
     }
 
     public void ClearSlot()
