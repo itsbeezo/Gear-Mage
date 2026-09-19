@@ -40,6 +40,7 @@ public class BaseBase : MonoBehaviour
         {
             GameManager.instance.SetStateWaveVictory();
             GameManager.instance.NextWave();
+            CurrencyManager.instance.AddBone(10);
         }
         else
         {
@@ -48,4 +49,5 @@ public class BaseBase : MonoBehaviour
         UnitManager.instance.SetUnitsCanMove(false);
         gameObject.SetActive(false);
     }
+
 }
