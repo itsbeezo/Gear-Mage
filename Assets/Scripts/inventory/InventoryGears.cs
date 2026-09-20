@@ -11,6 +11,7 @@ public class InventoryGears : MonoBehaviour
     [SerializeField] private TextMeshPro stockBadge;
 
     private SpriteRenderer[] allRenderers;
+    private string lastLoggedBadgeState;
 
     private void Awake()
     {
@@ -50,11 +51,24 @@ public class InventoryGears : MonoBehaviour
             {
                 stockBadge.gameObject.SetActive(true);
                 stockBadge.text = FormatBadge(current, max);
+                stockBadge.ForceMeshUpdate();
             }
             else
             {
                 stockBadge.gameObject.SetActive(visible);
-                if (visible) stockBadge.text = FormatBadge(current, max);
+                if (visible)
+                {
+                    stockBadge.text = FormatBadge(current, max);
+                    stockBadge.ForceMeshUpdate();
+                }
+            }
+
+            Renderer meshRenderer = stockBadge.GetComponent<Renderer>();
+            string debugState = $"{gameObject.name}|gearId={gearId}|current={current}|max={max}|visible={visible}|badgeActiveSelf={stockBadge.gameObject.activeSelf}|badgeEnabled={stockBadge.enabled}|badgeTextNow=\"{stockBadge.text}\"|meshRendererEnabled={(meshRenderer != null ? meshRenderer.enabled.ToString() : "NULL")}";
+            if (debugState != lastLoggedBadgeState)
+            {
+                Debug.Log("[BadgeDebug] " + debugState);
+                lastLoggedBadgeState = debugState;
             }
         }
     }
