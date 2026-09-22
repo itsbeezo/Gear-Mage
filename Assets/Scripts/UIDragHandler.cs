@@ -170,7 +170,7 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     }
 
     public void OnEndDrag(PointerEventData eventData)
-    {
+    { 
         bool gearUnderneath = false;
         Collider2D[] hits = Physics2D.OverlapPointAll(transform.position);
 
