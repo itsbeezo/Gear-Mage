@@ -6,26 +6,38 @@ public class InventoryGears : MonoBehaviour
     public int gearId;
     public bool suppressVisibilityControl = false;
 
-    [SerializeField] private SpriteRenderer icon;
     [SerializeField] private Collider2D dragCollider;
-    [SerializeField] private TextMeshPro stockBadge;
+    private TextMeshPro stockBadge;
 
     private SpriteRenderer[] allRenderers;
-    private string lastLoggedBadgeState;
+
+    private const string STOCK_KEY_PREFIX = "GearStock_";
+    private const string MAX_KEY_PREFIX = "GearStockMax_";
+    private const int LOWEST_GEAR_ID = 1;
+    private const int HIGHEST_GEAR_ID = 11;
+
+    private static void ResetGearInventoryStock()
+    {
+        for (int id = LOWEST_GEAR_ID; id <= HIGHEST_GEAR_ID; id++)
+        {
+            PlayerPrefs.DeleteKey(STOCK_KEY_PREFIX + id);
+            PlayerPrefs.DeleteKey(MAX_KEY_PREFIX + id);
+        }
+
+        PlayerPrefs.Save();
+        Debug.Log("Cleared saved gear inventory stock (ids 1-11). Next Play session will start from GearCatalog's starting/max values again.");
+    }
 
     private void Awake()
     {
+        ResetGearInventoryStock();
         allRenderers = GetComponentsInChildren<SpriteRenderer>(true);
 
-        // Force the badge active at spawn regardless of its prefab-authored
-        // default - Update() is the sole authority over its visibility from
-        // here on. Guards against the default accidentally getting baked to
-        // inactive on the shared Badge prefab (e.g. an "Apply to Prefab" on
-        // its Active-state override while testing in Play mode).
-        if (stockBadge != null)
-        {
-            stockBadge.gameObject.SetActive(true);
-        }
+        // Resolve the badge from THIS instance's own hierarchy. Never serialize a
+        // reference to it: a field pointing at the Badge *prefab asset* (instead of the
+        // nested child) makes every shell write to the shared asset and never to the
+        // badge on screen. Cloned shells run their own Awake, so each finds its own.
+        stockBadge = GetComponentInChildren<TextMeshPro>(true);
     }
 
     private void Update()
@@ -51,24 +63,11 @@ public class InventoryGears : MonoBehaviour
             {
                 stockBadge.gameObject.SetActive(true);
                 stockBadge.text = FormatBadge(current, max);
-                stockBadge.ForceMeshUpdate();
             }
             else
             {
                 stockBadge.gameObject.SetActive(visible);
-                if (visible)
-                {
-                    stockBadge.text = FormatBadge(current, max);
-                    stockBadge.ForceMeshUpdate();
-                }
-            }
-
-            Renderer meshRenderer = stockBadge.GetComponent<Renderer>();
-            string debugState = $"{gameObject.name}|gearId={gearId}|current={current}|max={max}|visible={visible}|badgeActiveSelf={stockBadge.gameObject.activeSelf}|badgeEnabled={stockBadge.enabled}|badgeTextNow=\"{stockBadge.text}\"|meshRendererEnabled={(meshRenderer != null ? meshRenderer.enabled.ToString() : "NULL")}";
-            if (debugState != lastLoggedBadgeState)
-            {
-                Debug.Log("[BadgeDebug] " + debugState);
-                lastLoggedBadgeState = debugState;
+                if (visible) stockBadge.text = FormatBadge(current, max);
             }
         }
     }
