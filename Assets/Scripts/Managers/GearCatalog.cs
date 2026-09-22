@@ -7,6 +7,8 @@ public class GearDefinition
     public int id;
     public string displayName;
     public Sprite icon;
+    public int startingCopies;
+    public int maxCopies;
 }
 
 public class GearCatalog : MonoBehaviour
