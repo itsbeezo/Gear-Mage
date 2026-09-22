@@ -13,7 +13,7 @@ public static class DebugInventoryTools
         InventoryManager.instance.AddPermanentCopies(PurchasableGearId, 1);
     }
 
-    [MenuItem("Gear Mage/Debug/Grant Run Gear: Melie (id 2)")]
+    [MenuItem("Gear Mage/Debug/Grant Run Gear: Melee (id 2)")]
     private static void GrantRunGear()
     {
         InventoryManager.instance.GrantRunGear(RunGrantGearId);
@@ -32,7 +32,7 @@ public static class DebugInventoryTools
         return InPlayModeWithInventory();
     }
 
-    [MenuItem("Gear Mage/Debug/Grant Run Gear: Melie (id 2)", true)]
+    [MenuItem("Gear Mage/Debug/Grant Run Gear: Melee (id 2)", true)]
     private static bool ValidateGrantRunGear()
     {
         return InPlayModeWithInventory();
