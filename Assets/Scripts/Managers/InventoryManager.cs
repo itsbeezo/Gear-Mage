@@ -1,108 +1,188 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class GearStockEntry
-{
-    public int id;
-    public int startingStock;
-    public int maxStock;
-}
-
 public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager instance { get; private set; }
 
-    public List<GearStockEntry> startingEntries = new List<GearStockEntry>();
-
-    private class GearStock
+    private class GearState
     {
-        public int current;
-        public int max;
+        public GearDefinition definition;
+        public int runGranted;
+        public int runUsed;
+        public int permanentUsed;
+        public int consumableUsed;
     }
 
-    private Dictionary<int, GearStock> stock;
-
-    private const string STOCK_KEY_PREFIX = "GearStock_";
-    private const string MAX_KEY_PREFIX = "GearStockMax_";
+    private readonly Dictionary<int, GearState> states = new Dictionary<int, GearState>();
+    private PlayerInventoryData data = new PlayerInventoryData();
+    private IInventoryStore store;
+    private bool runActive;
 
     private void Awake()
     {
         instance = this;
-        Initialize();
     }
 
-    // Separated from Awake so tests can build stock without going through
-    // Unity's scene-load lifecycle.
-    public void Initialize()
+    // Start (not Awake) so GearCatalog.Awake has already run regardless of scene order.
+    private void Start()
     {
-        stock = new Dictionary<int, GearStock>();
-        foreach (var entry in startingEntries)
+        if (runActive) return;
+
+        GearCatalog catalog = GearCatalog.instance;
+        if (catalog == null)
         {
-            int max = PlayerPrefs.GetInt(MAX_KEY_PREFIX + entry.id, entry.maxStock);
-            int current = PlayerPrefs.GetInt(STOCK_KEY_PREFIX + entry.id, entry.startingStock);
-            stock[entry.id] = new GearStock { current = current, max = max };
+            Debug.LogError("InventoryManager: no GearCatalog in the scene, so no run can start.");
+            return;
         }
+
+        BeginRun(catalog.GetAll(), new PlayerPrefsInventoryStore());
+    }
+
+    // Separated from Start so tests can start a run without Unity's lifecycle.
+    public void BeginRun(IReadOnlyList<GearDefinition> definitions, IInventoryStore inventoryStore)
+    {
+        store = inventoryStore;
+        data = store.Load();
+
+        states.Clear();
+        foreach (GearDefinition definition in definitions)
+        {
+            states[definition.id] = new GearState { definition = definition };
+        }
+
+        runActive = true;
     }
 
     public int GetStock(int id)
     {
-        return stock != null && stock.TryGetValue(id, out var s) ? s.current : 0;
+        GearState state;
+        if (!states.TryGetValue(id, out state)) return 0;
+
+        return (state.runGranted - state.runUsed)
+             + (PermanentOwned(state) - state.permanentUsed)
+             + data.GetConsumableCount(id);
     }
 
+    // Badge denominator: the gear's cap, not what's currently owned - see Design
+    // Decisions "Badge denominator" (D5). Active run/consumable extras stack on top.
     public int GetMaxStock(int id)
     {
-        return stock != null && stock.TryGetValue(id, out var s) ? s.max : 0;
+        GearState state;
+        if (!states.TryGetValue(id, out state)) return 0;
+
+        return state.definition.maxCopies
+             + state.runGranted
+             + data.GetConsumableCount(id)
+             + state.consumableUsed;
     }
 
+    // Spend order: run-only copies first, then permanent, then saved consumables.
     public bool TryConsume(int id)
     {
-        if (stock == null || !stock.TryGetValue(id, out var s) || s.current <= 0) return false;
-        s.current -= 1;
-        SaveStock(id);
-        return true;
+        GearState state;
+        if (!states.TryGetValue(id, out state)) return false;
+
+        if (state.runGranted - state.runUsed > 0)
+        {
+            state.runUsed++;
+            return true;
+        }
+
+        if (PermanentOwned(state) - state.permanentUsed > 0)
+        {
+            state.permanentUsed++;
+            return true;
+        }
+
+        if (data.GetConsumableCount(id) > 0)
+        {
+            data.AddConsumable(id, -1);
+            state.consumableUsed++;
+            store.Save(data);
+            return true;
+        }
+
+        return false;
     }
 
+    // Reverse of the spend order, so place/pick-up cycles restore the exact prior state.
     public void Refund(int id)
     {
-        if (stock == null || !stock.TryGetValue(id, out var s)) return;
-        s.current = Mathf.Min(s.current + 1, s.max);
-        SaveStock(id);
-    }
+        GearState state;
+        if (!states.TryGetValue(id, out state)) return;
 
-    // Not called by anything yet - the hook point for a future Shop
-    // "upgrade capacity" purchase.
-    public void IncreaseMaxStock(int id, int amount)
-    {
-        if (stock == null || !stock.TryGetValue(id, out var s)) return;
-        s.max += amount;
-        SaveStock(id);
-    }
-
-    private void SaveStock(int id)
-    {
-        var s = stock[id];
-        PlayerPrefs.SetInt(STOCK_KEY_PREFIX + id, s.current);
-        PlayerPrefs.SetInt(MAX_KEY_PREFIX + id, s.max);
-        PlayerPrefs.Save();
-    }
-
-    private void OnApplicationQuit()
-    {
-        SaveAll();
-    }
-
-    private void OnApplicationPause(bool paused)
-    {
-        if (paused) SaveAll();
-    }
-
-    private void SaveAll()
-    {
-        if (stock == null) return;
-        foreach (var id in stock.Keys)
+        if (state.consumableUsed > 0)
         {
-            SaveStock(id);
+            state.consumableUsed--;
+            data.AddConsumable(id, 1);
+            store.Save(data);
+            return;
         }
+
+        if (state.permanentUsed > 0)
+        {
+            state.permanentUsed--;
+            return;
+        }
+
+        if (state.runUsed > 0)
+        {
+            state.runUsed--;
+        }
+    }
+
+    // The single purchase call: buying a first copy of a locked gear (0 owned) and
+    // buying an Nth copy of an already-owned gear are the same operation. Clamps so
+    // owned copies never exceed the catalog's cap; a purchase past the cap is a no-op.
+    public void AddPermanentCopies(int id, int delta)
+    {
+        GearState state;
+        if (!states.TryGetValue(id, out state))
+        {
+            Debug.LogWarning("InventoryManager.AddPermanentCopies: unknown gear id " + id);
+            return;
+        }
+
+        int maxExtra = Mathf.Max(0, state.definition.maxCopies - state.definition.startingCopies);
+        int currentExtra = data.GetPermanentExtra(id);
+        int allowedDelta = Mathf.Clamp(currentExtra + delta, 0, maxExtra) - currentExtra;
+
+        if (allowedDelta == 0) return;
+
+        data.AddPermanentExtra(id, allowedDelta);
+        store.Save(data);
+    }
+
+    // Memory only: gone when the run (scene) ends.
+    public void GrantRunGear(int id, int count = 1)
+    {
+        GearState state;
+        if (!states.TryGetValue(id, out state))
+        {
+            Debug.LogWarning("InventoryManager.GrantRunGear: unknown gear id " + id);
+            return;
+        }
+
+        state.runGranted += count;
+    }
+
+    // Persisted until spent. Not capped - see Design Decisions D10.
+    public void GrantConsumable(int id, int count = 1)
+    {
+        if (!states.ContainsKey(id))
+        {
+            Debug.LogWarning("InventoryManager.GrantConsumable: unknown gear id " + id);
+            return;
+        }
+
+        data.AddConsumable(id, count);
+        store.Save(data);
+    }
+
+    private int PermanentOwned(GearState state)
+    {
+        int owned = state.definition.startingCopies + data.GetPermanentExtra(state.definition.id);
+        return Mathf.Min(owned, state.definition.maxCopies);
     }
 }
