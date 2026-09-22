@@ -7,6 +7,7 @@ public class InventoryManagerTests
     // Far outside the real gear id range (1-11).
     private const int Owned = 9001;    // starts owned: 1 copy, cap 3
     private const int Locked = 9002;   // starts locked: 0 copies, cap 2
+    private const int ZeroCap = 9003;  // locked, zero cap - matches HP/Attack/AttackSpeed (D11)
 
     private class FakeStore : IInventoryStore
     {
@@ -38,6 +39,7 @@ public class InventoryManagerTests
         {
             new GearDefinition { id = Owned, displayName = "Owned", startingCopies = 1, maxCopies = 3 },
             new GearDefinition { id = Locked, displayName = "Locked", startingCopies = 0, maxCopies = 2 },
+            new GearDefinition { id = ZeroCap, displayName = "ZeroCap", startingCopies = 0, maxCopies = 0 },
         };
     }
 
@@ -104,6 +106,18 @@ public class InventoryManagerTests
         InventoryManager next = StartRun();
 
         Assert.AreEqual(2, next.GetStock(Locked));
+    }
+
+    [Test]
+    public void AddPermanentCopies_OnZeroCapGear_IsAlwaysANoOp()
+    {
+        InventoryManager m = StartRun();
+
+        m.AddPermanentCopies(ZeroCap, 5);
+
+        Assert.AreEqual(0, m.GetStock(ZeroCap));
+        Assert.AreEqual(0, m.GetMaxStock(ZeroCap));
+        Assert.AreEqual(0, store.Load().GetPermanentExtra(ZeroCap));
     }
 
     [Test]

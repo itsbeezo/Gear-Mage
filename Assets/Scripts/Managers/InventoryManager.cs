@@ -48,6 +48,11 @@ public class InventoryManager : MonoBehaviour
         states.Clear();
         foreach (GearDefinition definition in definitions)
         {
+            if (states.ContainsKey(definition.id))
+            {
+                Debug.LogWarning("InventoryManager.BeginRun: duplicate gear id " + definition.id + " in the catalog - the last definition for this id wins.");
+            }
+
             states[definition.id] = new GearState { definition = definition };
         }
 
@@ -59,9 +64,10 @@ public class InventoryManager : MonoBehaviour
         GearState state;
         if (!states.TryGetValue(id, out state)) return 0;
 
-        return (state.runGranted - state.runUsed)
-             + (PermanentOwned(state) - state.permanentUsed)
-             + data.GetConsumableCount(id);
+        int runAvailable = Mathf.Max(0, state.runGranted - state.runUsed);
+        int permanentAvailable = Mathf.Max(0, PermanentOwned(state) - state.permanentUsed);
+
+        return runAvailable + permanentAvailable + data.GetConsumableCount(id);
     }
 
     // Badge denominator: the gear's cap, not what's currently owned - see Design
@@ -106,7 +112,14 @@ public class InventoryManager : MonoBehaviour
         return false;
     }
 
-    // Reverse of the spend order, so place/pick-up cycles restore the exact prior state.
+    // Reverse of the spend order, so picking the SAME just-placed copy back up restores
+    // the exact prior state. This is a global per-gear priority order, not tied to which
+    // pool actually paid for the specific instance being picked up - if a gear has copies
+    // from multiple pools active at once (e.g. both a run grant and a saved consumable),
+    // picking up a DIFFERENT placed copy than the one just spent can refund the wrong
+    // pool. Not reachable today: nothing grants run copies or consumables outside the
+    // Editor debug menu (Assets/Tests/Editor/DebugInventoryTools.cs). Revisit if
+    // GrantRunGear/GrantConsumable get real gameplay callers (drops, wave shop, etc.).
     public void Refund(int id)
     {
         GearState state;
@@ -154,9 +167,13 @@ public class InventoryManager : MonoBehaviour
         store.Save(data);
     }
 
-    // Memory only: gone when the run (scene) ends.
+    // Memory only: gone when the run (scene) ends. count is expected positive - a
+    // negative count would drive runGranted negative and could make GetStock/GetMaxStock
+    // misreport, so it's rejected rather than silently corrupting state.
     public void GrantRunGear(int id, int count = 1)
     {
+        if (count <= 0) return;
+
         GearState state;
         if (!states.TryGetValue(id, out state))
         {
@@ -167,9 +184,13 @@ public class InventoryManager : MonoBehaviour
         state.runGranted += count;
     }
 
-    // Persisted until spent. Not capped - see Design Decisions D10.
+    // Persisted until spent. Not capped - see Design Decisions D10. count is expected
+    // positive, same reasoning as GrantRunGear (PlayerInventoryData.AddConsumable already
+    // clamps at 0 on its own, but rejecting here keeps both grant methods symmetric).
     public void GrantConsumable(int id, int count = 1)
     {
+        if (count <= 0) return;
+
         if (!states.ContainsKey(id))
         {
             Debug.LogWarning("InventoryManager.GrantConsumable: unknown gear id " + id);

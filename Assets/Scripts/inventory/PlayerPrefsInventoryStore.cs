@@ -5,22 +5,29 @@ public class PlayerPrefsInventoryStore : IInventoryStore
 {
     public const string DefaultKey = "GearInventory_v1";
 
-    private const string LegacyStockPrefix = "GearStock_";
-    private const string LegacyMaxPrefix = "GearStockMax_";
+    private const string DefaultLegacyStockPrefix = "GearStock_";
+    private const string DefaultLegacyMaxPrefix = "GearStockMax_";
     private const int LegacyHighestId = 11;
 
     private readonly string key;
+    private readonly string legacyStockPrefix;
+    private readonly string legacyMaxPrefix;
 
-    public PlayerPrefsInventoryStore(string key = DefaultKey)
+    public PlayerPrefsInventoryStore(
+        string key = DefaultKey,
+        string legacyStockPrefix = DefaultLegacyStockPrefix,
+        string legacyMaxPrefix = DefaultLegacyMaxPrefix)
     {
         this.key = key;
+        this.legacyStockPrefix = legacyStockPrefix;
+        this.legacyMaxPrefix = legacyMaxPrefix;
     }
 
     public PlayerInventoryData Load()
     {
         if (!PlayerPrefs.HasKey(key))
         {
-            if (key == DefaultKey) DeleteLegacyStockKeys();
+            DeleteLegacyStockKeys();
             return new PlayerInventoryData();
         }
 
@@ -48,16 +55,18 @@ public class PlayerPrefsInventoryStore : IInventoryStore
     public void Clear()
     {
         PlayerPrefs.DeleteKey(key);
-        if (key == DefaultKey) DeleteLegacyStockKeys();
+        DeleteLegacyStockKeys();
         PlayerPrefs.Save();
     }
 
-    private static void DeleteLegacyStockKeys()
+    private void DeleteLegacyStockKeys()
     {
         for (int id = 1; id <= LegacyHighestId; id++)
         {
-            PlayerPrefs.DeleteKey(LegacyStockPrefix + id);
-            PlayerPrefs.DeleteKey(LegacyMaxPrefix + id);
+            PlayerPrefs.DeleteKey(legacyStockPrefix + id);
+            PlayerPrefs.DeleteKey(legacyMaxPrefix + id);
         }
+
+        PlayerPrefs.Save();
     }
 }
