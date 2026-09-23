@@ -12787,7 +12787,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1537223760893873367, guid: a66f00f06661efd648850ab76b204218, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.69
+      value: -1.162
       objectReference: {fileID: 0}
     - target: {fileID: 1537223760893873367, guid: a66f00f06661efd648850ab76b204218, type: 3}
       propertyPath: m_LocalPosition.y
@@ -12807,7 +12807,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2123436805093520813, guid: a66f00f06661efd648850ab76b204218, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.526
+      value: -1.005
       objectReference: {fileID: 0}
     - target: {fileID: 2602689390159292168, guid: a66f00f06661efd648850ab76b204218, type: 3}
       propertyPath: m_Mesh
@@ -12839,7 +12839,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5063955493168634685, guid: a66f00f06661efd648850ab76b204218, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.533
+      value: -1.019
       objectReference: {fileID: 0}
     - target: {fileID: 5237882014194052519, guid: a66f00f06661efd648850ab76b204218, type: 3}
       propertyPath: m_Mesh
@@ -12915,7 +12915,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6922004695347834207, guid: a66f00f06661efd648850ab76b204218, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.343
+      value: -1.682
       objectReference: {fileID: 0}
     - target: {fileID: 6922004695347834207, guid: a66f00f06661efd648850ab76b204218, type: 3}
       propertyPath: m_LocalPosition.y
@@ -12927,7 +12927,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6971370759419814741, guid: a66f00f06661efd648850ab76b204218, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.539
+      value: -1.033
       objectReference: {fileID: 0}
     - target: {fileID: 7577832109965568443, guid: a66f00f06661efd648850ab76b204218, type: 3}
       propertyPath: m_SortingOrder
