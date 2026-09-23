@@ -152,7 +152,10 @@ public class GearManager : MonoBehaviour
                 break;
         }
 
-        Instantiate(GetGear(gearNum), spawnPos, GetGear(gearNum).transform.rotation);
+        GameObject gearInstance = Instantiate(GetGear(gearNum), spawnPos, GetGear(gearNum).transform.rotation);
+
+        gearInstance.transform.SetParent(ShopManager.instance.gearBox.transform, true);
+
         AddStats(gearNum);
     }
 

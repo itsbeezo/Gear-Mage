@@ -102,7 +102,7 @@ public class UIManager : MonoBehaviour
     {
         elementToHide.SetActive(false);
     }
-    //Camera Functions (temp?) || I think this is helpful and shouldn't be removed - Antonio
+    //Camera Functions (temp?) || I think this is helpful and shouldn't be removed for now - Antonio
     public void SwitchCamera()
     {
         if (LevelCamera.enabled == true)

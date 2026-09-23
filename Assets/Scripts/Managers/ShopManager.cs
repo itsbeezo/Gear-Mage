@@ -5,9 +5,11 @@ using UnityEngine.UI;
 
 public class ShopManager : MonoBehaviour
 {
+    public static ShopManager instance { get; private set; }
+
     [SerializeField] private Button contButton;
 
-    [SerializeField] private GameObject gearBox;
+    public GameObject gearBox;
 
     [SerializeField] private GameObject shopGroup;
 
@@ -19,9 +21,16 @@ public class ShopManager : MonoBehaviour
 
     [SerializeField] private GameObject inventoryGears;
     // Update is called once per frame
-    void Update()
+    public void Awake()
     {
-        
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     public void BackToGame()
@@ -37,7 +46,7 @@ public class ShopManager : MonoBehaviour
             GameManager.instance.startButton.SetActive(true);
             GameManager.instance.playButton.SetActive(true);
             returnButton.gameObject.SetActive(false);
-            //gearBox.transform.position = new Vector3(-2.02f, 2.9f, 11);
+            gearBox.transform.position = new Vector3(-2.02f, 2.9f, 11);
         }
     }
 
@@ -57,7 +66,7 @@ public class ShopManager : MonoBehaviour
             shopGroup.SetActive(true);
             gearBoxToggle.gameObject.SetActive(true);
             returnButton.gameObject.SetActive(true);
-            //gearBox.transform.position = new Vector3(-2.02f, 4.31f,11);
+            gearBox.transform.position = new Vector3(-2.02f, 4.31f,11);
         }
     }
 

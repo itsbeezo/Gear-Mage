@@ -7,11 +7,13 @@ public class CurrencyManager : MonoBehaviour
 {
     public static CurrencyManager instance { get; private set; }
     [SerializeField] private TextMeshProUGUI goldCountDisplay;
+    [SerializeField] private TextMeshProUGUI boneCountDisplay;
     [SerializeField] private GameObject goldPrefab;
     [SerializeField] private GameObject coinFallArea;
     private int goldCount;
+    private int boneCount;
 
-    private const string GOLD_SAVE_KEY = "SavedGoldCount";
+    private const string Bone_SAVE_KEY = "SavedBoneCount";
 
     private void OnEnable()
     {
@@ -42,7 +44,7 @@ public class CurrencyManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        LoadGold();
+        LoadBone();
     }
 
     public void FindSceneReferences()
@@ -73,7 +75,7 @@ public class CurrencyManager : MonoBehaviour
         if (goldPrefab == null)
         {
             goldCount += goldAmount;
-            SaveGold();
+            //SaveBone();
             UpdateDisplayText();
 
             return;
@@ -81,6 +83,18 @@ public class CurrencyManager : MonoBehaviour
 
         GameObject goldInstance = Instantiate(goldPrefab, enemyDeathPosition, Quaternion.identity);
         StartCoroutine(MoveGoldAnimation(goldAmount, goldInstance)); 
+    }
+
+    public void AddBone(int boneAmount)
+    {
+        if (boneCountDisplay != null)
+        {
+            boneCount += boneAmount;
+            SaveBone();
+            UpdateDisplayTextBone();
+
+            return;
+        }
     }
 
     IEnumerator MoveGoldAnimation(int goldAmount, GameObject goldInstance)
@@ -111,7 +125,7 @@ public class CurrencyManager : MonoBehaviour
         Destroy(goldInstance);
         goldCount += goldAmount;
 
-        SaveGold();
+        //SaveBone();
         UpdateDisplayText();
     }
 
@@ -121,28 +135,34 @@ public class CurrencyManager : MonoBehaviour
             goldCountDisplay.text = "Gold:" + goldCount;
     }
 
-    public void SaveGold()
+    private void UpdateDisplayTextBone()
     {
-        PlayerPrefs.SetInt(GOLD_SAVE_KEY, goldCount);
+        if (boneCountDisplay != null)
+            boneCountDisplay.text = "Bones:" + boneCount;
+    }
+
+    public void SaveBone()
+    {
+        PlayerPrefs.SetInt(Bone_SAVE_KEY, boneCount);
         PlayerPrefs.Save(); 
     }
 
-    public void LoadGold()
+    public void LoadBone()
     {
-        goldCount = PlayerPrefs.GetInt(GOLD_SAVE_KEY, 0);
-        UpdateDisplayText();
+        boneCount = PlayerPrefs.GetInt(Bone_SAVE_KEY, 0);
+        UpdateDisplayTextBone();
     }
 
     private void OnApplicationQuit()
     {
-        SaveGold();
+        SaveBone();
     }
 
     private void OnApplicationPause(bool pauseStatus)
     {
         if (pauseStatus)
         {
-            SaveGold();
+            SaveBone();
         }
     }
 
