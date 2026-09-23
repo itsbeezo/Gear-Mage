@@ -34,7 +34,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8247243061286100629}
-  - {fileID: 1289402715327395464}
+  - {fileID: 3926793021416959}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &7215509815667830437
@@ -110,7 +110,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UIDragHandler
   maxReslotDistance: 1.5
   gearNum: 0
-  isConnected: 0
   attemptButFull: 0
   startedOnBoard: 0
 --- !u!58 &1632590570990200975
@@ -162,6 +161,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: GearMage.Runtime::InventoryGears
   gearId: 4
+  suppressVisibilityControl: 0
   icon: {fileID: 7215509815667830437}
   dragCollider: {fileID: 1632590570990200975}
   stockBadge: {fileID: 5885826967103605357, guid: 3bae8c40d71a35e83a48153348feedd4, type: 3}
@@ -256,7 +256,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!1001 &6153409412998608534
+--- !u!1001 &4939427172452738529
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -294,7 +294,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4936417648349069342, guid: 3bae8c40d71a35e83a48153348feedd4, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 20
+      value: 5.4702
       objectReference: {fileID: 0}
     - target: {fileID: 4936417648349069342, guid: 3bae8c40d71a35e83a48153348feedd4, type: 3}
       propertyPath: m_SizeDelta.y
@@ -302,11 +302,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4936417648349069342, guid: 3bae8c40d71a35e83a48153348feedd4, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.03515847
+      value: 0.03661052
       objectReference: {fileID: 0}
     - target: {fileID: 4936417648349069342, guid: 3bae8c40d71a35e83a48153348feedd4, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.037905227
+      value: 0.039470717
       objectReference: {fileID: 0}
     - target: {fileID: 4936417648349069342, guid: 3bae8c40d71a35e83a48153348feedd4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -338,11 +338,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4936417648349069342, guid: 3bae8c40d71a35e83a48153348feedd4, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.21184242
+      value: 0.2811898
       objectReference: {fileID: 0}
     - target: {fileID: 4936417648349069342, guid: 3bae8c40d71a35e83a48153348feedd4, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.16233313
+      value: -0.15516376
       objectReference: {fileID: 0}
     - target: {fileID: 4936417648349069342, guid: 3bae8c40d71a35e83a48153348feedd4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -362,23 +362,23 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4223662269546845518, guid: 3bae8c40d71a35e83a48153348feedd4, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3083587318113850203}
+      addedObject: {fileID: 8528245230592503012}
   m_SourcePrefab: {fileID: 100100000, guid: 3bae8c40d71a35e83a48153348feedd4, type: 3}
---- !u!224 &1289402715327395464 stripped
+--- !u!224 &3926793021416959 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4936417648349069342, guid: 3bae8c40d71a35e83a48153348feedd4, type: 3}
-  m_PrefabInstance: {fileID: 6153409412998608534}
+  m_PrefabInstance: {fileID: 4939427172452738529}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &8068263837710476248 stripped
+--- !u!1 &9084086604405567663 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4223662269546845518, guid: 3bae8c40d71a35e83a48153348feedd4, type: 3}
-  m_PrefabInstance: {fileID: 6153409412998608534}
+  m_PrefabInstance: {fileID: 4939427172452738529}
   m_PrefabAsset: {fileID: 0}
---- !u!33 &3083587318113850203
+--- !u!33 &8528245230592503012
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8068263837710476248}
+  m_GameObject: {fileID: 9084086604405567663}
   m_Mesh: {fileID: 0}

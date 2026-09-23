@@ -38,7 +38,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2396212004763327808}
-  - {fileID: 5597167781901846653}
+  - {fileID: 6143832007797614880}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 135}
 --- !u!212 &9112557067707419563
@@ -184,7 +184,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UIDragHandler
   maxReslotDistance: 1.5
   gearNum: 0
-  isConnected: 0
   attemptButFull: 0
   startedOnBoard: 0
 --- !u!61 &4924077052461270353
@@ -246,6 +245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: GearMage.Runtime::InventoryGears
   gearId: 9
+  suppressVisibilityControl: 0
   icon: {fileID: 9112557067707419563}
   dragCollider: {fileID: -9178001797793853257}
   stockBadge: {fileID: 5885826967103605357, guid: 3bae8c40d71a35e83a48153348feedd4, type: 3}
@@ -376,7 +376,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!1001 &661061313607600227
+--- !u!1001 &1279843743320729918
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -414,7 +414,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4936417648349069342, guid: 3bae8c40d71a35e83a48153348feedd4, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 20
+      value: 5.4702
       objectReference: {fileID: 0}
     - target: {fileID: 4936417648349069342, guid: 3bae8c40d71a35e83a48153348feedd4, type: 3}
       propertyPath: m_SizeDelta.y
@@ -422,15 +422,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4936417648349069342, guid: 3bae8c40d71a35e83a48153348feedd4, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.029823052
+      value: 0.03105475
       objectReference: {fileID: 0}
     - target: {fileID: 4936417648349069342, guid: 3bae8c40d71a35e83a48153348feedd4, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.029823052
+      value: 0.03105475
       objectReference: {fileID: 0}
     - target: {fileID: 4936417648349069342, guid: 3bae8c40d71a35e83a48153348feedd4, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.014911531
+      value: 0.015527379
       objectReference: {fileID: 0}
     - target: {fileID: 4936417648349069342, guid: 3bae8c40d71a35e83a48153348feedd4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -462,11 +462,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4936417648349069342, guid: 3bae8c40d71a35e83a48153348feedd4, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.26744306
+      value: -0.29853034
       objectReference: {fileID: 0}
     - target: {fileID: 4936417648349069342, guid: 3bae8c40d71a35e83a48153348feedd4, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.047088504
+      value: -0.08731902
       objectReference: {fileID: 0}
     - target: {fileID: 4936417648349069342, guid: 3bae8c40d71a35e83a48153348feedd4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -486,23 +486,23 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4223662269546845518, guid: 3bae8c40d71a35e83a48153348feedd4, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6603573486042095788}
+      addedObject: {fileID: 2178549858555155170}
   m_SourcePrefab: {fileID: 100100000, guid: 3bae8c40d71a35e83a48153348feedd4, type: 3}
---- !u!1 &3725032935210540333 stripped
+--- !u!1 &3125389763317349488 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4223662269546845518, guid: 3bae8c40d71a35e83a48153348feedd4, type: 3}
-  m_PrefabInstance: {fileID: 661061313607600227}
+  m_PrefabInstance: {fileID: 1279843743320729918}
   m_PrefabAsset: {fileID: 0}
---- !u!33 &6603573486042095788
+--- !u!33 &2178549858555155170
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3725032935210540333}
+  m_GameObject: {fileID: 3125389763317349488}
   m_Mesh: {fileID: 0}
---- !u!224 &5597167781901846653 stripped
+--- !u!224 &6143832007797614880 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4936417648349069342, guid: 3bae8c40d71a35e83a48153348feedd4, type: 3}
-  m_PrefabInstance: {fileID: 661061313607600227}
+  m_PrefabInstance: {fileID: 1279843743320729918}
   m_PrefabAsset: {fileID: 0}
