@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public GameObject playButton;
     public GameObject upgradeButton;
     public GameObject permShopButton;
+    public GameObject victoryScreen;
     public enum State
     {
         BeforeStart,
@@ -72,8 +73,10 @@ public class GameManager : MonoBehaviour
     public void SetStateEndGame()
     {
         state = State.EndGame;
-        buttonShop.gameObject.SetActive(true);
-        UIManager.instance.SwitchCamera();
+
+        victoryScreen.gameObject.SetActive(true);
+        //buttonShop.gameObject.SetActive(true);
+        //UIManager.instance.SwitchCamera();
     }
     public int GetCurrentWave()
     {
@@ -92,4 +95,11 @@ public class GameManager : MonoBehaviour
         shopManager.OpenShop();
         buttonShop.gameObject.SetActive(false);
     }
+
+    public void NextLevel()
+    {
+        SceneManager.LoadScene(0);//Temporary 
+        //I plan To Add PlayerPrefs for gear matrix so the gars pass on to the next level
+    }
+
 }
