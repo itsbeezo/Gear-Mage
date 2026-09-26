@@ -12,6 +12,7 @@ public class CurrencyManager : MonoBehaviour
     [SerializeField] private GameObject coinFallArea;
     private int goldCount;
     private int boneCount;
+    public int cost;
 
     private const string Bone_SAVE_KEY = "SavedBoneCount";
 
@@ -83,6 +84,36 @@ public class CurrencyManager : MonoBehaviour
 
         GameObject goldInstance = Instantiate(goldPrefab, enemyDeathPosition, Quaternion.identity);
         StartCoroutine(MoveGoldAnimation(goldAmount, goldInstance)); 
+    }
+
+    public void RefundGold(int goldAmount)
+    {
+        if (goldPrefab == null)
+        {
+            goldCount += goldAmount;
+            //SaveBone();
+            UpdateDisplayText();
+
+            return;
+        }
+    }
+
+    public void SubtractGold(int goldAmount)
+    {
+        if (goldAmount >= goldCount)
+        {
+           goldCount -= goldAmount;
+        }
+        else
+        {
+            print("Cannot purchase. Insufficent funds");
+        }
+
+
+        if (goldPrefab == null)
+        {
+          UpdateDisplayText();  
+        }
     }
 
     public void AddBone(int boneAmount)

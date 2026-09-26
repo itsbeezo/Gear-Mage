@@ -16,7 +16,7 @@ public class InventoryManager : MonoBehaviour
 
     private readonly Dictionary<int, GearState> states = new Dictionary<int, GearState>();
     private PlayerInventoryData data = new PlayerInventoryData();
-    private IInventoryStore store;
+    private InventorySave save;
     private bool runActive;
 
     private void Awake()
@@ -36,14 +36,14 @@ public class InventoryManager : MonoBehaviour
             return;
         }
 
-        BeginRun(catalog.GetAll(), new PlayerPrefsInventoryStore());
+        BeginRun(catalog.GetAll(), new PlayerPrefsInventorySave());
     }
 
     // Separated from Start so tests can start a run without Unity's lifecycle.
-    public void BeginRun(IReadOnlyList<GearDefinition> definitions, IInventoryStore inventoryStore)
+    public void BeginRun(IReadOnlyList<GearDefinition> definitions, InventorySave inventorySave)
     {
-        store = inventoryStore;
-        data = store.Load();
+        save = inventorySave;
+        data = save.Load();
 
         states.Clear();
         foreach (GearDefinition definition in definitions)
@@ -105,7 +105,7 @@ public class InventoryManager : MonoBehaviour
         {
             data.AddConsumable(id, -1);
             state.consumableUsed++;
-            store.Save(data);
+            save.Save(data);
             return true;
         }
 
@@ -129,7 +129,7 @@ public class InventoryManager : MonoBehaviour
         {
             state.consumableUsed--;
             data.AddConsumable(id, 1);
-            store.Save(data);
+            save.Save(data);
             return;
         }
 
@@ -164,7 +164,7 @@ public class InventoryManager : MonoBehaviour
         if (allowedDelta == 0) return;
 
         data.AddPermanentExtra(id, allowedDelta);
-        store.Save(data);
+        save.Save(data);
     }
 
     // Memory only: gone when the run (scene) ends. count is expected positive - a
@@ -198,7 +198,7 @@ public class InventoryManager : MonoBehaviour
         }
 
         data.AddConsumable(id, count);
-        store.Save(data);
+        save.Save(data);
     }
 
     private int PermanentOwned(GearState state)

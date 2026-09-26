@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
         {
             ResetScene();
         }
-        Debug.Log(state);
+        // Debug.Log(state);
     }
     public State GetState()
     {

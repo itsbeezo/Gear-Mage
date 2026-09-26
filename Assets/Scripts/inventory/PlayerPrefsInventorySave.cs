@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class PlayerPrefsInventoryStore : IInventoryStore
+public class PlayerPrefsInventorySave : InventorySave
 {
     public const string DefaultKey = "GearInventory_v1";
 
@@ -13,7 +13,7 @@ public class PlayerPrefsInventoryStore : IInventoryStore
     private readonly string legacyStockPrefix;
     private readonly string legacyMaxPrefix;
 
-    public PlayerPrefsInventoryStore(
+    public PlayerPrefsInventorySave(
         string key = DefaultKey,
         string legacyStockPrefix = DefaultLegacyStockPrefix,
         string legacyMaxPrefix = DefaultLegacyMaxPrefix)
@@ -41,7 +41,7 @@ public class PlayerPrefsInventoryStore : IInventoryStore
             // Catches broadly, not just ArgumentException: Unity's JsonUtility's exact
             // failure mode on malformed input isn't guaranteed, so this must be robust
             // to whatever it actually throws, not just the most likely case.
-            Debug.LogWarning("PlayerPrefsInventoryStore: saved inventory data was unreadable; starting empty.");
+            Debug.LogWarning("PlayerPrefsInventorySave: saved inventory data was unreadable; starting empty.");
             return new PlayerInventoryData();
         }
     }

@@ -9,7 +9,12 @@ public class GearDefinition
     public Sprite icon;
     public int startingCopies;
     public int maxCopies;
+    public bool Sellable;
+    public int cost;
+    public int sellValue;
 }
+
+
 
 public class GearCatalog : MonoBehaviour
 {
@@ -40,6 +45,11 @@ public class GearCatalog : MonoBehaviour
     {
         return lookup != null && lookup.TryGetValue(id, out var def) ? def : null;
     }
+
+    // public GearDefinition GetName(int id, string displayName)
+    // {
+    //     return lookup != null && lookup.TryGetValue(id);
+    // }
 
     public IReadOnlyList<GearDefinition> GetAll()
     {

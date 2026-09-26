@@ -9,7 +9,7 @@ public class InventoryManagerTests
     private const int Locked = 9002;   // starts locked: 0 copies, cap 2
     private const int ZeroCap = 9003;  // locked, zero cap - matches HP/Attack/AttackSpeed (D11)
 
-    private class FakeStore : IInventoryStore
+    private class FakeSave : InventorySave
     {
         private string json = "";
 
@@ -26,14 +26,14 @@ public class InventoryManagerTests
         }
     }
 
-    private FakeStore store;
+    private FakeSave save;
     private List<GearDefinition> defs;
     private List<GameObject> spawned;
 
     [SetUp]
     public void SetUp()
     {
-        store = new FakeStore();
+        save = new FakeSave();
         spawned = new List<GameObject>();
         defs = new List<GearDefinition>
         {
@@ -55,7 +55,7 @@ public class InventoryManagerTests
         var go = new GameObject("TestInventoryManager");
         spawned.Add(go);
         InventoryManager manager = go.AddComponent<InventoryManager>();
-        manager.BeginRun(defs, store);
+        manager.BeginRun(defs, save);
         return manager;
     }
 
@@ -117,7 +117,7 @@ public class InventoryManagerTests
 
         Assert.AreEqual(0, m.GetStock(ZeroCap));
         Assert.AreEqual(0, m.GetMaxStock(ZeroCap));
-        Assert.AreEqual(0, store.Load().GetPermanentExtra(ZeroCap));
+        Assert.AreEqual(0, save.Load().GetPermanentExtra(ZeroCap));
     }
 
     [Test]
@@ -180,13 +180,13 @@ public class InventoryManagerTests
     }
 
     [Test]
-    public void RunGrant_IsNeverWrittenToTheStore()
+    public void RunGrant_IsNeverWrittenToTheSave()
     {
         InventoryManager m = StartRun();
 
         m.GrantRunGear(Locked, 3);
 
-        PlayerInventoryData saved = store.Load();
+        PlayerInventoryData saved = save.Load();
         Assert.AreEqual(0, saved.GetPermanentExtra(Locked));
         Assert.AreEqual(3, m.GetStock(Locked));
     }
@@ -238,7 +238,7 @@ public class InventoryManagerTests
         // untouched - proven by checking the SAVED consumable count directly,
         // not just total stock (which would be 1 either way regardless of order).
         Assert.AreEqual(1, m.GetStock(Owned));
-        Assert.AreEqual(1, store.Load().GetConsumableCount(Owned));
+        Assert.AreEqual(1, save.Load().GetConsumableCount(Owned));
     }
 
     [Test]

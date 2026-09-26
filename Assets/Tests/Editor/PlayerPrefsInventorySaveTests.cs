@@ -1,7 +1,7 @@
 using NUnit.Framework;
 using UnityEngine;
 
-public class PlayerPrefsInventoryStoreTests
+public class PlayerPrefsInventorySaveTests
 {
     private const string TestKey = "GearInventory_TEST_9001";
     private const string TestLegacyStockPrefix = "GearStockTEST_9001_";
@@ -29,17 +29,17 @@ public class PlayerPrefsInventoryStoreTests
         }
     }
 
-    private static PlayerPrefsInventoryStore NewTestStore()
+    private static PlayerPrefsInventorySave NewTestSave()
     {
-        return new PlayerPrefsInventoryStore(TestKey, TestLegacyStockPrefix, TestLegacyMaxPrefix);
+        return new PlayerPrefsInventorySave(TestKey, TestLegacyStockPrefix, TestLegacyMaxPrefix);
     }
 
     [Test]
     public void Load_WhenNothingSaved_ReturnsEmptyData()
     {
-        var store = NewTestStore();
+        var save = NewTestSave();
 
-        PlayerInventoryData data = store.Load();
+        PlayerInventoryData data = save.Load();
 
         Assert.AreEqual(0, data.permanentExtras.Count);
         Assert.AreEqual(0, data.consumables.Count);
@@ -48,13 +48,13 @@ public class PlayerPrefsInventoryStoreTests
     [Test]
     public void SaveThenLoad_RoundTrips()
     {
-        var store = NewTestStore();
+        var save = NewTestSave();
         var data = new PlayerInventoryData();
         data.AddPermanentExtra(5, 2);
         data.AddConsumable(7, 3);
 
-        store.Save(data);
-        PlayerInventoryData loaded = NewTestStore().Load();
+        save.Save(data);
+        PlayerInventoryData loaded = NewTestSave().Load();
 
         Assert.AreEqual(2, loaded.GetPermanentExtra(5));
         Assert.AreEqual(3, loaded.GetConsumableCount(7));
@@ -64,9 +64,9 @@ public class PlayerPrefsInventoryStoreTests
     public void Load_CorruptJson_ReturnsEmptyData()
     {
         PlayerPrefs.SetString(TestKey, "{ this is not json");
-        var store = NewTestStore();
+        var save = NewTestSave();
 
-        PlayerInventoryData data = store.Load();
+        PlayerInventoryData data = save.Load();
 
         Assert.AreEqual(0, data.permanentExtras.Count);
     }
@@ -74,14 +74,14 @@ public class PlayerPrefsInventoryStoreTests
     [Test]
     public void Clear_RemovesSavedData()
     {
-        var store = NewTestStore();
+        var save = NewTestSave();
         var data = new PlayerInventoryData();
         data.AddPermanentExtra(5, 2);
-        store.Save(data);
+        save.Save(data);
 
-        store.Clear();
+        save.Clear();
 
-        Assert.AreEqual(0, store.Load().GetPermanentExtra(5));
+        Assert.AreEqual(0, save.Load().GetPermanentExtra(5));
     }
 
     [Test]
@@ -89,9 +89,9 @@ public class PlayerPrefsInventoryStoreTests
     {
         PlayerPrefs.SetInt(TestLegacyStockPrefix + "1", 2);
         PlayerPrefs.SetInt(TestLegacyMaxPrefix + "1", 5);
-        var store = NewTestStore();
+        var save = NewTestSave();
 
-        store.Load();
+        save.Load();
 
         Assert.IsFalse(PlayerPrefs.HasKey(TestLegacyStockPrefix + "1"));
         Assert.IsFalse(PlayerPrefs.HasKey(TestLegacyMaxPrefix + "1"));
@@ -101,9 +101,9 @@ public class PlayerPrefsInventoryStoreTests
     public void Clear_AlsoCleansUpLegacyKeys()
     {
         PlayerPrefs.SetInt(TestLegacyStockPrefix + "1", 2);
-        var store = NewTestStore();
+        var save = NewTestSave();
 
-        store.Clear();
+        save.Clear();
 
         Assert.IsFalse(PlayerPrefs.HasKey(TestLegacyStockPrefix + "1"));
     }

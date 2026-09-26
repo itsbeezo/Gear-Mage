@@ -214,6 +214,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIGearSlot
   isFull: 0
+  isStagingSlot: 0
 --- !u!61 &-2316638302542684252
 BoxCollider2D:
   m_ObjectHideFlags: 0
