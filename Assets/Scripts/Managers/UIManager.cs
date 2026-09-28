@@ -2,6 +2,7 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class UIManager : MonoBehaviour
 {
@@ -80,7 +81,9 @@ public class UIManager : MonoBehaviour
         if(GameManager.instance.GetState() == GameManager.State.WaveVictory)
         {
             ShowUIElement(waveShopGroup);
-
+            LevelCamera.GetComponent<Physics2DRaycaster>().enabled = true;
+            Debug.Log("Raycast on");
+            
             nextWaveButton.onClick.RemoveAllListeners();
             nextWaveButton.onClick.AddListener(GameManager.instance.SetStateNormal);
             nextWaveButton.onClick.AddListener(UnitManager.instance.OnNextWave);

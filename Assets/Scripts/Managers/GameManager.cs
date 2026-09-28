@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class GameManager : MonoBehaviour
     public GameObject permShopButton;
     public GameObject victoryScreen;
     public enum State
+
     {
         BeforeStart,
         UpgradeMenu,
@@ -83,6 +85,8 @@ public class GameManager : MonoBehaviour
     public void NextWave()
     {
         wave += 1;
+        UIManager.instance.LevelCamera.GetComponent<Physics2DRaycaster>().enabled = false;
+        Debug.Log("Raycast off");
     }
     public void ResetScene()
     {

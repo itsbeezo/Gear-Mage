@@ -3,6 +3,9 @@ using UnityEngine.UI;
 
 public class BaseBase : MonoBehaviour
 {
+
+
+
     [SerializeField] private float maxHP;
     private float currentHP;
     [SerializeField] private Image healthBar;
