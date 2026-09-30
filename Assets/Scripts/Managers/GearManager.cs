@@ -113,32 +113,38 @@ public class GearManager : MonoBehaviour
         {
             for (int j = 0; j < GearMatrix.GetLength(1); j++)
             {
-                if (GearMatrix[i, j] != 0)
+                int gearNum = GearMatrix[i, j];
+                if (gearNum != 0)
+                {
+                    GearBox targetSlotBox = null;
+
                     switch (i)
                     {
-                        case 0:
-                            {
-                                Instantiate(GetGear(GearMatrix[i, j]), GearBoxList1[j].transform.position, GearBoxList1[j].transform.rotation);
-                                break;
-                            }
-                        case 1:
-                            {
-                                Instantiate(GetGear(GearMatrix[i, j]), GearBoxList2[j].transform.position, GearBoxList2[j].transform.rotation);
-                                break;
-                            }
-                        case 2:
-                            {
-                                Instantiate(GetGear(GearMatrix[i, j]), GearBoxList3[j].transform.position, GearBoxList3[j].transform.rotation);
-                                break;
-                            }
-                        case 3:
-                            {
-                                Instantiate(GetGear(GearMatrix[i, j]), GearBoxList4[j].transform.position, GearBoxList4[j].transform.rotation);
-                                break;
-                            }
+                        case 0: targetSlotBox = GearBoxList1[j]; break;
+                        case 1: targetSlotBox = GearBoxList2[j]; break;
+                        case 2: targetSlotBox = GearBoxList3[j]; break;
+                        case 3: targetSlotBox = GearBoxList4[j]; break;
                     }
-                if (GearMatrix[i, j] != 0)
-                    AddStats(GearMatrix[i, j]);
+
+                    if (targetSlotBox != null)
+                    {
+                        GameObject gearInstance = Instantiate(GetGear(gearNum), targetSlotBox.transform.position, GetGear(gearNum).transform.rotation);
+
+                        if (ShopManager.instance != null && ShopManager.instance.gearBox != null)
+                        {
+                            gearInstance.transform.SetParent(ShopManager.instance.gearBox.transform, true);
+                        }
+
+                        UIGearSlot slotScript = targetSlotBox.GetComponent<UIGearSlot>();
+                        if (slotScript != null)
+                        {
+                            slotScript.isFull = true;
+                        }
+
+                        //Recalculate stats
+                        AddStats(gearNum);
+                    }
+                }
             }
         }
     }
@@ -206,4 +212,5 @@ public class GearManager : MonoBehaviour
 
         AddStats(gearNum);
     }
+
 }
