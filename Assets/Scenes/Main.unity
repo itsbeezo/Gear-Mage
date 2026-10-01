@@ -11458,9 +11458,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1170536134361936923, guid: 5a87f3892b1fa55f88b61ec1d6dbb7ce, type: 3}
+      propertyPath: m_Name
+      value: StoreSlot 0,2
+      objectReference: {fileID: 0}
     - target: {fileID: 2052021822508238326, guid: 5a87f3892b1fa55f88b61ec1d6dbb7ce, type: 3}
       propertyPath: m_Name
       value: ShopBG
+      objectReference: {fileID: 0}
+    - target: {fileID: 5468252367928088558, guid: 5a87f3892b1fa55f88b61ec1d6dbb7ce, type: 3}
+      propertyPath: m_Name
+      value: StoreSlot 0,1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6282738648493697812, guid: 5a87f3892b1fa55f88b61ec1d6dbb7ce, type: 3}
+      propertyPath: m_Name
+      value: StoreSlot 0,0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
