@@ -32,7 +32,7 @@ public class GearManager : MonoBehaviour
         instance = this;
         DrawGears();
     }
-    private GameObject GetGear(int i)
+    public GameObject GetGear(int i)
     {
         return GearList[i];
     }

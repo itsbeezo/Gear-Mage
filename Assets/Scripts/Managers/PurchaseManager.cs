@@ -6,7 +6,7 @@ public class PurchaseManager : MonoBehaviour
 {
 
     public int cost;
-
+    private string gearName;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -21,19 +21,21 @@ public class PurchaseManager : MonoBehaviour
             Debug.Log("Id provided for gear is invalid " + id);
             return false;
         }
-        name = def.displayName;
+        string gearName = def.displayName;
         return true;
-    }
+    } 
 
-    public void PurchaseGearGold(int id)
+    public void PurchaseGearGold(int id, Vector3 spawnposition)
     {
-        id = 4;
         if (!TryGetDefinition(id, out GearDefinition def)) return;
+        GameObject gearPrefab = GearManager.instance.GetGear(id);
+        GameObject spawned = Instantiate(gearPrefab, spawnposition, gearPrefab.transform.rotation);
         
+
+
+        CurrencyManager.instance.SubtractGold(def.cost);
+        Debug.Log("bought Gaer ID: " + id + " Display Name: " + gearName + " for " + def.cost);
         
-        cost = 0;
-        CurrencyManager.instance.SubtractGold(cost);
-        Debug.Log("bought Gaer ID: " + id + " Display Name: " + name + " for 10 Gold");
         return;
     }
 
@@ -43,9 +45,9 @@ public class PurchaseManager : MonoBehaviour
         Debug.Log("Sold gear for " + sellValue + " Gold");
     }
 
-    // Update is called once per frame
-    void Update()
+    public void TestPurchase()
     {
-        
+        PurchaseGearGold(4, transform.position);
     }
+
 }
