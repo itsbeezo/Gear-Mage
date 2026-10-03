@@ -34,7 +34,7 @@ public class PurchaseManager : MonoBehaviour
 
 
         CurrencyManager.instance.SubtractGold(def.cost);
-        Debug.Log("bought Gaer ID: " + id + " Display Name: " + gearName + " for " + def.cost);
+        Debug.Log("bought Gaer ID: " + id + " Display Name: " + def.displayName + ", for " + def.cost);
         
         return;
     }

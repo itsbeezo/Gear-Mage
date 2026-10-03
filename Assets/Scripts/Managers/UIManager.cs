@@ -33,6 +33,8 @@ public class UIManager : MonoBehaviour
         //Camera Stuff (temp?)
         LevelCamera.enabled = false;
         GearBoxCamera.enabled = true;
+
+        nextWaveButton.onClick.AddListener(OnNextWavePressed);
     }
     private void FixedUpdate()
     {
@@ -64,6 +66,11 @@ public class UIManager : MonoBehaviour
             HideUIElement(pShopButton.gameObject);
             HideUIElement(waveShopGroup);
             HideUIElement(levelVictoryGroup);
+
+            GearBoxCamera.GetComponent<Physics2DRaycaster>().enabled = false;
+            Debug.Log("GearBox Camera Raycase off");
+            LevelCamera.GetComponent<Physics2DRaycaster>().enabled = false;
+            Debug.Log("Level Camera Raycast off");
         }   
 
         if(GameManager.instance.GetState() == GameManager.State.PShopMenu)
@@ -76,17 +83,20 @@ public class UIManager : MonoBehaviour
         {
             ShowUIElement(upgradeMenuGroup);
             HideUIElement(pShopGroup);
-        }
+        } 
 
         if(GameManager.instance.GetState() == GameManager.State.WaveVictory)
         {
             ShowUIElement(waveShopGroup);
+            GearBoxCamera.GetComponent<Physics2DRaycaster>().enabled = false;
+            Debug.Log("GearBox Camera Raycase off");
             LevelCamera.GetComponent<Physics2DRaycaster>().enabled = true;
-            Debug.Log("Raycast on");
+            Debug.Log("Level Camera Raycast on");
             
             nextWaveButton.onClick.RemoveAllListeners();
             nextWaveButton.onClick.AddListener(GameManager.instance.SetStateNormal);
             nextWaveButton.onClick.AddListener(UnitManager.instance.OnNextWave);
+
         }
 
         if(GameManager.instance.GetState() == GameManager.State.EndGame)
@@ -97,6 +107,13 @@ public class UIManager : MonoBehaviour
             restartButton.onClick.AddListener(GameManager.instance.ResetScene);
         }
     }
+    private void OnNextWavePressed()
+    {
+        Debug.Log("Next wave started");
+        GameManager.instance.SetStateNormal();
+        UnitManager.instance.OnNextWave();
+    }
+
     public void ShowUIElement(GameObject elementToShow)
     {
         elementToShow.SetActive(true);
