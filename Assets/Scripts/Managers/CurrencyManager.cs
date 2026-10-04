@@ -88,32 +88,18 @@ public class CurrencyManager : MonoBehaviour
 
     public void RefundGold(int goldAmount)
     {
-        if (goldPrefab == null)
-        {
-            goldCount += goldAmount;
-            //SaveBone();
-            UpdateDisplayText();
-
-            return;
-        }
+        goldCount += goldAmount;
+        UpdateDisplayText();
     }
 
-    public void SubtractGold(int goldAmount)
+    // Spends gold only if the balance covers it. Returns false and changes nothing otherwise.
+    public bool TrySpendGold(int goldAmount)
     {
-        if (goldAmount >= goldCount)
-        {
-           goldCount -= goldAmount;
-        }
-        else
-        {
-            print("Cannot purchase. Insufficent funds");
-        }
+        if (goldAmount > goldCount) return false;
 
-
-        if (goldPrefab == null)
-        {
-          UpdateDisplayText();  
-        }
+        goldCount -= goldAmount;
+        UpdateDisplayText();
+        return true;
     }
 
     public void AddBone(int boneAmount)

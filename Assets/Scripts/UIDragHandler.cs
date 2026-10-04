@@ -21,6 +21,16 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public bool attemptButFull = false;
     public bool startedOnBoard = false;
 
+    // Shop offers are bought on drop, not taken from stock. They follow their own drop path.
+    public bool IsShopOffer => GetComponent<ShopOffer>() != null;
+
+    // The camera that actually received the pointer, so drags track the cursor
+    // in whichever view the gear was clicked in (level or gear box).
+    private Camera InputCamera(PointerEventData eventData)
+    {
+        return eventData.pressEventCamera != null ? eventData.pressEventCamera : GearBoxCamera;
+    }
+
     private GameObject gearFallArea;
 
     private void Awake()
@@ -44,7 +54,7 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
         currentSlot = null;
 
-        Vector3 mouseWorldPos = GearBoxCamera.ScreenToWorldPoint(eventData.position);
+        Vector3 mouseWorldPos = InputCamera(eventData).ScreenToWorldPoint(eventData.position);
         mouseWorldPos.z = 0f;
         offset = transform.position - mouseWorldPos;
 
@@ -77,9 +87,12 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnDrag(PointerEventData eventData)
     {
-        Vector3 mouseWorldPos = GearBoxCamera.ScreenToWorldPoint(eventData.position);
+        Vector3 mouseWorldPos = InputCamera(eventData).ScreenToWorldPoint(eventData.position);
         mouseWorldPos.z = 0f;
         transform.position = mouseWorldPos + offset;
+
+        // Shop offers have their gear id set in ShopOffer.Setup, so skip the name/tag lookup below.
+        if (IsShopOffer) return;
 
         if (gameObject.CompareTag("ClickerShell"))
         {
@@ -176,17 +189,13 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        UIGearSlot targetSlot = null;
-        Collider2D[] dropHits = Physics2D.OverlapPointAll(transform.position);
-        foreach (Collider2D hit in dropHits)
+        if (IsShopOffer)
         {
-            UIGearSlot slot = hit.GetComponent<UIGearSlot>();
-            if (slot != null && !slot.isFull && slot != currentSlot)
-            {
-                targetSlot = slot;
-                break;
-            }
+            EndShopOfferDrag();
+            return;
         }
+
+        UIGearSlot targetSlot = FindDropTarget();
 
         if (targetSlot != null && targetSlot.TryPlaceGear(gameObject, this))
         {
@@ -233,7 +242,7 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         }
 
         // Calculate distance from drop location to original position in World Space
-        Vector3 dropWorldPos = GearBoxCamera.ScreenToWorldPoint(eventData.position);
+        Vector3 dropWorldPos = InputCamera(eventData).ScreenToWorldPoint(eventData.position);
         dropWorldPos.z = originalPosition.z;
         bool isCloseToOriginal = Vector2.Distance(originalPosition, dropWorldPos) <= maxReslotDistance;
 
@@ -275,6 +284,54 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
             transform.position = originalPosition;
         }
+    }
+
+    // A gear slot under the drop point that can take a gear right now, or null.
+    private UIGearSlot FindDropTarget()
+    {
+        Collider2D[] dropHits = Physics2D.OverlapPointAll(transform.position);
+        foreach (Collider2D hit in dropHits)
+        {
+            UIGearSlot slot = hit.GetComponent<UIGearSlot>();
+            if (slot != null && !slot.isFull && slot != currentSlot)
+            {
+                return slot;
+            }
+        }
+        return null;
+    }
+
+    // A shop offer is consumed only when it's bought into the gearbox. Otherwise it
+    // returns to its spawn slot, uncharged. It is never refunded to stock or destroyed.
+    private void EndShopOfferDrag()
+    {
+        UIGearSlot targetSlot = FindDropTarget();
+
+        if (targetSlot != null && targetSlot.TryPlaceGear(gameObject, this))
+        {
+            GetComponent<ShopOffer>().homeSlot.Clear();
+            Destroy(gameObject);
+            return;
+        }
+
+        ReturnToOrigin();
+    }
+
+    private void ReturnToOrigin()
+    {
+        if (spriteRenderer != null)
+        {
+            Color color = spriteRenderer.color;
+            color.a = 1.0f;
+            spriteRenderer.color = color;
+        }
+
+        if (col2D != null)
+        {
+            col2D.enabled = true;
+        }
+
+        transform.position = originalPosition;
     }
 
     public IEnumerator ReSlot()

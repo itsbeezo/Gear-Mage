@@ -9,7 +9,14 @@ public class UIGearSlot : MonoBehaviour
     {
         if (isFull) return false;
 
-        if (!uiDragHandler.startedOnBoard)
+        if (uiDragHandler.IsShopOffer)
+        {
+            // Shop offers are bought, not taken from stock. Only the gearbox takes them,
+            // never a staging slot, which would copy the offer.
+            if (isStagingSlot) return false;
+            if (PurchaseManager.instance == null || !PurchaseManager.instance.TryBuyGear(uiDragHandler.gearNum)) return false;
+        }
+        else if (!uiDragHandler.startedOnBoard)
         {
             if (InventoryManager.instance != null &&
                 !InventoryManager.instance.TryConsume(uiDragHandler.gearNum))

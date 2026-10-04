@@ -116,12 +116,12 @@ TextureImporter:
       name: Temp Wave Shop BG_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 900
-        height: 600
+        x: 285
+        y: 106
+        width: 424
+        height: 77
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 14e802342687246c795db230ce03019d
     internalID: 0
     vertices: []
     indices: 

@@ -1,16 +1,38 @@
 using UnityEngine;
 
-
-
 public class PurchaseManager : MonoBehaviour
 {
+    public static PurchaseManager instance { get; private set; }
 
-    public int cost;
-    private string gearName;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Awake()
     {
-        
+        instance = this;
+    }
+
+    // Spends gold for one gear. Called when a shop offer is dropped on the gearbox.
+    // Returns false and spends nothing if the id is unknown, the shop isn't open,
+    // or the player can't afford it. Placing the gear itself is handled by UIGearSlot.
+    public bool TryBuyGear(int id)
+    {
+        if (!TryGetDefinition(id, out GearDefinition def)) return false;
+
+        if (GameManager.instance == null || GameManager.instance.GetState() != GameManager.State.WaveVictory) return false;
+        if (CurrencyManager.instance == null) return false;
+
+        if (!CurrencyManager.instance.TrySpendGold(def.cost))
+        {
+            Debug.Log("Not enough gold for " + def.displayName + " (costs " + def.cost + ")");
+            return false;
+        }
+
+        Debug.Log("Bought " + def.displayName + " for " + def.cost + " gold");
+        return true;
+    }
+
+    public void SellGear(int id, int sellValue)
+    {
+        CurrencyManager.instance.RefundGold(sellValue);
+        Debug.Log("Sold gear for " + sellValue + " Gold");
     }
 
     private bool TryGetDefinition(int id, out GearDefinition def)
@@ -21,33 +43,6 @@ public class PurchaseManager : MonoBehaviour
             Debug.Log("Id provided for gear is invalid " + id);
             return false;
         }
-        string gearName = def.displayName;
         return true;
-    } 
-
-    public void PurchaseGearGold(int id, Vector3 spawnposition)
-    {
-        if (!TryGetDefinition(id, out GearDefinition def)) return;
-        GameObject gearPrefab = GearManager.instance.GetGear(id);
-        GameObject spawned = Instantiate(gearPrefab, spawnposition, gearPrefab.transform.rotation);
-        
-
-
-        CurrencyManager.instance.SubtractGold(def.cost);
-        Debug.Log("bought Gaer ID: " + id + " Display Name: " + def.displayName + ", for " + def.cost);
-        
-        return;
     }
-
-    public void SellGear(int id, int sellValue)
-    {
-        CurrencyManager.instance.RefundGold(sellValue);
-        Debug.Log("Sold gear for " + sellValue + " Gold");
-    }
-
-    public void TestPurchase()
-    {
-        PurchaseGearGold(4, transform.position);
-    }
-
 }

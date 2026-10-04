@@ -56,6 +56,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: WaveShop
+    uniqueID: 1238181497
+    locked: 0
   m_RenderingLayers:
   - Default
   m_MigratedRenderPipelines: []

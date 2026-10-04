@@ -2,20 +2,23 @@ using UnityEngine;
 
 public class GearSpawnSlot : MonoBehaviour
 {
+    // Where a new offer is centred. Leave empty to use this object's own position.
+    [SerializeField] private Transform spawnPoint;
 
     public bool isOccupied;
-    public ShopOffer currentPrice;
+    public ShopOffer currentOffer;
 
-    public void Occupy(ShopOffer price)
+    public Vector3 SpawnPosition => spawnPoint != null ? spawnPoint.position : transform.position;
+
+    public void Occupy(ShopOffer offer)
     {
         isOccupied = true;
-        currentPrice = price;
+        currentOffer = offer;
     }
 
-    public void clear()
+    public void Clear()
     {
         isOccupied = false;
-        currentPrice = null;
+        currentOffer = null;
     }
-
 }
