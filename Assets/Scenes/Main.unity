@@ -3218,92 +3218,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8843027668709940253, guid: c890ddb3b87ab3946a021dbfa0f2ba31, type: 3}
   m_PrefabInstance: {fileID: 392104262}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &401621993
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1310834783}
-    m_Modifications:
-    - target: {fileID: 90250563080744765, guid: 9d4eb4ab33b104a2693e5887a252d3c0, type: 3}
-      propertyPath: m_Name
-      value: GearArcher
-      objectReference: {fileID: 0}
-    - target: {fileID: 1172908546825740572, guid: 9d4eb4ab33b104a2693e5887a252d3c0, type: 3}
-      propertyPath: m_SortingLayer
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1172908546825740572, guid: 9d4eb4ab33b104a2693e5887a252d3c0, type: 3}
-      propertyPath: m_SortingOrder
-      value: 64
-      objectReference: {fileID: 0}
-    - target: {fileID: 1172908546825740572, guid: 9d4eb4ab33b104a2693e5887a252d3c0, type: 3}
-      propertyPath: m_SortingLayerID
-      value: 1238181497
-      objectReference: {fileID: 0}
-    - target: {fileID: 7588565462223544449, guid: 9d4eb4ab33b104a2693e5887a252d3c0, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -1.1940001
-      objectReference: {fileID: 0}
-    - target: {fileID: 7588565462223544449, guid: 9d4eb4ab33b104a2693e5887a252d3c0, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.014000058
-      objectReference: {fileID: 0}
-    - target: {fileID: 7588565462223544449, guid: 9d4eb4ab33b104a2693e5887a252d3c0, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7588565462223544449, guid: 9d4eb4ab33b104a2693e5887a252d3c0, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: -0.38268322
-      objectReference: {fileID: 0}
-    - target: {fileID: 7588565462223544449, guid: 9d4eb4ab33b104a2693e5887a252d3c0, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7588565462223544449, guid: 9d4eb4ab33b104a2693e5887a252d3c0, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7588565462223544449, guid: 9d4eb4ab33b104a2693e5887a252d3c0, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.9238797
-      objectReference: {fileID: 0}
-    - target: {fileID: 7588565462223544449, guid: 9d4eb4ab33b104a2693e5887a252d3c0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7588565462223544449, guid: 9d4eb4ab33b104a2693e5887a252d3c0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7588565462223544449, guid: 9d4eb4ab33b104a2693e5887a252d3c0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 225
-      objectReference: {fileID: 0}
-    - target: {fileID: 9112557067707419563, guid: 9d4eb4ab33b104a2693e5887a252d3c0, type: 3}
-      propertyPath: m_SortingLayer
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9112557067707419563, guid: 9d4eb4ab33b104a2693e5887a252d3c0, type: 3}
-      propertyPath: m_SortingOrder
-      value: 21
-      objectReference: {fileID: 0}
-    - target: {fileID: 9112557067707419563, guid: 9d4eb4ab33b104a2693e5887a252d3c0, type: 3}
-      propertyPath: m_SortingLayerID
-      value: 1238181497
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 9d4eb4ab33b104a2693e5887a252d3c0, type: 3}
---- !u!4 &401621994 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7588565462223544449, guid: 9d4eb4ab33b104a2693e5887a252d3c0, type: 3}
-  m_PrefabInstance: {fileID: 401621993}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &412826866
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4358,7 +4272,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: GearMage.Runtime::GearSpawnSlot
   spawnPoint: {fileID: 0}
-  isOccupied: 1
+  isOccupied: 0
   currentOffer: {fileID: 0}
 --- !u!1 &494926294
 GameObject:
@@ -10431,7 +10345,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1160852700
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11973,9 +11887,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1167694949682265479, guid: 5a87f3892b1fa55f88b61ec1d6dbb7ce, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1728032045}
-    - targetCorrespondingSourceObject: {fileID: 1167694949682265479, guid: 5a87f3892b1fa55f88b61ec1d6dbb7ce, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 401621994}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5a87f3892b1fa55f88b61ec1d6dbb7ce, type: 3}
 --- !u!224 &1310834783 stripped
@@ -16695,7 +16606,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1814116388
 RectTransform:
   m_ObjectHideFlags: 0
@@ -21355,6 +21266,7 @@ MonoBehaviour:
     Sellable: 0
     cost: 10
     sellValue: 0
+    weight: 0
   - id: 2
     displayName: Melee
     icon: {fileID: 0}
@@ -21363,6 +21275,7 @@ MonoBehaviour:
     Sellable: 0
     cost: 15
     sellValue: 7
+    weight: 0
   - id: 3
     displayName: Archer
     icon: {fileID: 0}
@@ -21371,6 +21284,7 @@ MonoBehaviour:
     Sellable: 0
     cost: 15
     sellValue: 7
+    weight: 0
   - id: 4
     displayName: Tank
     icon: {fileID: 0}
@@ -21379,6 +21293,7 @@ MonoBehaviour:
     Sellable: 0
     cost: 20
     sellValue: 10
+    weight: 0
   - id: 5
     displayName: Booster 1x
     icon: {fileID: 0}
@@ -21387,6 +21302,7 @@ MonoBehaviour:
     Sellable: 0
     cost: 10
     sellValue: 5
+    weight: 0
   - id: 6
     displayName: Booster 2x
     icon: {fileID: 0}
@@ -21395,6 +21311,7 @@ MonoBehaviour:
     Sellable: 0
     cost: 20
     sellValue: 10
+    weight: 0
   - id: 7
     displayName: Booster 4x
     icon: {fileID: 0}
@@ -21403,6 +21320,7 @@ MonoBehaviour:
     Sellable: 0
     cost: 0
     sellValue: 0
+    weight: 0
   - id: 8
     displayName: Booster 8x
     icon: {fileID: 0}
@@ -21411,6 +21329,7 @@ MonoBehaviour:
     Sellable: 0
     cost: 0
     sellValue: 0
+    weight: 0
   - id: 9
     displayName: HP
     icon: {fileID: 0}
@@ -21419,6 +21338,7 @@ MonoBehaviour:
     Sellable: 0
     cost: 0
     sellValue: 0
+    weight: 0
   - id: 10
     displayName: Attack
     icon: {fileID: 0}
@@ -21427,6 +21347,7 @@ MonoBehaviour:
     Sellable: 0
     cost: 0
     sellValue: 0
+    weight: 0
   - id: 11
     displayName: Attack Speed
     icon: {fileID: 0}
@@ -21435,6 +21356,7 @@ MonoBehaviour:
     Sellable: 0
     cost: 0
     sellValue: 0
+    weight: 0
 --- !u!1001 &9930084997696368
 PrefabInstance:
   m_ObjectHideFlags: 0

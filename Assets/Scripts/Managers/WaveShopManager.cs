@@ -9,6 +9,7 @@ public class WaveShopManager : MonoBehaviour
     // Spawns the test gear (id 4, Tank) into the first free slot.
     public void SpawnTestOffer()
     {
+        
         GearSpawnSlot slot = FindFreeSlot();
         if (slot == null)
         {
@@ -16,7 +17,21 @@ public class WaveShopManager : MonoBehaviour
             return;
         }
 
-        SpawnOffer(slot, 4);
+        SpawnOffer(slot, PickRandomID());
+        
+    }
+
+    public int PickRandomID()
+    {
+        List<int> ids = new List<int>();
+        foreach (GearDefinition def in GearCatalog.instance.GetAll())
+        {
+            if (def.id != 0) ids.Add(def.id);
+        }
+
+        if (ids.Count == 0) return -1;
+        return ids[Random.Range(0, ids.Count)];
+
     }
 
     // Creates a gear offer centred on the slot. The offer is parented to the slot,

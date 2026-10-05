@@ -12,6 +12,7 @@ public class GearDefinition
     public bool Sellable;
     public int cost;
     public int sellValue;
+    public float weight;
 }
 
 

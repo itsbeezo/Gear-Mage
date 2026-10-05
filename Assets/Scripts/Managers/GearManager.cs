@@ -26,6 +26,7 @@ public class GearManager : MonoBehaviour
     private float spawnSpeedMod;
     private float moveSpeedMod;
     private float attackSpeedMod;
+    public List<GameObject> AllGears => GearList;
 
     private void Start()
     {
