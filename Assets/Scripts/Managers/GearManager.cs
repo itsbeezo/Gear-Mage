@@ -5,16 +5,15 @@ using UnityEngine;
 
 public class GearManager : MonoBehaviour
 {
-
-
-    // Gears list them later
-
-
     public static GearManager instance { get; private set; }
+
+    private static bool isFirstLoadInSequence = true;
+
     private int[,] GearMatrix = { {0, 0, 0, 0, 0, 0, 0, 0, 0},
                                   {0, 0, 0, 0, 0, 0, 0, 0, 0},
                                   {0, 0, 0, 0, 0, 0, 0, 0, 0},
                                   {0, 0, 0, 0, 0, 0, 0, 0, 0} };
+
     [SerializeField] private List<GameObject> GearList;
     [SerializeField] private List<GearBox> GearBoxList1;
     [SerializeField] private List<GearBox> GearBoxList2;
@@ -31,77 +30,125 @@ public class GearManager : MonoBehaviour
     private void Start()
     {
         instance = this;
+
+        // If it's the start of a new sequence, clear saved prefs, otherwise reload saved gears
+        if (isFirstLoadInSequence)
+        {
+            isFirstLoadInSequence = false;
+            ClearGearSave();
+        }
+        else
+        {
+            LoadGearMatrix();
+        }
+
         DrawGears();
     }
     public GameObject GetGear(int i)
     {
         return GearList[i];
     }
+
     public void SetGear(int i, int j, int g)
     {
         GearMatrix[i, j] = g;
-    }// override object.Equals
+        SaveGearMatrix();
+    }
+
+    public void SaveGearMatrix()
+    {
+        for (int i = 0; i < GearMatrix.GetLength(0); i++)
+        {
+            for (int j = 0; j < GearMatrix.GetLength(1); j++)
+            {
+                PlayerPrefs.SetInt($"GearMatrix_{i}_{j}", GearMatrix[i, j]);
+            }
+        }
+        PlayerPrefs.Save();
+    }
+
+    public void LoadGearMatrix()
+    {
+        for (int i = 0; i < GearMatrix.GetLength(0); i++)
+        {
+            for (int j = 0; j < GearMatrix.GetLength(1); j++)
+            {
+                GearMatrix[i, j] = PlayerPrefs.GetInt($"GearMatrix_{i}_{j}", 0);
+            }
+        }
+    }
+
+    public void ClearGearSave()
+    {
+        for (int i = 0; i < GearMatrix.GetLength(0); i++)
+        {
+            for (int j = 0; j < GearMatrix.GetLength(1); j++)
+            {
+                PlayerPrefs.DeleteKey($"GearMatrix_{i}_{j}");
+            }
+        }
+        PlayerPrefs.Save();
+    }
+
+    // override object.Equals
     public override bool Equals(object obj)
     {
-        //
-        // See the full list of guidelines at
-        //   http://go.microsoft.com/fwlink/?LinkID=85237
-        // and also the guidance for operator== at
-        //   http://go.microsoft.com/fwlink/?LinkId=85238
-        //
-        
         if (obj == null || GetType() != obj.GetType())
         {
             return false;
         }
-        
-        // TODO: write your implementation of Equals() here
+
         throw new System.NotImplementedException();
-        return base.Equals (obj);
     }
-    
+
     // override object.GetHashCode
     public override int GetHashCode()
     {
-        // TODO: write your implementation of GetHashCode() here
         throw new System.NotImplementedException();
-        return base.GetHashCode();
     }
+
     public void DrawGears()
     {
-        for(int i = 0; i < GearMatrix.GetLength(0); i++)
+        for (int i = 0; i < GearMatrix.GetLength(0); i++)
         {
-            for(int j = 0; j < GearMatrix.GetLength(1); j++)
+            for (int j = 0; j < GearMatrix.GetLength(1); j++)
             {
-                if (GearMatrix[i, j] != 0)
-                    switch(i)
+                int gearNum = GearMatrix[i, j];
+                if (gearNum != 0)
+                {
+                    GearBox targetSlotBox = null;
+
+                    switch (i)
                     {
-                        case 0:
-                        {
-                            Instantiate(GetGear(GearMatrix[i, j]), GearBoxList1[j].transform.position, GearBoxList1[j].transform.rotation);
-                            break;
-                        }
-                        case 1:
-                        {
-                            Instantiate(GetGear(GearMatrix[i, j]), GearBoxList2[j].transform.position, GearBoxList2[j].transform.rotation);
-                            break;
-                        }
-                        case 2:
-                        {
-                            Instantiate(GetGear(GearMatrix[i, j]), GearBoxList3[j].transform.position, GearBoxList3[j].transform.rotation);
-                            break;
-                        }
-                        case 3:
-                        {
-                            Instantiate(GetGear(GearMatrix[i, j]), GearBoxList4[j].transform.position, GearBoxList4[j].transform.rotation);
-                            break;
-                        }
+                        case 0: targetSlotBox = GearBoxList1[j]; break;
+                        case 1: targetSlotBox = GearBoxList2[j]; break;
+                        case 2: targetSlotBox = GearBoxList3[j]; break;
+                        case 3: targetSlotBox = GearBoxList4[j]; break;
                     }
-                if (GearMatrix[i, j] != 0)
-                    AddStats(GearMatrix[i,j]);
+
+                    if (targetSlotBox != null)
+                    {
+                        GameObject gearInstance = Instantiate(GetGear(gearNum), targetSlotBox.transform.position, GetGear(gearNum).transform.rotation);
+
+                        if (ShopManager.instance != null && ShopManager.instance.gearBox != null)
+                        {
+                            gearInstance.transform.SetParent(ShopManager.instance.gearBox.transform, true);
+                        }
+
+                        UIGearSlot slotScript = targetSlotBox.GetComponent<UIGearSlot>();
+                        if (slotScript != null)
+                        {
+                            slotScript.isFull = true;
+                        }
+
+                        //Recalculate stats
+                        AddStats(gearNum);
+                    }
+                }
             }
         }
     }
+
     private void AddStats(int gear)
     {
         currentGear = GetGear(gear).GetComponent<GearBase>();
@@ -111,26 +158,32 @@ public class GearManager : MonoBehaviour
         moveSpeedMod += currentGear.GetMoveSpeedBonus();
         attackSpeedMod += currentGear.GetAttackSpeedBonus();
     }
+
     public float GetHPMod()
     {
         return HPMod;
     }
+
     public float GetAttackMod()
     {
         return attackMod;
     }
+
     public float GetSpawnSpeedMod()
     {
         return spawnSpeedMod;
     }
+
     public float GetMoveSpeedMod()
     {
         return moveSpeedMod;
     }
+
     public float GetAttackSpeedMod()
     {
         return attackSpeedMod;
     }
+
     public void SpawnSingleGear(int i, int j, int gearNum)
     {
         if (gearNum <= 0) return;
