@@ -63,7 +63,7 @@ public class UnitManager : MonoBehaviour
         Debug.Log("Spawned " + UnitList[unitIndex].name);
         totalUnitsAlive += 1;
 
-        Debug.Log(totalUnitsAlive);
+        // Debug.Log(totalUnitsAlive);
     }
     public void OnNextWave()
     {
