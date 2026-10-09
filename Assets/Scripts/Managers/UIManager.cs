@@ -36,19 +36,8 @@ public class UIManager : MonoBehaviour
 
         nextWaveButton.onClick.AddListener(OnNextWavePressed);
     }
-    private GameManager.State lastLoggedState;
-
     private void FixedUpdate()
     {
-        // Temporary: logs only when the state actually changes, so we can see in the
-        // Console whether/when Normal is ever reached after pressing Next Wave.
-        GameManager.State currentState = GameManager.instance.GetState();
-        if (currentState != lastLoggedState)
-        {
-            Debug.Log("UIManager sees state change to: " + currentState);
-            lastLoggedState = currentState;
-        }
-
         if(GameManager.instance.GetState() == GameManager.State.BeforeStart)
         {
             startButton.onClick.RemoveAllListeners();
