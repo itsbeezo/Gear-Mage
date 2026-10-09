@@ -12202,8 +12202,8 @@ MonoBehaviour:
   pShopGroup: {fileID: 2086501847}
   waveShopGroup: {fileID: 1160852699}
   nextWaveButton: {fileID: 1962257786}
-  levelVictoryGroup: {fileID: 0}
-  restartButton: {fileID: 0}
+  levelVictoryGroup: {fileID: 1699652244}
+  restartButton: {fileID: 1500236248}
   LevelCamera: {fileID: 519420031}
   GearBoxCamera: {fileID: 2117889076}
   smoothspeed: 0
