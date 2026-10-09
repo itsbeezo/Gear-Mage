@@ -3,23 +3,34 @@ using UnityEngine;
 
 public class WaveShopManager : MonoBehaviour
 {
+    public static WaveShopManager instance { get; private set; }
+
     [SerializeField] private List<GearSpawnSlot> spawnSlots;
 
     // Parameterless so it can be wired to a button's OnClick in the Inspector.
     // Spawns the test gear (id 4, Tank) into the first free slot.
     public void SpawnTestOffer()
     {
-        
-        GearSpawnSlot slot = FindFreeSlot();
-        if (slot == null)
-        {
-            Debug.Log("No free wave shop slot for a test offer.");
-            return;
-        }
-
-        SpawnOffer(slot, PickRandomID());
-        
+        ReRoll();
     }
+
+    public void ReRoll()
+    {
+        GearSpawnSlot slot = FindFreeSlot();
+        foreach (GearSpawnSlot s in spawnSlots)
+        {
+            if (!s.isOccupied) SpawnOffer(s, PickRandomID());
+            else
+            {
+                // Destroy(gameobject, 2f) --Makes the destroy wait 2 seconds, good for death animations)
+                Destroy(s.currentOffer.gameObject);
+                s.Clear();
+                SpawnOffer(s, PickRandomID());
+                Debug.Log("Got rid of old gear and replaced with new one");
+            }
+        }
+    }
+
 
     public int PickRandomID()
     {

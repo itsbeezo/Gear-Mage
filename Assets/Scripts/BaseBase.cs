@@ -42,6 +42,7 @@ public class BaseBase : MonoBehaviour
         if (GameManager.instance.GetCurrentWave() < 3 && TryGetComponent(out EnemyBase enemyBase))
         {
             GameManager.instance.SetStateWaveVictory();
+            // WaveShopManager.instance.ReRoll();
             GameManager.instance.NextWave();
             CurrencyManager.instance.AddBone(10);
         }
