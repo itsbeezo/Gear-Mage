@@ -716,6 +716,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerBase
       objectReference: {fileID: 0}
+    - target: {fileID: 6319857254367571997, guid: f00b25104c074194da3a8f316bcaa694, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 8188910399405028051, guid: f00b25104c074194da3a8f316bcaa694, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.8
@@ -3659,6 +3663,7 @@ MonoBehaviour:
   enemySpawnRate: 400
   enemyTankSpawnRate: 1000
   enemyArcherSpawnRate: 400
+  totalUnitsAlive: 0
 --- !u!4 &450164474
 Transform:
   m_ObjectHideFlags: 0
