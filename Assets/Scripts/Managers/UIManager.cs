@@ -36,8 +36,19 @@ public class UIManager : MonoBehaviour
 
         nextWaveButton.onClick.AddListener(OnNextWavePressed);
     }
+    private GameManager.State lastLoggedState;
+
     private void FixedUpdate()
     {
+        // Temporary: logs only when the state actually changes, so we can see in the
+        // Console whether/when Normal is ever reached after pressing Next Wave.
+        GameManager.State currentState = GameManager.instance.GetState();
+        if (currentState != lastLoggedState)
+        {
+            Debug.Log("UIManager sees state change to: " + currentState);
+            lastLoggedState = currentState;
+        }
+
         if(GameManager.instance.GetState() == GameManager.State.BeforeStart)
         {
             startButton.onClick.RemoveAllListeners();
@@ -67,11 +78,40 @@ public class UIManager : MonoBehaviour
             HideUIElement(waveShopGroup);
             HideUIElement(levelVictoryGroup);
 
-            GearBoxCamera.GetComponent<Physics2DRaycaster>().enabled = false;
-            Debug.Log("GearBox Camera Raycase off");
-            LevelCamera.GetComponent<Physics2DRaycaster>().enabled = false;
-            Debug.Log("Level Camera Raycast off");
-        }   
+            if (UnitManager.instance != null)
+            {
+                UnitManager.instance.totalUnitsAlive = 0;
+                Debug.Log("total units alive set to 0");
+            }
+            else
+            {
+                Debug.LogWarning("Normal state: UnitManager.instance is null - skipped resetting totalUnitsAlive.");
+            }
+
+            Debug.Log("Entered Normal state block in FixedUpdate");
+
+            Physics2DRaycaster gearBoxRaycaster = GearBoxCamera != null ? GearBoxCamera.GetComponent<Physics2DRaycaster>() : null;
+            if (gearBoxRaycaster != null)
+            {
+                gearBoxRaycaster.enabled = false;
+                Debug.Log("GearBox Camera Raycast off");
+            }
+            else
+            {
+                Debug.LogWarning("Normal state: GearBoxCamera or its Physics2DRaycaster is missing - could not turn it off.");
+            }
+
+            Physics2DRaycaster levelRaycaster = LevelCamera != null ? LevelCamera.GetComponent<Physics2DRaycaster>() : null;
+            if (levelRaycaster != null)
+            {
+                levelRaycaster.enabled = false;
+                Debug.Log("Level Camera Raycast off");
+            }
+            else
+            {
+                Debug.LogWarning("Normal state: LevelCamera or its Physics2DRaycaster is missing - could not turn it off.");
+            }
+        }
 
         if(GameManager.instance.GetState() == GameManager.State.PShopMenu)
         {
