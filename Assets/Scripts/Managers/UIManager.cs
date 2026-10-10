@@ -71,6 +71,9 @@ public class UIManager : MonoBehaviour
             Debug.Log("GearBox Camera Raycase off");
             LevelCamera.GetComponent<Physics2DRaycaster>().enabled = false;
             Debug.Log("Level Camera Raycast off");
+
+            UnitManager.instance.totalUnitsalive = 0;
+            Debug.Log("units spawned reset");
         }   
 
         if(GameManager.instance.GetState() == GameManager.State.PShopMenu)

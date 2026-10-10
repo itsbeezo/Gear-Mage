@@ -10,9 +10,9 @@ public class ShopOffer : MonoBehaviour
     private const int OfferSortBoost = 20;
 
     public int gearID;
-    public GearSpawnSlot homeSlot;
+    public SpawnSlot homeSlot;
 
-    public void Setup(int id, GearSpawnSlot slot)
+    public void Setup(int id, SpawnSlot slot)
     {
         gearID = id;
         homeSlot = slot;

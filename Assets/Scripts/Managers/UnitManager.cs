@@ -15,6 +15,8 @@ public class UnitManager : MonoBehaviour
     private float enemyArcherStep;
     private bool unitsCanMove = true;
     private UnitBase[] currentUnits;
+    public int totalUnitsalive;
+
     private void Start()
     {
         instance = this;
@@ -59,6 +61,10 @@ public class UnitManager : MonoBehaviour
     {
         Instantiate(UnitList[unitIndex], spawnPosition, Quaternion.identity);
         Debug.Log("Spawned " + UnitList[unitIndex].name);
+
+        totalUnitsalive =+ 1;
+
+        Debug.Log(totalUnitsalive);        
     }
     public void OnNextWave()
     {

@@ -153,6 +153,8 @@ public class UnitBase : MonoBehaviour
         if (currentHP <= 0)//Destroy when HP is zero
         {
             DestroySelf();
+
+            UnitManager.instance.totalUnitsalive -= 1;
         }
         healthBar.fillAmount = currentHP / maxHP;//Update the healthbar
     }

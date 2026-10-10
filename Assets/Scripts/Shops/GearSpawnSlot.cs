@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GearSpawnSlot : MonoBehaviour
+public class SpawnSlot : MonoBehaviour
 {
     // Where a new offer is centred. Leave empty to use this object's own position.
     [SerializeField] private Transform spawnPoint;

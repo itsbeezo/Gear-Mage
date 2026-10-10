@@ -5,7 +5,8 @@ public class WaveShopManager : MonoBehaviour
 {
     public static WaveShopManager instance { get; private set; }
 
-    [SerializeField] private List<GearSpawnSlot> spawnSlots;
+    [SerializeField] private List<SpawnSlot> spawnSlots;
+    [SerializeField] private List<SpawnSlot> storeSlots;
 
     // Parameterless so it can be wired to a button's OnClick in the Inspector.
     // Spawns the test gear (id 4, Tank) into the first free slot.
@@ -16,8 +17,9 @@ public class WaveShopManager : MonoBehaviour
 
     public void ReRoll()
     {
-        GearSpawnSlot slot = FindFreeSlot();
-        foreach (GearSpawnSlot s in spawnSlots)
+        SpawnSlot slot = FindFreeSlot();
+
+        foreach (var s in spawnSlots)
         {
             if (!s.isOccupied) SpawnOffer(s, PickRandomID());
             else
@@ -26,7 +28,17 @@ public class WaveShopManager : MonoBehaviour
                 Destroy(s.currentOffer.gameObject);
                 s.Clear();
                 SpawnOffer(s, PickRandomID());
-                Debug.Log("Got rid of old gear and replaced with new one");
+            }
+        }
+
+        foreach (var t in storeSlots)
+        {
+            if (!t.isOccupied) SpawnOffer(t, PickRandomID());
+            else
+            {
+                Destroy(t.currentOffer.gameObject);
+                t.Clear();
+                SpawnOffer(t, PickRandomID());
             }
         }
     }
@@ -47,7 +59,7 @@ public class WaveShopManager : MonoBehaviour
 
     // Creates a gear offer centred on the slot. The offer is parented to the slot,
     // so it hides and moves with the slot's shop group.
-    public ShopOffer SpawnOffer(GearSpawnSlot slot, int gearId)
+    public ShopOffer SpawnOffer(SpawnSlot slot, int gearId)
     {
         GameObject prefab = GearManager.instance.GetGear(gearId);
         GameObject gear = Instantiate(prefab, slot.SpawnPosition, prefab.transform.rotation);
@@ -65,9 +77,9 @@ public class WaveShopManager : MonoBehaviour
         return offer;
     }
 
-    private GearSpawnSlot FindFreeSlot()
+    private SpawnSlot FindFreeSlot()
     {
-        foreach (GearSpawnSlot slot in spawnSlots)
+        foreach (SpawnSlot slot in spawnSlots)
         {
             if (!slot.isOccupied) return slot;
         }
