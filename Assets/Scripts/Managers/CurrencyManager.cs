@@ -130,8 +130,8 @@ public class CurrencyManager : MonoBehaviour
     public void AddBone(int boneAmount)
     {
             boneCount += boneAmount;
-            UpdateDisplayTextBone();
             SaveBone();
+            UpdateDisplayTextBone();
             return;
         
     }
