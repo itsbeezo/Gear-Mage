@@ -12,6 +12,8 @@ public class ShopOffer : MonoBehaviour
     public int gearID;
     public SpawnSlot homeSlot;
 
+
+    // make this a wave slot var and make another method for level slot
     public void Setup(int id, SpawnSlot slot)
     {
         gearID = id;
@@ -31,4 +33,5 @@ public class ShopOffer : MonoBehaviour
             sr.sortingOrder += OfferSortBoost;
         }
     }
+
 }

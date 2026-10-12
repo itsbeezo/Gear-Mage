@@ -10,13 +10,13 @@ public class PurchaseManager : MonoBehaviour
     }
 
     // Spends gold for one gear. Called when a shop offer is dropped on the gearbox.
-    // Returns false and spends nothing if the id is unknown, the shop isn't open,
-    // or the player can't afford it. Placing the gear itself is handled by UIGearSlot.
+    // Returns false and spends nothing if the id is unknown or the player can't
+    // afford it. Which shops are open is enforced by scene visibility, not state.
+    // Placing the gear itself is handled by UIGearSlot.
     public bool TryBuyGear(int id)
     {
         if (!TryGetDefinition(id, out GearDefinition def)) return false;
 
-        if (GameManager.instance == null || GameManager.instance.GetState() != GameManager.State.WaveVictory) return false;
         if (CurrencyManager.instance == null) return false;
 
         if (!CurrencyManager.instance.TrySpendGold(def.cost))

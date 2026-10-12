@@ -14,7 +14,12 @@ public class CurrencyManager : MonoBehaviour
     private int boneCount;
     public int cost;
 
-    private const string Bone_SAVE_KEY = "SavedBoneCount";
+    private static bool isFirstGoldLoadInSequence = true;
+
+    private const string BONE_SAVE_KEY = "SavedBoneCount";
+
+    private const string GOLD_SAVE_KEY = "GoldIsSaved";
+
 
     private void OnEnable()
     {
@@ -43,15 +48,26 @@ public class CurrencyManager : MonoBehaviour
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
         LoadBone();
-    }
 
+        if (isFirstGoldLoadInSequence)
+        {
+            isFirstGoldLoadInSequence = false;
+            ClearGoldSave();
+        }
+        else
+        {
+            LoadGold();
+        }
+    }
     public void FindSceneReferences()
     {
         GameObject displayObject = GameObject.FindGameObjectWithTag("Gold Display");
         GameObject fallObject = GameObject.FindGameObjectWithTag("CoinFall Area");
+        GameObject boneDisplayObject = GameObject.FindGameObjectWithTag("Bone Display");
+
 
         if (displayObject != null)
         {
@@ -62,6 +78,12 @@ public class CurrencyManager : MonoBehaviour
         if (fallObject != null)
         {
             coinFallArea = fallObject;
+        }
+
+        if (boneDisplayObject != null)
+        {
+            boneCountDisplay = boneDisplayObject.GetComponent<TextMeshProUGUI>();
+            UpdateDisplayTextBone();
         }
 
     }
@@ -84,12 +106,14 @@ public class CurrencyManager : MonoBehaviour
 
         GameObject goldInstance = Instantiate(goldPrefab, enemyDeathPosition, Quaternion.identity);
         StartCoroutine(MoveGoldAnimation(goldAmount, goldInstance)); 
+        SaveGold();
     }
 
     public void RefundGold(int goldAmount)
     {
         goldCount += goldAmount;
         UpdateDisplayText();
+        SaveGold();
     }
 
     // Spends gold only if the balance covers it. Returns false and changes nothing otherwise.
@@ -99,19 +123,17 @@ public class CurrencyManager : MonoBehaviour
 
         goldCount -= goldAmount;
         UpdateDisplayText();
+        SaveGold();
         return true;
     }
 
     public void AddBone(int boneAmount)
     {
-        if (boneCountDisplay != null)
-        {
             boneCount += boneAmount;
-            SaveBone();
             UpdateDisplayTextBone();
-
+            SaveBone();
             return;
-        }
+        
     }
 
     IEnumerator MoveGoldAnimation(int goldAmount, GameObject goldInstance)
@@ -144,6 +166,7 @@ public class CurrencyManager : MonoBehaviour
 
         //SaveBone();
         UpdateDisplayText();
+        SaveGold();
     }
 
     private void UpdateDisplayText()
@@ -158,15 +181,33 @@ public class CurrencyManager : MonoBehaviour
             boneCountDisplay.text = "Bones:" + boneCount;
     }
 
+    public void SaveGold()
+    {
+        PlayerPrefs.SetInt(GOLD_SAVE_KEY, goldCount);
+        PlayerPrefs.Save();
+    }
+
+    public void LoadGold()
+    {
+        goldCount = PlayerPrefs.GetInt(GOLD_SAVE_KEY, 0);
+        UpdateDisplayText();
+    }
+
+    public void ClearGoldSave()
+    {
+        PlayerPrefs.DeleteKey(GOLD_SAVE_KEY);
+        goldCount = 0;
+    }
+
     public void SaveBone()
     {
-        PlayerPrefs.SetInt(Bone_SAVE_KEY, boneCount);
+        PlayerPrefs.SetInt(BONE_SAVE_KEY, boneCount);
         PlayerPrefs.Save(); 
     }
 
     public void LoadBone()
     {
-        boneCount = PlayerPrefs.GetInt(Bone_SAVE_KEY, 0);
+        boneCount = PlayerPrefs.GetInt(BONE_SAVE_KEY, 0);
         UpdateDisplayTextBone();
     }
 

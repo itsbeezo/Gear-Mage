@@ -19,6 +19,7 @@ public class WaveShopManager : MonoBehaviour
     {
         SpawnSlot slot = FindFreeSlot();
 
+
         foreach (var s in spawnSlots)
         {
             if (!s.isOccupied) SpawnOffer(s, PickRandomID());
@@ -82,6 +83,11 @@ public class WaveShopManager : MonoBehaviour
         foreach (SpawnSlot slot in spawnSlots)
         {
             if (!slot.isOccupied) return slot;
+        }
+
+        foreach (SpawnSlot slot in spawnSlots)
+        {
+            if (!slot.isOccupied) return slot;   
         }
         return null;
     }

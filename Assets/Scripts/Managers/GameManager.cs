@@ -75,6 +75,10 @@ public class GameManager : MonoBehaviour
         state = State.EndGame;
 
         victoryScreen.gameObject.SetActive(true);
+        
+        // Uncomment this when you have a n actually level system and doesnt end after 3 waves
+        // CurrencyManager.instance.ClearGoldSave();
+
         //buttonShop.gameObject.SetActive(true);
         //UIManager.instance.SwitchCamera();
     }
