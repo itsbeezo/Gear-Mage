@@ -46,7 +46,7 @@ public class ShopManager : MonoBehaviour
             GameManager.instance.startButton.SetActive(true);
             GameManager.instance.playButton.SetActive(true);
             returnButton.gameObject.SetActive(false);
-            gearBox.transform.position = new Vector3(-2.02f, 2.9f, 11);
+            // gearBox.transform.position = new Vector3(-2.02f, 2.9f, 11);
         }
     }
 

@@ -11,7 +11,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Button startButton;
     [SerializeField] private Button upgradeButton;
     [SerializeField] private Button playButton;
-    [SerializeField] private Button pShopButton;
+    [SerializeField] public Button pShopButton;
     [SerializeField] private GameObject upgradeMenuGroup;
     [SerializeField] private GameObject pShopGroup;
     [SerializeField] private GameObject waveShopGroup;
@@ -98,7 +98,6 @@ public class UIManager : MonoBehaviour
             nextWaveButton.onClick.AddListener(GameManager.instance.SetStateNormal);
             nextWaveButton.onClick.AddListener(UnitManager.instance.OnNextWave);
 
-            UnitManager.instance.totalUnitsalive = 0;
         }
 
         if(GameManager.instance.GetState() == GameManager.State.EndGame)

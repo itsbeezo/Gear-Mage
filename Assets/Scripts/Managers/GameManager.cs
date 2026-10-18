@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance { get; private set; }
-    [SerializeField] private Button buttonShop;
+    [SerializeField] public Button buttonShop;
     public ShopManager shopManager;
     public GameObject startButton;
     public GameObject playButton;
@@ -75,11 +75,11 @@ public class GameManager : MonoBehaviour
         state = State.EndGame;
 
         victoryScreen.gameObject.SetActive(true);
-        
-        // Uncomment this when you have a n actually level system and doesnt end after 3 waves
+
+        // Uncomment this when you have an actually level system and doesnt end after 3 waves
         // CurrencyManager.instance.ClearGoldSave();
 
-        //buttonShop.gameObject.SetActive(true);
+        buttonShop.gameObject.SetActive(true);
         //UIManager.instance.SwitchCamera();
     }
     public int GetCurrentWave()
@@ -100,6 +100,10 @@ public class GameManager : MonoBehaviour
     {
         shopManager.OpenShop();
         buttonShop.gameObject.SetActive(false);
+        UIManager.instance.HideUIElement(startButton.gameObject);
+        UIManager.instance.HideUIElement(upgradeButton.gameObject);
+        UIManager.instance.HideUIElement(playButton.gameObject);
+        UIManager.instance.HideUIElement(UIManager.instance.pShopButton.gameObject);
     }
 
     public void NextLevel()
