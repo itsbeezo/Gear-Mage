@@ -104,6 +104,7 @@ public class GameManager : MonoBehaviour
         UIManager.instance.HideUIElement(upgradeButton.gameObject);
         UIManager.instance.HideUIElement(playButton.gameObject);
         UIManager.instance.HideUIElement(UIManager.instance.pShopButton.gameObject);
+        UIManager.instance.SwitchCamera();
     }
 
     public void NextLevel()

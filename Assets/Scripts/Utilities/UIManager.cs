@@ -130,11 +130,13 @@ public class UIManager : MonoBehaviour
         {
             LevelCamera.enabled = false;
             GearBoxCamera.enabled = true;
+            Debug.Log("Gear Camera Enabled");
         }
         else if (GearBoxCamera.enabled == true)
         {
             GearBoxCamera.enabled = false;
             LevelCamera.enabled = true;
+            Debug.Log("Level Camera Enabled");
         }
     }
 
