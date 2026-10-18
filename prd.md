@@ -3,7 +3,14 @@
 - **Date:** 2026-10-18
 - **Branch:** `Architecture-fixes` (local only, no push)
 - **Project:** `~/Documents/GitHub/Gear-Mage` (Unity 6000.4.9f1). Note: `~/Gear-Mage` is an older separate copy, not this project.
-- **Status:** Plan agreed via grilling session; implementation pending.
+- **Status:** Plan agreed via grilling session; baseline taken (step 1); moves not started.
+
+## Baseline (step 1, recorded 2026-10-18, before any move)
+
+- **EditMode tests:** all passed, reported by the user from the Unity Test Runner. Exact pass/skip counts were not
+  recorded; note them on the next run so the post-move run can be compared by number.
+- **Scenes / Console:** not yet reported. Check for existing "Missing (Mono Script)" components and Console
+  errors before moving, so any that show up afterwards can be told apart from ones already there.
 
 ## Goal
 
