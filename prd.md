@@ -7,8 +7,8 @@
 
 ## Baseline (step 1, recorded 2026-10-18, before any move)
 
-- **EditMode tests:** all passed, reported by the user from the Unity Test Runner. Exact pass/skip counts were not
-  recorded; note them on the next run so the post-move run can be compared by number.
+- **EditMode tests:** 59 tests, all 59 passed, reported by the user from the Unity Test Runner. After the moves,
+  expect 59/59 again.
 - **Scenes / Console:** not yet reported. Check for existing "Missing (Mono Script)" components and Console
   errors before moving, so any that show up afterwards can be told apart from ones already there.
 
