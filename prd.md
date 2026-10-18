@@ -3,14 +3,25 @@
 - **Date:** 2026-10-18
 - **Branch:** `Architecture-fixes` (local only, no push)
 - **Project:** `~/Documents/GitHub/Gear-Mage` (Unity 6000.4.9f1). Note: `~/Gear-Mage` is an older separate copy, not this project.
-- **Status:** Plan agreed via grilling session; baseline taken (step 1); moves not started.
+- **Status:** Done 2026-10-18. Moves committed (aa1f2ca..fae2de2, folder metas 778b364), static checks pass, no compile errors, EditMode 59/59, no new Missing Scripts, Play Mode smoke test passed. Not pushed.
 
 ## Baseline (step 1, recorded 2026-10-18, before any move)
 
 - **EditMode tests:** 59 tests, all 59 passed, reported by the user from the Unity Test Runner. After the moves,
   expect 59/59 again.
-- **Scenes / Console:** not yet reported. Check for existing "Missing (Mono Script)" components and Console
-  errors before moving, so any that show up afterwards can be told apart from ones already there.
+- **Scenes / Console:** checked statically before moving (GUID snapshot): `Main.unity` and 10 `_Recovery/*.unity`
+  scenes already had one `m_Script` GUID (`15e75e0019702776f98bf01f7e36d92a`) that resolves to no script, i.e. a
+  pre-existing Missing Script. Live Editor.log had 0 `error CS` lines before the reimport.
+
+## Result (2026-10-18)
+
+- Commits: aa1f2ca Inventory, fd86612 Shops + LevelShop rename, 0caa7a6 Abilities, f799df5 Units, 6f3a714 Bases,
+  d075ba5 Modifiers, fae2de2 Utilities, 778b364 Unity-generated folder metas. All 54 path changes are R100 renames.
+- Static: all 46 pre-move GUIDs present once, same file names (allowing the 3 planned renames), same 296 referencing
+  files; only new GUIDs are the 3 new folders; no orphan `.meta`/`.cs`; tree matches the target layout;
+  `Utilities/` kept the old `Managers/` GUID `c1ad5b36…`.
+- Compile: live Editor.log shows `Tundra build success` for the reimport and 0 `error CS` lines.
+- User: EditMode 59/59 passed; only the pre-existing Missing Script in `Main.unity`; Play Mode smoke test works.
 
 ## Goal
 
@@ -137,5 +148,12 @@ Every move includes the file's `.meta`.
   - `UnitManager` calls `GetComponent<BaseBase>()` on the base singletons each reset.
   - `BaseBase` reaches into `GameManager`, `CurrencyManager`, and (commented out) `WaveShopManager` directly on
     death: base destruction, wave progression, and rewards are coupled in one method.
+- **Pre-existing Missing Script** in `Main.unity` (and the `_Recovery` scenes): `m_Script` GUID
+  `15e75e0019702776f98bf01f7e36d92a` points at no script. Find the GameObject and remove or re-link the component.
+- **`Assets/_Recovery/`** holds ~20 auto-recovered scenes that reference most scripts; consider deleting them.
+- **Editor.log location:** Unity Hub runs as a Flatpak, so the live log is
+  `~/.var/app/com.unity.UnityHub/config/unity3d/Editor.log`; `~/.config/unity3d/Editor.log` is stale (last written
+  2026-09-30). Add this to the `gear-mage-unity` skill's facts. `[Licensing::Client] Error: Code 404` lines are
+  pre-existing noise in that log.
 - The `gear-mage-unity` skill's project facts are stale: the project path is no longer a symlink, there are now 2
   asmdefs, and EditMode tests exist. Update the skill separately.
