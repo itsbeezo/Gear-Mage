@@ -172,7 +172,7 @@ public class CurrencyManager : MonoBehaviour
     private void UpdateDisplayText()
     {
         if (goldCountDisplay != null)
-            goldCountDisplay.text = "Gold:" + goldCount;
+            goldCountDisplay.text = ":" + goldCount;
     }
 
     private void UpdateDisplayTextBone()
