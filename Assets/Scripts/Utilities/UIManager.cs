@@ -1,147 +1,81 @@
-using System.Runtime.InteropServices;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager instance { get; private set; }
-    //List of UI Elements
-    [SerializeField] private Button startButton;
-    [SerializeField] private Button upgradeButton;
-    [SerializeField] private Button playButton;
-    [SerializeField] public Button pShopButton;
+    //Screens shown/hidden per GameManager.State
+    [Header("Before Start")]
+    [SerializeField] private GameObject startButton;
+    [SerializeField] private GameObject upgradeButton;
+    [SerializeField] private GameObject playButton;
+    [SerializeField] private GameObject pShopButton;
     [SerializeField] private GameObject upgradeMenuGroup;
     [SerializeField] private GameObject pShopGroup;
+    [Header("Between Waves / Levels")]
     [SerializeField] private GameObject waveShopGroup;
-    [SerializeField] private Button nextWaveButton;
     [SerializeField] private GameObject levelVictoryGroup;
-    [SerializeField] private Button restartButton;
-    //Camera Variables (temp?)
+    [SerializeField] private GameObject victoryContinueButton;
+    [Header("Cameras")]
     public Camera LevelCamera;
     public Camera GearBoxCamera;
-    public float smoothspeed;
-    private Vector3 targetPos, newpos;
-    public Vector3 minPos, maxPos;
 
-    [SerializeField] private GameObject GearMage;
+    private Physics2DRaycaster levelRaycaster;
+    private Physics2DRaycaster gearBoxRaycaster;
 
-    private void Start()
+    private void Awake()
     {
         instance = this;
-        //Camera Stuff (temp?)
+        levelRaycaster = LevelCamera.GetComponent<Physics2DRaycaster>();
+        gearBoxRaycaster = GearBoxCamera.GetComponent<Physics2DRaycaster>();
+    }
+    private void Start()
+    {
+        ApplyState(GameManager.instance.GetState());
+
+    }
+
+    // Called by GameManager.SetState; every state sets every screen explicitly so nothing depends on the previous one
+    public void ApplyState(GameManager.State state)
+    {
+        bool inLobby = state == GameManager.State.BeforeStart
+            || state == GameManager.State.UpgradeMenu
+            || state == GameManager.State.PShopMenu;
+
+        startButton.SetActive(inLobby);
+        upgradeButton.SetActive(inLobby);
+        playButton.SetActive(inLobby);
+        pShopButton.SetActive(inLobby);
+        upgradeMenuGroup.SetActive(state == GameManager.State.UpgradeMenu);
+        pShopGroup.SetActive(state == GameManager.State.PShopMenu);
+        waveShopGroup.SetActive(state == GameManager.State.WaveVictory);
+        levelVictoryGroup.SetActive(state == GameManager.State.EndGame);
+        victoryContinueButton.SetActive(state == GameManager.State.EndGame);
+
+        // Lobby looks at the gearbox; everything after Start looks at the level
+        LevelCamera.enabled = !inLobby;
+        GearBoxCamera.enabled = inLobby;
+
+        // Gears can be dragged in the lobby (gearbox) and in the wave shop (level); not during play or on the victory screen
+        gearBoxRaycaster.enabled = inLobby;
+        levelRaycaster.enabled = state == GameManager.State.WaveVictory;
+    }
+
+    // Victory screen's Continue button (Inspector OnClick)
+    public void OpenShop()
+    {
+        ShopManager.instance.OpenShop();
+        victoryContinueButton.SetActive(false);
         LevelCamera.enabled = false;
         GearBoxCamera.enabled = true;
-
-        nextWaveButton.onClick.AddListener(OnNextWavePressed);
-    }
-    private void FixedUpdate()
-    {
-        if(GameManager.instance.GetState() == GameManager.State.BeforeStart)
-        {
-            startButton.onClick.RemoveAllListeners();
-            startButton.onClick.AddListener(GameManager.instance.SetStateNormal);
-            startButton.onClick.AddListener(SwitchCamera);
-            // startButton.onClick.AddListener(SpawnMage);
-
-            upgradeButton.onClick.RemoveAllListeners();
-            upgradeButton.onClick.AddListener(GameManager.instance.SetStateUpgradeMenu);
-
-            playButton.onClick.RemoveAllListeners();
-            playButton.onClick.AddListener(GameManager.instance.SetStateBeforeStart);
-
-            pShopButton.onClick.RemoveAllListeners();
-            pShopButton.onClick.AddListener(GameManager.instance.SetStatePShopMenu);
-
-            HideUIElement(pShopGroup);
-            HideUIElement(upgradeMenuGroup);
-        }
-
-        if(GameManager.instance.GetState() == GameManager.State.Normal)
-        {
-            HideUIElement(startButton.gameObject);
-            HideUIElement(upgradeButton.gameObject);
-            HideUIElement(playButton.gameObject);
-            HideUIElement(pShopButton.gameObject);
-            HideUIElement(waveShopGroup);
-            HideUIElement(levelVictoryGroup);
-
-            GearBoxCamera.GetComponent<Physics2DRaycaster>().enabled = false;
-            Debug.Log("GearBox Camera Raycase off");
-            LevelCamera.GetComponent<Physics2DRaycaster>().enabled = false;
-            Debug.Log("Level Camera Raycast off");
-
-        }   
-
-        if(GameManager.instance.GetState() == GameManager.State.PShopMenu)
-        {
-            ShowUIElement(pShopGroup);
-            HideUIElement(upgradeMenuGroup);
-        }
-
-        if(GameManager.instance.GetState() == GameManager.State.UpgradeMenu)
-        {
-            ShowUIElement(upgradeMenuGroup);
-            HideUIElement(pShopGroup);
-        } 
-
-        if(GameManager.instance.GetState() == GameManager.State.WaveVictory)
-        {
-            ShowUIElement(waveShopGroup);
-            GearBoxCamera.GetComponent<Physics2DRaycaster>().enabled = false;
-            Debug.Log("GearBox Camera Raycase off");
-            LevelCamera.GetComponent<Physics2DRaycaster>().enabled = true;
-            Debug.Log("Level Camera Raycast on");
-            
-            nextWaveButton.onClick.RemoveAllListeners();
-            nextWaveButton.onClick.AddListener(GameManager.instance.SetStateNormal);
-            nextWaveButton.onClick.AddListener(UnitManager.instance.OnNextWave);
-
-        }
-
-        if(GameManager.instance.GetState() == GameManager.State.EndGame)
-        {
-            ShowUIElement(levelVictoryGroup);
-
-            restartButton.onClick.RemoveAllListeners();
-            restartButton.onClick.AddListener(GameManager.instance.ResetScene);
-        }
-    }
-    private void OnNextWavePressed()
-    {
-        Debug.Log("Next wave started");
-        GameManager.instance.SetStateNormal();
-        UnitManager.instance.OnNextWave();
     }
 
-    public void ShowUIElement(GameObject elementToShow)
-    {
-        elementToShow.SetActive(true);
-    }
-    public void HideUIElement(GameObject elementToHide)
-    {
-        elementToHide.SetActive(false);
-    }
-    //Camera Functions (temp?) || I think this is helpful and shouldn't be removed for now - Antonio
     public void SwitchCamera()
     {
         if (LevelCamera.enabled == true)
         {
-            LevelCamera.enabled = false;
-            GearBoxCamera.enabled = true;
-            Debug.Log("Gear Camera Enabled");
-        }
-        else if (GearBoxCamera.enabled == true)
-        {
-            GearBoxCamera.enabled = false;
-            LevelCamera.enabled = true;
-            Debug.Log("Level Camera Enabled");
+            
         }
     }
 
-    // private void SpawnMage()
-    // {
-    //     GearMage.enabled = true;
-    // }
 }

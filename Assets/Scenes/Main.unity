@@ -641,7 +641,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 71434149}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 706795191}
+        m_TargetAssemblyTypeName: GameManager, GearMage.Runtime
+        m_MethodName: SetStatePShopMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &71434149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1123,7 +1135,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35db68a9b3a4b9744b9c21ff16ec1020, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShopManager
-  contButton: {fileID: 118320623}
   gearBox: {fileID: 771396868}
   shopGroup: {fileID: 220719361}
   gearBoxToggle: {fileID: 2044141307}
@@ -1594,11 +1605,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!1 &217107408 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5263795672277924463, guid: dd279b8bd4f14c4c0af9d56bc8ab99fe, type: 3}
-  m_PrefabInstance: {fileID: 9930084997696368}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &220071160 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7890931995036899018, guid: e5ad80d0061b61582868323b10049023, type: 3}
@@ -2918,7 +2924,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 372766029}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 706795191}
+        m_TargetAssemblyTypeName: GameManager, GearMage.Runtime
+        m_MethodName: SetStateUpgradeMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &372766029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6555,13 +6573,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 647459717d377154f973b6b8720ddfd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  buttonShop: {fileID: 234074993}
-  shopManager: {fileID: 127057922}
-  startButton: {fileID: 867228737}
-  playButton: {fileID: 996359200}
-  upgradeButton: {fileID: 372766026}
-  permShopButton: {fileID: 71434146}
-  victoryScreen: {fileID: 1699652244}
 --- !u!4 &706795192
 Transform:
   m_ObjectHideFlags: 0
@@ -7914,7 +7925,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 867228740}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 706795191}
+        m_TargetAssemblyTypeName: GameManager, GearMage.Runtime
+        m_MethodName: SetStateNormal
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &867228740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9313,27 +9336,11 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!1 &996359200 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 621007457053211574, guid: af42ce8f676537824aa98e01a2c8e62d, type: 3}
-  m_PrefabInstance: {fileID: 148657517338279324}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &996359201 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8326178746007292868, guid: af42ce8f676537824aa98e01a2c8e62d, type: 3}
   m_PrefabInstance: {fileID: 148657517338279324}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &996359202 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5868587963089370753, guid: af42ce8f676537824aa98e01a2c8e62d, type: 3}
-  m_PrefabInstance: {fileID: 148657517338279324}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 996359200}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
 --- !u!4 &1007067882 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6381848221374317071, guid: 252ad91aa948545ab917306c478acd38, type: 3}
@@ -12869,22 +12876,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1efabd31a2f446f42957f0dab32bd022, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
-  startButton: {fileID: 867228739}
-  upgradeButton: {fileID: 372766028}
-  playButton: {fileID: 996359202}
-  pShopButton: {fileID: 71434148}
+  startButton: {fileID: 0}
+  upgradeButton: {fileID: 0}
+  playButton: {fileID: 0}
+  pShopButton: {fileID: 0}
   upgradeMenuGroup: {fileID: 1539035734}
   pShopGroup: {fileID: 2086501847}
   waveShopGroup: {fileID: 1160852699}
-  nextWaveButton: {fileID: 1962257786}
   levelVictoryGroup: {fileID: 1699652244}
-  restartButton: {fileID: 1500236248}
+  victoryContinueButton: {fileID: 0}
   LevelCamera: {fileID: 519420031}
   GearBoxCamera: {fileID: 2117889076}
-  smoothspeed: 0
-  minPos: {x: 0, y: 0, z: 0}
-  maxPos: {x: 0, y: 0, z: 0}
-  GearMage: {fileID: 217107408}
 --- !u!1 &1356949828
 GameObject:
   m_ObjectHideFlags: 0
@@ -22709,6 +22711,34 @@ PrefabInstance:
     - target: {fileID: 5868587963089370753, guid: af42ce8f676537824aa98e01a2c8e62d, type: 3}
       propertyPath: m_Colors.m_SelectedColor.r
       value: 0.11503205
+      objectReference: {fileID: 0}
+    - target: {fileID: 5868587963089370753, guid: af42ce8f676537824aa98e01a2c8e62d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5868587963089370753, guid: af42ce8f676537824aa98e01a2c8e62d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5868587963089370753, guid: af42ce8f676537824aa98e01a2c8e62d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 706795191}
+    - target: {fileID: 5868587963089370753, guid: af42ce8f676537824aa98e01a2c8e62d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5868587963089370753, guid: af42ce8f676537824aa98e01a2c8e62d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetStateBeforeStart
+      objectReference: {fileID: 0}
+    - target: {fileID: 5868587963089370753, guid: af42ce8f676537824aa98e01a2c8e62d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GameManager, GearMage.Runtime
+      objectReference: {fileID: 0}
+    - target: {fileID: 5868587963089370753, guid: af42ce8f676537824aa98e01a2c8e62d, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8326178746007292868, guid: af42ce8f676537824aa98e01a2c8e62d, type: 3}
       propertyPath: m_Pivot.x

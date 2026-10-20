@@ -62,7 +62,7 @@ public class UnitManager : MonoBehaviour
         Instantiate(UnitList[unitIndex], spawnPosition, Quaternion.identity);
         Debug.Log("Spawned " + UnitList[unitIndex].name);
 
-        totalUnitsalive =+ 1;
+        totalUnitsalive += 1;
 
         Debug.Log(totalUnitsalive);        
     }

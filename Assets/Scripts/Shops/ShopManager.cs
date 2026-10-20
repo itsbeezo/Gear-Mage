@@ -1,13 +1,10 @@
 using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ShopManager : MonoBehaviour
 {
     public static ShopManager instance { get; private set; }
-
-    [SerializeField] private Button contButton;
 
     public GameObject gearBox;
 
@@ -40,11 +37,6 @@ public class ShopManager : MonoBehaviour
             inventoryGears.SetActive(true);// Might never make this true again after first placement
             shopGroup.SetActive(false);
             gearBoxToggle.gameObject.SetActive(false);
-            //contButton.gameObject.SetActive(true);
-            GameManager.instance.upgradeButton.SetActive(true);
-            GameManager.instance.permShopButton.SetActive(true);
-            GameManager.instance.startButton.SetActive(true);
-            GameManager.instance.playButton.SetActive(true);
             returnButton.gameObject.SetActive(false);
             gearBox.transform.position = new Vector3(-2.02f, 2.9f, 11);
         }

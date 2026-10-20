@@ -1,19 +1,9 @@
-using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance { get; private set; }
-    [SerializeField] public Button buttonShop;
-    public ShopManager shopManager;
-    public GameObject startButton;
-    public GameObject playButton;
-    public GameObject upgradeButton;
-    public GameObject permShopButton;
-    public GameObject victoryScreen;
     public enum State
 
     {
@@ -27,9 +17,8 @@ public class GameManager : MonoBehaviour
     private State state;
     private int wave = 1;
 
-    private void Start()
+    private void Awake()
     {
-        //shopManager = GameObject.Find("ShopManager").GetComponent<ShopManager>();
         instance = this;
         state = State.BeforeStart;
     }
@@ -39,48 +28,29 @@ public class GameManager : MonoBehaviour
         {
             ResetScene();
         }
-        Debug.Log(state);
     }
     public State GetState()
     {
         return state;
     }
-    public void SetStateBeforeStart()
+    public void SetState(State newState)
     {
-        state = State.BeforeStart;
-        buttonShop.gameObject.SetActive(true);
+        if (state == newState) return;
+
+        state = newState;
+        if (UIManager.instance != null) UIManager.instance.ApplyState(state);
     }
-    public void SetStateUpgradeMenu()
-    {
-        state = State.UpgradeMenu;
-        buttonShop.gameObject.SetActive(false);
-    }
-    public void SetStatePShopMenu()
-    {
-        state = State.PShopMenu;
-        buttonShop.gameObject.SetActive(false);
-        Debug.Log("Shop Menu");
-    }
-    public void SetStateNormal()
-    {
-        state = State.Normal;
-        buttonShop.gameObject.SetActive(false);
-    }
-    public void SetStateWaveVictory()
-    {
-        state = State.WaveVictory;
-    }
+    // Parameterless wrappers so buttons can target them from the Inspector OnClick list (enums aren't allowed there)
+    public void SetStateBeforeStart() { SetState(State.BeforeStart); }
+    public void SetStateUpgradeMenu() { SetState(State.UpgradeMenu); }
+    public void SetStatePShopMenu() { SetState(State.PShopMenu); }
+    public void SetStateNormal() { SetState(State.Normal); }
+    public void SetStateWaveVictory() { SetState(State.WaveVictory); }
     public void SetStateEndGame()
     {
-        state = State.EndGame;
-
-        victoryScreen.gameObject.SetActive(true);
-
         // Uncomment this when you have an actually level system and doesnt end after 3 waves
         // CurrencyManager.instance.ClearGoldSave();
-
-        buttonShop.gameObject.SetActive(true);
-        //UIManager.instance.SwitchCamera();
+        SetState(State.EndGame);
     }
     public int GetCurrentWave()
     {
@@ -89,27 +59,20 @@ public class GameManager : MonoBehaviour
     public void NextWave()
     {
         wave += 1;
-        UIManager.instance.LevelCamera.GetComponent<Physics2DRaycaster>().enabled = false;
-        Debug.Log("Raycast off");
+    }
+    public void StartNextWave()
+    {
+        UnitManager.instance.OnNextWave();
+        SetStateNormal();
     }
     public void ResetScene()
     {
         SceneManager.LoadScene(0);
     }
-    public void ShopScene()
-    {
-        shopManager.OpenShop();
-        buttonShop.gameObject.SetActive(false);
-        UIManager.instance.HideUIElement(startButton.gameObject);
-        UIManager.instance.HideUIElement(upgradeButton.gameObject);
-        UIManager.instance.HideUIElement(playButton.gameObject);
-        UIManager.instance.HideUIElement(UIManager.instance.pShopButton.gameObject);
-        UIManager.instance.SwitchCamera();
-    }
 
     public void NextLevel()
     {
-        SceneManager.LoadScene(0);//Temporary 
+        SceneManager.LoadScene(0);//Temporary
         //I plan To Add PlayerPrefs for gear matrix so the gars pass on to the next level
     }
 
