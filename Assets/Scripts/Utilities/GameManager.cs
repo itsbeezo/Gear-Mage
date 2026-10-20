@@ -105,6 +105,7 @@ public class GameManager : MonoBehaviour
         UIManager.instance.HideUIElement(playButton.gameObject);
         UIManager.instance.HideUIElement(UIManager.instance.pShopButton.gameObject);
         UIManager.instance.SwitchCamera();
+        UIManager.instance.GearBoxCamera.GetComponent<Physics2DRaycaster>().enabled = true;
     }
 
     public void NextLevel()
