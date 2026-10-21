@@ -25,20 +25,12 @@ public class UnitManager : MonoBehaviour
     {
         //All temp
 
-        if(GameManager.instance.GetState() == GameManager.State.Wave && GameManager.instance.GetCurrentWave() == 1)
+        if (GameManager.instance.GetState() == GameManager.State.Wave)
         {
+            int wave = GameManager.instance.GetCurrentWave();
             enemySpawnStep += 1;
-        }
-        if (GameManager.instance.GetState() == GameManager.State.Wave && GameManager.instance.GetCurrentWave() == 2)
-        {
-            enemySpawnStep += 1;
-            enemyArcherStep += 1;
-        }
-        if(GameManager.instance.GetState() == GameManager.State.Wave && GameManager.instance.GetCurrentWave() == 3)
-        {
-            enemySpawnStep += 1;
-            enemyArcherStep += 1;
-            enemyTankStep += 1;
+            if (wave >= 2) enemyArcherStep += 1;
+            if (wave >= 3) enemyTankStep += 1;
         }
 
         if(enemySpawnStep >= enemySpawnRate)
@@ -62,7 +54,7 @@ public class UnitManager : MonoBehaviour
         Instantiate(UnitList[unitIndex], spawnPosition, Quaternion.identity);
         Debug.Log("Spawned " + UnitList[unitIndex].name);
 
-        totalUnitsalive =+ 1;
+        totalUnitsalive += 1;
 
         Debug.Log(totalUnitsalive);        
     }

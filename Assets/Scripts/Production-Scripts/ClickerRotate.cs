@@ -1,7 +1,4 @@
 using UnityEngine;
-using UnityEngine.Rendering;
-using System.Collections.Generic;
-using System.Linq;
 
 public class ClickerRotate : MonoBehaviour
 {
@@ -80,13 +77,6 @@ public class ClickerRotate : MonoBehaviour
         // Enter already pulses exactly once per genuine contact start; this method's
         // only remaining job is spinning the Clicker itself, which is what sweeps
         // it into new gears (producing the next Enter) in the first place.
-
-        //GearRotate firstGear = Gear.GetComponent<GearRotate>();
-        //if (firstGear != null)
-        //{
-        //    Debug.Log("Clicker is pulsing: " + firstGear.gameObject.name);
-        //    firstGear.pulse(new HashSet<GearRotate>());
-        //}
     }
 
     public void GearRotation()

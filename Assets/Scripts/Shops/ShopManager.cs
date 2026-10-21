@@ -1,13 +1,14 @@
 using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+// The level shop panel. UIManager.ApplyState opens/closes it; it never touches GameManager's screens [S2].
 public class ShopManager : MonoBehaviour
 {
     public static ShopManager instance { get; private set; }
 
-    [SerializeField] private Button contButton;
+    private static readonly Vector3 BoardGearBoxPosition = new Vector3(-2.02f, 2.9f, 11f);
+    private static readonly Vector3 ShopGearBoxPosition = new Vector3(-2.02f, 4.31f, 11f);
 
     public GameObject gearBox;
 
@@ -20,7 +21,7 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private GameObject returnButton;
 
     [SerializeField] private GameObject inventoryGears;
-    // Update is called once per frame
+
     public void Awake()
     {
         if (instance != null && instance != this)
@@ -33,23 +34,13 @@ public class ShopManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    // Level shop "Return" button (Inspector OnClick). Leaving the shop is a screen change, so GameManager decides.
     public void BackToGame()
     {
-        if (shopGroup != null)
-        {
-            inventoryGears.SetActive(true);// Might never make this true again after first placement
-            shopGroup.SetActive(false);
-            gearBoxToggle.gameObject.SetActive(false);
-            //contButton.gameObject.SetActive(true);
-            GameManager.instance.upgradeButton.SetActive(true);
-            GameManager.instance.permShopButton.SetActive(true);
-            GameManager.instance.startButton.SetActive(true);
-            GameManager.instance.playButton.SetActive(true);
-            returnButton.gameObject.SetActive(false);
-            gearBox.transform.position = new Vector3(-2.02f, 2.9f, 11);
-        }
+        GameManager.instance.LeaveLevelShop();
     }
 
+    // Gearbox toggle button (Inspector OnClick).
     public void ToggleGearbox()
     {
         int oldOrder = shopGroupLayer.sortingOrder;
@@ -58,16 +49,15 @@ public class ShopManager : MonoBehaviour
         shopGroupLayer.sortingOrder = newOrder;
     }
 
-    public void OpenShop()
+    // Called only by UIManager.ApplyState.
+    public void SetShopOpen(bool open)
     {
-        if (shopGroup != null)
-        {
-            inventoryGears.SetActive(false);
-            shopGroup.SetActive(true);
-            gearBoxToggle.gameObject.SetActive(true);
-            returnButton.gameObject.SetActive(true);
-            gearBox.transform.position = new Vector3(-2.02f, 4.31f,11);
-        }
-    }
+        if (shopGroup == null) return;
 
+        inventoryGears.SetActive(!open);
+        shopGroup.SetActive(open);
+        gearBoxToggle.gameObject.SetActive(open);
+        returnButton.SetActive(open);
+        gearBox.transform.position = open ? ShopGearBoxPosition : BoardGearBoxPosition;
+    }
 }

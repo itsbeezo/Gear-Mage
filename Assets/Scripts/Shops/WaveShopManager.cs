@@ -5,57 +5,41 @@ public class WaveShopManager : MonoBehaviour
 {
     public static WaveShopManager instance { get; private set; }
 
+    [Header("Offer slots")]
+    [Tooltip("Wave shop slots, shown between waves.")]
     [SerializeField] private List<SpawnSlot> spawnSlots;
+    [Tooltip("Level shop slots, shown after the last wave.")]
     [SerializeField] private List<SpawnSlot> storeSlots;
 
-    // Parameterless so it can be wired to a button's OnClick in the Inspector.
-    // Spawns the test gear (id 4, Tank) into the first free slot.
-    public void SpawnTestOffer()
+    private readonly List<int> candidateIds = new List<int>();
+
+    private void Awake()
     {
-        ReRoll();
+        instance = this;
     }
 
-    public void ReRoll()
+    // Wave shop "Re Roll" button (Inspector OnClick). GameManager also calls it on entering WaveShop [R4].
+    public void RollWaveShop()
     {
-        SpawnSlot slot = FindFreeSlot();
-
-
-        foreach (var s in spawnSlots)
-        {
-            if (!s.isOccupied) SpawnOffer(s, PickRandomID());
-            else
-            {
-                // Destroy(gameobject, 2f) --Makes the destroy wait 2 seconds, good for death animations)
-                Destroy(s.currentOffer.gameObject);
-                s.Clear();
-                SpawnOffer(s, PickRandomID());
-            }
-        }
-
-        foreach (var t in storeSlots)
-        {
-            if (!t.isOccupied) SpawnOffer(t, PickRandomID());
-            else
-            {
-                Destroy(t.currentOffer.gameObject);
-                t.Clear();
-                SpawnOffer(t, PickRandomID());
-            }
-        }
+        Roll(spawnSlots);
     }
 
+    // Level shop "Spawn Gears" button (Inspector OnClick). GameManager also calls it on entering LevelShop.
+    public void RollLevelShop()
+    {
+        Roll(storeSlots);
+    }
 
     public int PickRandomID()
     {
-        List<int> ids = new List<int>();
+        candidateIds.Clear();
         foreach (GearDefinition def in GearCatalog.instance.GetAll())
         {
-            if (def.id != 0) ids.Add(def.id);
+            if (def.id != 0) candidateIds.Add(def.id);
         }
 
-        if (ids.Count == 0) return -1;
-        return ids[Random.Range(0, ids.Count)];
-
+        if (candidateIds.Count == 0) return -1;
+        return candidateIds[Random.Range(0, candidateIds.Count)];
     }
 
     // Creates a gear offer centred on the slot. The offer is parented to the slot,
@@ -78,17 +62,23 @@ public class WaveShopManager : MonoBehaviour
         return offer;
     }
 
-    private SpawnSlot FindFreeSlot()
+    private void Roll(List<SpawnSlot> slots)
     {
-        foreach (SpawnSlot slot in spawnSlots)
+        foreach (SpawnSlot slot in slots)
         {
-            if (!slot.isOccupied) return slot;
-        }
+            if (slot.isOccupied)
+            {
+                if (slot.currentOffer != null)
+                {
+                    // Destroy(gameobject, 2f) --Makes the destroy wait 2 seconds, good for death animations)
+                    Destroy(slot.currentOffer.gameObject);
+                }
+                slot.Clear();
+            }
 
-        foreach (SpawnSlot slot in spawnSlots)
-        {
-            if (!slot.isOccupied) return slot;   
+            int id = PickRandomID();
+            if (id < 0) return;
+            SpawnOffer(slot, id);
         }
-        return null;
     }
 }

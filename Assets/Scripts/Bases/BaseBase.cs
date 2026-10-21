@@ -36,22 +36,12 @@ public class BaseBase : MonoBehaviour
     {
         currentHP = maxHP;
     }
+    // A base only reports that it fell; GameManager decides what that means.
     public void DestroySelf()
     {
-        //Temp if statements
-        if (GameManager.instance.GetCurrentWave() < 3 && TryGetComponent(out EnemyBase enemyBase))
-        {
-            GameManager.instance.SetStateWaveVictory();
-            // WaveShopManager.instance.ReRoll();
-            GameManager.instance.NextWave();
-            CurrencyManager.instance.AddBone(10);
-        }
-        else
-        {
-            GameManager.instance.SetStateEndGame();
-        }
         UnitManager.instance.SetUnitsCanMove(false);
         gameObject.SetActive(false);
+        GameManager.instance.BaseDestroyed(TryGetComponent(out EnemyBase _));
     }
 
 }
