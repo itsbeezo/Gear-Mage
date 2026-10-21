@@ -25,16 +25,16 @@ public class UnitManager : MonoBehaviour
     {
         //All temp
 
-        if(GameManager.instance.GetState() == GameManager.State.Normal && GameManager.instance.GetCurrentWave() == 1)
+        if(GameManager.instance.GetState() == GameManager.State.Wave && GameManager.instance.GetCurrentWave() == 1)
         {
             enemySpawnStep += 1;
         }
-        if (GameManager.instance.GetState() == GameManager.State.Normal && GameManager.instance.GetCurrentWave() == 2)
+        if (GameManager.instance.GetState() == GameManager.State.Wave && GameManager.instance.GetCurrentWave() == 2)
         {
             enemySpawnStep += 1;
             enemyArcherStep += 1;
         }
-        if(GameManager.instance.GetState() == GameManager.State.Normal && GameManager.instance.GetCurrentWave() == 3)
+        if(GameManager.instance.GetState() == GameManager.State.Wave && GameManager.instance.GetCurrentWave() == 3)
         {
             enemySpawnStep += 1;
             enemyArcherStep += 1;

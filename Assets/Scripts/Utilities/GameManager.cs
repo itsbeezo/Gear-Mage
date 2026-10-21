@@ -15,14 +15,16 @@ public class GameManager : MonoBehaviour
     public GameObject permShopButton;
     public GameObject victoryScreen;
     public enum State
-
     {
-        BeforeStart,
-        UpgradeMenu,
-        WaveVictory,
-        PShopMenu,
-        Normal,
-        EndGame,
+        LobbyPlay,
+        LobbyUpgrade,
+        LobbyPermShop,
+        PreLevel,
+        Wave,
+        WaveShop,
+        LevelVictory,
+        LevelShop,
+        Defeat,
     }
     private State state;
     private int wave = 1;
@@ -31,7 +33,7 @@ public class GameManager : MonoBehaviour
     {
         //shopManager = GameObject.Find("ShopManager").GetComponent<ShopManager>();
         instance = this;
-        state = State.BeforeStart;
+        state = State.LobbyPlay;
     }
     private void Update()
     {
@@ -47,32 +49,32 @@ public class GameManager : MonoBehaviour
     }
     public void SetStateBeforeStart()
     {
-        state = State.BeforeStart;
+        state = State.LobbyPlay;
         buttonShop.gameObject.SetActive(true);
     }
     public void SetStateUpgradeMenu()
     {
-        state = State.UpgradeMenu;
+        state = State.LobbyUpgrade;
         buttonShop.gameObject.SetActive(false);
     }
     public void SetStatePShopMenu()
     {
-        state = State.PShopMenu;
+        state = State.LobbyPermShop;
         buttonShop.gameObject.SetActive(false);
         Debug.Log("Shop Menu");
     }
     public void SetStateNormal()
     {
-        state = State.Normal;
+        state = State.Wave;
         buttonShop.gameObject.SetActive(false);
     }
     public void SetStateWaveVictory()
     {
-        state = State.WaveVictory;
+        state = State.WaveShop;
     }
     public void SetStateEndGame()
     {
-        state = State.EndGame;
+        state = State.LevelVictory;
 
         victoryScreen.gameObject.SetActive(true);
 

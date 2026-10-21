@@ -38,7 +38,7 @@ public class UIManager : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if(GameManager.instance.GetState() == GameManager.State.BeforeStart)
+        if(GameManager.instance.GetState() == GameManager.State.LobbyPlay)
         {
             startButton.onClick.RemoveAllListeners();
             startButton.onClick.AddListener(GameManager.instance.SetStateNormal);
@@ -58,7 +58,7 @@ public class UIManager : MonoBehaviour
             HideUIElement(upgradeMenuGroup);
         }
 
-        if(GameManager.instance.GetState() == GameManager.State.Normal)
+        if(GameManager.instance.GetState() == GameManager.State.Wave)
         {
             HideUIElement(startButton.gameObject);
             HideUIElement(upgradeButton.gameObject);
@@ -74,19 +74,19 @@ public class UIManager : MonoBehaviour
 
         }   
 
-        if(GameManager.instance.GetState() == GameManager.State.PShopMenu)
+        if(GameManager.instance.GetState() == GameManager.State.LobbyPermShop)
         {
             ShowUIElement(pShopGroup);
             HideUIElement(upgradeMenuGroup);
         }
 
-        if(GameManager.instance.GetState() == GameManager.State.UpgradeMenu)
+        if(GameManager.instance.GetState() == GameManager.State.LobbyUpgrade)
         {
             ShowUIElement(upgradeMenuGroup);
             HideUIElement(pShopGroup);
         } 
 
-        if(GameManager.instance.GetState() == GameManager.State.WaveVictory)
+        if(GameManager.instance.GetState() == GameManager.State.WaveShop)
         {
             ShowUIElement(waveShopGroup);
             GearBoxCamera.GetComponent<Physics2DRaycaster>().enabled = false;
@@ -100,7 +100,7 @@ public class UIManager : MonoBehaviour
 
         }
 
-        if(GameManager.instance.GetState() == GameManager.State.EndGame)
+        if(GameManager.instance.GetState() == GameManager.State.LevelVictory)
         {
             ShowUIElement(levelVictoryGroup);
 

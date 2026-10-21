@@ -99,7 +99,7 @@ public class GearRotate : MonoBehaviour
     public void GetRotationSpeed()
     {
         // if (UnitManager.instance == null) return;
-        // if (GameManager.instance == null || GameManager.instance.GetState() != GameManager.State.Normal) return;
+        // if (GameManager.instance == null || GameManager.instance.GetState() != GameManager.State.Wave) return;
 
         switch (productionType)
         {
@@ -144,7 +144,7 @@ public class GearRotate : MonoBehaviour
     private void PropagatePulse(HashSet<GearRotate> hasPulsed, float chainBoostMultiplier)
     {
         if (UnitManager.instance == null) return;
-        if (GameManager.instance == null || GameManager.instance.GetState() != GameManager.State.Normal) return;
+        if (GameManager.instance == null || GameManager.instance.GetState() != GameManager.State.Wave) return;
 
         if (hasPulsed.Contains(this))
         {
@@ -199,7 +199,7 @@ public class GearRotate : MonoBehaviour
         if (UnitManager.instance == null) return;
         // Match the same "only while playing" gating UnitManager used to apply to its
         // own step timer, so gears can't pre-fill spawn progress before Start / after EndGame.
-        if (GameManager.instance == null || GameManager.instance.GetState() != GameManager.State.Normal) return;
+        if (GameManager.instance == null || GameManager.instance.GetState() != GameManager.State.Wave) return;
 
         switch (productionType)
         {

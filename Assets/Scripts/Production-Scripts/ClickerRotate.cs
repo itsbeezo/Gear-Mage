@@ -27,7 +27,7 @@ public class ClickerRotate : MonoBehaviour
     {
 
         if (UnitManager.instance == null) return;
-        if (GameManager.instance == null || GameManager.instance.GetState() != GameManager.State.Normal) return;
+        if (GameManager.instance == null || GameManager.instance.GetState() != GameManager.State.Wave) return;
 
 
 
