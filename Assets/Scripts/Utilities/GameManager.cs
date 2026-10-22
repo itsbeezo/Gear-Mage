@@ -75,6 +75,11 @@ public class GameManager : MonoBehaviour
         Fire(ScreenEvent.Start);
     }
 
+    public void ContinueButton()
+    {
+        Fire(ScreenEvent.Start);
+    }
+
     public void NextWaveButton()
     {
         Fire(ScreenEvent.NextWave);

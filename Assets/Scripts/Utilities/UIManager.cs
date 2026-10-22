@@ -25,6 +25,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject waveShopGroup;
     [SerializeField] private GameObject levelVictoryGroup;
     [SerializeField] private GameObject defeatGroup;
+    [SerializeField] private Button continueButton;
+
 
     //Camera Variables (temp?)
     public Camera LevelCamera;
@@ -49,6 +51,7 @@ public class UIManager : MonoBehaviour
         SetShown(upgradeTabButton, layout.lobbyTabs);
         SetShown(permShopTabButton, layout.lobbyTabs);
         SetShown(startButton, layout.startButton);
+        SetShown(continueButton, layout.continueButton);
         SetShown(upgradeMenuGroup, layout.upgradeMenu);
         SetShown(pShopGroup, layout.permShopMenu);
         SetShown(waveShopGroup, layout.waveShop);

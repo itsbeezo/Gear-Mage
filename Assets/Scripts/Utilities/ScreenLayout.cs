@@ -11,6 +11,7 @@ public readonly struct ScreenLayout
     public readonly bool waveShop;
     public readonly bool levelVictory;
     public readonly bool levelShop;
+    public readonly bool continueButton;
     public readonly bool defeat;
     public readonly bool levelCamera;
     public readonly bool gearBoxRaycast;
@@ -24,6 +25,7 @@ public readonly struct ScreenLayout
         bool waveShop = false,
         bool levelVictory = false,
         bool levelShop = false,
+        bool continueButton = false,
         bool defeat = false,
         bool levelCamera = false,
         bool gearBoxRaycast = false,
@@ -36,6 +38,7 @@ public readonly struct ScreenLayout
         this.waveShop = waveShop;
         this.levelVictory = levelVictory;
         this.levelShop = levelShop;
+        this.continueButton = continueButton;
         this.defeat = defeat;
         this.levelCamera = levelCamera;
         this.gearBoxRaycast = gearBoxRaycast;
@@ -49,7 +52,7 @@ public readonly struct ScreenLayout
             case GameManager.State.LobbyPlay: return new ScreenLayout(lobbyTabs: true, startButton: true, gearBoxRaycast: true);
             case GameManager.State.LobbyUpgrade: return new ScreenLayout(lobbyTabs: true, upgradeMenu: true);
             case GameManager.State.LobbyPermShop: return new ScreenLayout(lobbyTabs: true, permShopMenu: true);
-            case GameManager.State.PreLevel: return new ScreenLayout(startButton: true, gearBoxRaycast: true);
+            case GameManager.State.PreLevel: return new ScreenLayout(continueButton: true, gearBoxRaycast: true);
             case GameManager.State.Wave: return new ScreenLayout(levelCamera: true);
             case GameManager.State.WaveShop: return new ScreenLayout(waveShop: true, levelCamera: true, levelRaycast: true);
             case GameManager.State.LevelVictory: return new ScreenLayout(levelVictory: true, levelCamera: true);
@@ -70,6 +73,7 @@ public readonly struct ScreenLayout
         if (waveShop) on.Add("waveShop");
         if (levelVictory) on.Add("levelVictory");
         if (levelShop) on.Add("levelShop");
+        if (continueButton) on.Add("continueButton");
         if (defeat) on.Add("defeat");
         if (levelCamera) on.Add("levelCamera");
         if (gearBoxRaycast) on.Add("gearBoxRaycast");
