@@ -1,12 +1,11 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlayerBase : MonoBehaviour
 {
-    public static PlayerBase instance;
-    private void Start()
+    public static PlayerBase instance { get; private set; }
+
+    private void Awake()
     {
         instance = this;
     }
-
 }

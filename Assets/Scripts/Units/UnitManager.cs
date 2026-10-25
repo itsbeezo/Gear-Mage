@@ -17,7 +17,7 @@ public class UnitManager : MonoBehaviour
     private UnitBase[] currentUnits;
     public int totalUnitsalive;
 
-    private void Start()
+    private void Awake()
     {
         instance = this;
     }

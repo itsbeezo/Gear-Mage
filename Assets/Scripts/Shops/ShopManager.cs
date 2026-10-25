@@ -22,16 +22,9 @@ public class ShopManager : MonoBehaviour
 
     [SerializeField] private GameObject inventoryGears;
 
-    public void Awake()
+    private void Awake()
     {
-        if (instance != null && instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
         instance = this;
-        DontDestroyOnLoad(gameObject);
     }
 
     // Level shop "Return" button (Inspector OnClick). Leaving the shop is a screen change, so GameManager decides.

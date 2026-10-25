@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 // Owns the screen state. Every screen button's Inspector OnClick calls one method below,
 // named after the button; the method does the button's work and calls SetState [S1].
@@ -21,8 +20,6 @@ public class GameManager : MonoBehaviour
         Defeat,
     }
 
-    private const string MainSceneName = "Main";
-
     [Header("Run")]
     [Tooltip("Waves per level [S6]. Moves to LevelDefinition in Phase 5.")]
     public int wavesPerLevel = 5;
@@ -32,7 +29,6 @@ public class GameManager : MonoBehaviour
     public int bonesPerWaveWon = 10;
 
     private State state = State.LobbyPlay;
-    private int wave = 1;
 
     private void Awake()
     {
@@ -51,7 +47,7 @@ public class GameManager : MonoBehaviour
 
     public int GetCurrentWave()
     {
-        return wave;
+        return RunManager.instance.Current.wave;
     }
 
     // ---- Inspector OnClick targets, one per button. Each does its own work, then SetState. ----
@@ -74,21 +70,21 @@ public class GameManager : MonoBehaviour
     // Lobby Play tab: first wave of a new run.
     public void StartButton()
     {
-        wave = 1;
+        RunManager.instance.StartRun(1);
         SetState(State.Wave);
     }
 
     // Pre-level: first wave of the next level.
     public void ContinueButton()
     {
-        wave = 1;
+        RunManager.instance.Current.wave = 1;
         UnitManager.instance.OnNextWave();
         SetState(State.Wave);
     }
 
     public void NextWaveButton()
     {
-        wave++;
+        RunManager.instance.Current.wave++;
         UnitManager.instance.OnNextWave();
         SetState(State.Wave);
     }
@@ -126,7 +122,7 @@ public class GameManager : MonoBehaviour
         {
             SetState(State.Defeat);
         }
-        else if (wave >= wavesPerLevel)
+        else if (RunManager.instance.Current.wave >= wavesPerLevel)
         {
             SetState(State.LevelVictory);
         }
@@ -146,6 +142,6 @@ public class GameManager : MonoBehaviour
 
     private void ReloadMain()
     {
-        SceneManager.LoadScene(MainSceneName);
+        RunManager.instance.EndRun();
     }
 }

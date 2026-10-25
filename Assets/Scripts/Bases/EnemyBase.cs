@@ -1,10 +1,10 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class EnemyBase : MonoBehaviour
 {
-    public static EnemyBase instance;
-    private void Start()
+    public static EnemyBase instance { get; private set; }
+
+    private void Awake()
     {
         instance = this;
     }
