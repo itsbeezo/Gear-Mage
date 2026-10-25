@@ -8,7 +8,6 @@ public class InventoryManager : MonoBehaviour
     private class GearState
     {
         public GearDefinition definition;
-        public int runGranted;
         public int runUsed;
         public int permanentUsed;
         public int consumableUsed;
@@ -17,6 +16,7 @@ public class InventoryManager : MonoBehaviour
     private readonly Dictionary<int, GearState> states = new Dictionary<int, GearState>();
     private PlayerInventoryData data = new PlayerInventoryData();
     private InventorySave save;
+    private RunData run = new RunData();
     private bool runActive;
 
     private void Awake()
@@ -36,12 +36,19 @@ public class InventoryManager : MonoBehaviour
             return;
         }
 
-        BeginRun(catalog.GetAll(), new PlayerPrefsInventorySave());
+        BeginRun(catalog.GetAll(), new PlayerPrefsInventorySave(), RunManager.instance.Current);
+    }
+
+    // Tests and tools: a run with its own fresh RunData.
+    public void BeginRun(IReadOnlyList<GearDefinition> definitions, InventorySave inventorySave)
+    {
+        BeginRun(definitions, inventorySave, new RunData());
     }
 
     // Separated from Start so tests can start a run without Unity's lifecycle.
-    public void BeginRun(IReadOnlyList<GearDefinition> definitions, InventorySave inventorySave)
+    public void BeginRun(IReadOnlyList<GearDefinition> definitions, InventorySave inventorySave, RunData runData)
     {
+        run = runData;
         save = inventorySave;
         data = save.Load();
 
@@ -64,7 +71,7 @@ public class InventoryManager : MonoBehaviour
         GearState state;
         if (!states.TryGetValue(id, out state)) return 0;
 
-        int runAvailable = Mathf.Max(0, state.runGranted - state.runUsed);
+        int runAvailable = Mathf.Max(0, run.GetRunGearCount(state.definition.id) - state.runUsed);
         int permanentAvailable = Mathf.Max(0, PermanentOwned(state) - state.permanentUsed);
 
         return runAvailable + permanentAvailable + data.GetConsumableCount(id);
@@ -78,7 +85,7 @@ public class InventoryManager : MonoBehaviour
         if (!states.TryGetValue(id, out state)) return 0;
 
         return state.definition.maxCopies
-             + state.runGranted
+             + run.GetRunGearCount(state.definition.id)
              + data.GetConsumableCount(id)
              + state.consumableUsed;
     }
@@ -89,7 +96,7 @@ public class InventoryManager : MonoBehaviour
         GearState state;
         if (!states.TryGetValue(id, out state)) return false;
 
-        if (state.runGranted - state.runUsed > 0)
+        if (run.GetRunGearCount(state.definition.id) - state.runUsed > 0)
         {
             state.runUsed++;
             return true;
@@ -168,7 +175,7 @@ public class InventoryManager : MonoBehaviour
     }
 
     // Memory only: gone when the run (scene) ends. count is expected positive - a
-    // negative count would drive runGranted negative and could make GetStock/GetMaxStock
+    // negative count would drive the run gear count negative and could make GetStock/GetMaxStock
     // misreport, so it's rejected rather than silently corrupting state.
     public void GrantRunGear(int id, int count = 1)
     {
@@ -181,7 +188,7 @@ public class InventoryManager : MonoBehaviour
             return;
         }
 
-        state.runGranted += count;
+        run.AddRunGear(id, count);
     }
 
     // Persisted until spent. Not capped - see Design Decisions D10. count is expected
