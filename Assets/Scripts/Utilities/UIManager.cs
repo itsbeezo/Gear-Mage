@@ -21,7 +21,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Button startButton;
     [SerializeField] private GameObject upgradeMenuGroup;
     [SerializeField] private GameObject pShopGroup;
-    [SerializeField] private Button Stuff;
+
     [Header("Run screens")]
     [SerializeField] private GameObject waveShopGroup;
     [SerializeField] private GameObject levelVictoryGroup;

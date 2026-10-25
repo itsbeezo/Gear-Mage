@@ -109,11 +109,6 @@ public class GameManager : MonoBehaviour
         ReloadMain();
     }
 
-    public void StuffButton()
-    {
-        Debug.Log("Button was pressed and stuff happened");
-    }
-
     // ---- Direct calls from other modules ----
 
     // ShopManager.BackToGame (the level shop's Return button keeps its shop target [S2]).
