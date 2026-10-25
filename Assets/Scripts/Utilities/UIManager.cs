@@ -2,10 +2,11 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using State = GameManager.State;
 
 // The screen module [S3]: ApplyState(state) sets every button, group, camera, and raycaster
-// for that state. GameManager calls it once per state change. Buttons are wired in the
-// Inspector OnClick list to GameManager; nothing here adds listeners.
+// for that state, one line per object. GameManager calls it once per state change. Buttons
+// are wired in the Inspector OnClick list to GameManager; nothing here adds listeners.
 public class UIManager : MonoBehaviour
 {
     public static UIManager instance { get; private set; }
@@ -45,33 +46,35 @@ public class UIManager : MonoBehaviour
 
     public void ApplyState(GameManager.State state)
     {
-        ScreenLayout layout = ScreenLayout.For(state);
-
-        SetShown(playTabButton, layout.lobbyTabs);
-        SetShown(upgradeTabButton, layout.lobbyTabs);
-        SetShown(permShopTabButton, layout.lobbyTabs);
-        SetShown(startButton, layout.startButton);
-        SetShown(continueButton, layout.continueButton);
-        SetShown(upgradeMenuGroup, layout.upgradeMenu);
-        SetShown(pShopGroup, layout.permShopMenu);
-        SetShown(waveShopGroup, layout.waveShop);
-        SetShown(levelVictoryGroup, layout.levelVictory);
-        SetShown(defeatGroup, layout.defeat);
+        // Screens and buttons: one line each, shown in the states named on that line.
+        bool lobby = state is State.LobbyPlay or State.LobbyUpgrade or State.LobbyPermShop;
+        SetShown(playTabButton, lobby);
+        SetShown(upgradeTabButton, lobby);
+        SetShown(permShopTabButton, lobby);
+        SetShown(startButton, state == State.LobbyPlay);
+        SetShown(upgradeMenuGroup, state == State.LobbyUpgrade);
+        SetShown(pShopGroup, state == State.LobbyPermShop);
+        SetShown(continueButton, state == State.PreLevel);
+        SetShown(waveShopGroup, state == State.WaveShop);
+        SetShown(levelVictoryGroup, state == State.LevelVictory);
+        SetShown(defeatGroup, state == State.Defeat);
 
         if (ShopManager.instance != null)
         {
-            ShopManager.instance.SetShopOpen(layout.levelShop);
+            ShopManager.instance.SetShopOpen(state == State.LevelShop);
         }
+
+        // Cameras: the level camera during and right after a wave, the gearbox camera otherwise.
+        bool levelView = state is State.Wave or State.WaveShop or State.LevelVictory or State.Defeat;
+        LevelCamera.enabled = levelView;
+        GearBoxCamera.enabled = !levelView;
 
         if (levelRaycaster == null || gearBoxRaycaster == null)
         {
             CacheRaycasters();
         }
-
-        LevelCamera.enabled = layout.levelCamera;
-        GearBoxCamera.enabled = !layout.levelCamera;
-        if (levelRaycaster != null) levelRaycaster.enabled = layout.levelRaycast;
-        if (gearBoxRaycaster != null) gearBoxRaycaster.enabled = layout.gearBoxRaycast;
+        if (levelRaycaster != null) levelRaycaster.enabled = state == State.WaveShop;
+        if (gearBoxRaycaster != null) gearBoxRaycaster.enabled = state is State.LobbyPlay or State.PreLevel or State.LevelShop;
     }
 
     //Camera Functions (temp?) || I think this is helpful and shouldn't be removed for now - Antonio

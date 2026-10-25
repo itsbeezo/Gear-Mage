@@ -2,7 +2,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 // Owns the screen state. Every screen button's Inspector OnClick calls one method below,
-// named after the button [S1]. Each state change calls UIManager.ApplyState once [S3].
+// named after the button; the method does the button's work and calls SetState [S1].
+// SetState calls UIManager.ApplyState once per change [S3].
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance { get; private set; }
@@ -53,41 +54,49 @@ public class GameManager : MonoBehaviour
         return wave;
     }
 
-    // ---- Inspector OnClick targets, one per button ----
+    // ---- Inspector OnClick targets, one per button. Each does its own work, then SetState. ----
 
     public void PlayTabButton()
     {
-        Fire(ScreenEvent.PlayTab);
+        SetState(State.LobbyPlay);
     }
 
     public void UpgradeTabButton()
     {
-        Fire(ScreenEvent.UpgradeTab);
+        SetState(State.LobbyUpgrade);
     }
 
     public void PermShopTabButton()
     {
-        Fire(ScreenEvent.PermShopTab);
+        SetState(State.LobbyPermShop);
     }
 
+    // Lobby Play tab: first wave of a new run.
     public void StartButton()
     {
-        Fire(ScreenEvent.Start);
+        wave = 1;
+        SetState(State.Wave);
     }
 
+    // Pre-level: first wave of the next level.
     public void ContinueButton()
     {
-        Fire(ScreenEvent.Start);
+        wave = 1;
+        UnitManager.instance.OnNextWave();
+        SetState(State.Wave);
     }
 
     public void NextWaveButton()
     {
-        Fire(ScreenEvent.NextWave);
+        wave++;
+        UnitManager.instance.OnNextWave();
+        SetState(State.Wave);
     }
 
     public void ContinueToShopButton()
     {
-        Fire(ScreenEvent.ContinueToShop);
+        WaveShopManager.instance.RollLevelShop();
+        SetState(State.LevelShop);
     }
 
     public void EndRunButton()
@@ -105,45 +114,34 @@ public class GameManager : MonoBehaviour
     // ShopManager.BackToGame (the level shop's Return button keeps its shop target [S2]).
     public void LeaveLevelShop()
     {
-        Fire(ScreenEvent.LeaveLevelShop);
+        SetState(State.PreLevel);
     }
 
-    // BaseBase.DestroySelf.
+    // BaseBase.DestroySelf. Not a button, so it checks the state: a base only counts during a wave.
     public void BaseDestroyed(bool enemyBase)
     {
-        Fire(enemyBase ? ScreenEvent.EnemyBaseDestroyed : ScreenEvent.PlayerBaseDestroyed);
-    }
+        if (state != State.Wave) return;
 
-    private void Fire(ScreenEvent screenEvent)
-    {
-        State next = ScreenFlow.Next(state, screenEvent, wave >= wavesPerLevel);
-        if (next == state) return;
-
-        State previous = state;
-        state = next;
-        RunEnterEffects(previous, next);
-        UIManager.instance.ApplyState(next);
-    }
-
-    private void RunEnterEffects(State previous, State next)
-    {
-        switch (next)
+        if (!enemyBase)
         {
-            case State.Wave:
-                wave = previous == State.WaveShop ? wave + 1 : 1;
-                if (previous != State.LobbyPlay)
-                {
-                    UnitManager.instance.OnNextWave();
-                }
-                break;
-            case State.WaveShop:
-                CurrencyManager.instance.AddBone(bonesPerWaveWon);
-                WaveShopManager.instance.RollWaveShop();
-                break;
-            case State.LevelShop:
-                WaveShopManager.instance.RollLevelShop();
-                break;
+            SetState(State.Defeat);
         }
+        else if (wave >= wavesPerLevel)
+        {
+            SetState(State.LevelVictory);
+        }
+        else
+        {
+            CurrencyManager.instance.AddBone(bonesPerWaveWon);
+            WaveShopManager.instance.RollWaveShop();
+            SetState(State.WaveShop);
+        }
+    }
+
+    private void SetState(State next)
+    {
+        state = next;
+        UIManager.instance.ApplyState(state);
     }
 
     private void ReloadMain()
