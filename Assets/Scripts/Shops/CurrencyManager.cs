@@ -52,6 +52,29 @@ public class CurrencyManager : MonoBehaviour
         return true;
     }
 
+    // Spends gold for one gear at its catalog cost. Called when a shop offer is dropped on the
+    // gearbox. Returns false and spends nothing if the id is unknown or the player can't
+    // afford it. Which shops are open is enforced by scene visibility, not state.
+    // Placing the gear itself is handled by UIGearSlot.
+    public bool TryBuyGear(int id)
+    {
+        GearDefinition def = GearCatalog.instance != null ? GearCatalog.instance.GetDefinition(id) : null;
+        if (def == null)
+        {
+            Debug.Log("Id provided for gear is invalid " + id);
+            return false;
+        }
+
+        if (!TrySpendGold(def.cost))
+        {
+            Debug.Log("Not enough gold for " + def.displayName + " (costs " + def.cost + ")");
+            return false;
+        }
+
+        Debug.Log("Bought " + def.displayName + " for " + def.cost + " gold");
+        return true;
+    }
+
     public void AddBone(int boneAmount)
     {
         RunManager.instance.AddBones(boneAmount);
