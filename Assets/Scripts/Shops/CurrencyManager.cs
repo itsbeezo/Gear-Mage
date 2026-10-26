@@ -2,8 +2,8 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
-// Shows gold (run-only, RunData) and bones (permanent, ProgressManager) and plays the coin animation.
-// Scene-scoped: nothing here survives a reload except what ProgressManager saved.
+// Shows gold (run-only, RunData) and bones (permanent, PlayerProgress) and plays the coin animation.
+// Scene-scoped: nothing here survives a reload except what RunManager saved to PlayerProgress.
 public class CurrencyManager : MonoBehaviour
 {
     public static CurrencyManager instance { get; private set; }
@@ -54,7 +54,7 @@ public class CurrencyManager : MonoBehaviour
 
     public void AddBone(int boneAmount)
     {
-        ProgressManager.instance.AddBones(boneAmount);
+        RunManager.instance.AddBones(boneAmount);
         UpdateDisplayTextBone();
     }
 
@@ -102,6 +102,6 @@ public class CurrencyManager : MonoBehaviour
     private void UpdateDisplayTextBone()
     {
         if (boneCountDisplay != null)
-            boneCountDisplay.text = "Bones:" + ProgressManager.instance.Progress.bones;
+            boneCountDisplay.text = "Bones:" + RunManager.instance.Progress.bones;
     }
 }

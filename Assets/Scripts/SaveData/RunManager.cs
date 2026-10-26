@@ -1,24 +1,28 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using TMPro;
 
-// The run module [R17]: owns the current RunData. Ending a run (defeat or taking the winnings)
-// reloads Main.unity, which always starts in the main lobby [R18].
+// The run module [R17]. Owns both lifetimes:
+// - Current (RunData): memory only; EndRun reloads Main.unity, which drops it and starts in the lobby [R18, R19].
+// - Progress (PlayerProgress): saved after every change, so nothing waits for quit [W8].
 public class RunManager : MonoBehaviour
 {
     public static RunManager instance { get; private set; }
 
     private const string MainSceneName = "Main";
 
-    public RunData Current { get; private set; }
-
     [SerializeField] private TextMeshProUGUI WaveAndLevelDisplay;
+
+    public RunData Current { get; private set; }
+    public PlayerProgress Progress { get; private set; }
 
     private void Awake()
     {
         instance = this;
         // Created at scene load, not on Start, so the Play tab can arrange the first board [S11].
         Current = new RunData();
+        PlayerProgress.DeleteLegacyRunKeys();
+        Progress = PlayerProgress.Load();
     }
 
     private void Update()
@@ -31,15 +35,27 @@ public class RunManager : MonoBehaviour
         Current.Begin(world);
     }
 
-    public void GetWaveAndLevel()
-    {
-        // Wave = Current.wave;
-        // Level = Current.level;
-        return;
-    }
-
     public void EndRun()
     {
         SceneManager.LoadScene(MainSceneName);
+    }
+
+    public void AddBones(int amount)
+    {
+        Progress.AddBones(amount);
+        Progress.Save();
+    }
+
+    public bool TrySpendBones(int amount)
+    {
+        if (!Progress.TrySpendBones(amount)) return false;
+        Progress.Save();
+        return true;
+    }
+
+    public void UnlockWorld(int world)
+    {
+        Progress.UnlockWorld(world);
+        Progress.Save();
     }
 }

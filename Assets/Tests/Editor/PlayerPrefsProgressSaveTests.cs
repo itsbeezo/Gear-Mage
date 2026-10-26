@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using UnityEngine;
 
+// PlayerProgress storage (Load/Save/Clear and the legacy bone migration) against PlayerPrefs, with test-only keys.
 public class PlayerPrefsProgressSaveTests
 {
     private const string TestKey = "PlayerProgress_TEST_9001";
@@ -24,15 +25,15 @@ public class PlayerPrefsProgressSaveTests
         PlayerPrefs.DeleteKey(TestLegacyBoneKey);
     }
 
-    private static PlayerPrefsProgressSave NewTestSave()
+    private static PlayerProgress LoadTest()
     {
-        return new PlayerPrefsProgressSave(TestKey, TestLegacyBoneKey);
+        return PlayerProgress.Load(TestKey, TestLegacyBoneKey);
     }
 
     [Test]
     public void Load_WhenNothingSaved_ReturnsFreshProgress()
     {
-        PlayerProgress progress = NewTestSave().Load();
+        PlayerProgress progress = LoadTest();
 
         Assert.AreEqual(0, progress.bones);
         Assert.AreEqual(1, progress.highestUnlockedWorld);
@@ -41,10 +42,9 @@ public class PlayerPrefsProgressSaveTests
     [Test]
     public void SaveThenLoad_RoundTrips()
     {
-        PlayerPrefsProgressSave save = NewTestSave();
-        save.Save(new PlayerProgress { bones = 7, highestUnlockedWorld = 2 });
+        new PlayerProgress { bones = 7, highestUnlockedWorld = 2 }.Save(TestKey);
 
-        PlayerProgress loaded = NewTestSave().Load();
+        PlayerProgress loaded = LoadTest();
 
         Assert.AreEqual(7, loaded.bones);
         Assert.AreEqual(2, loaded.highestUnlockedWorld);
@@ -55,11 +55,11 @@ public class PlayerPrefsProgressSaveTests
     {
         PlayerPrefs.SetInt(TestLegacyBoneKey, 42);
 
-        PlayerProgress loaded = NewTestSave().Load();
+        PlayerProgress loaded = LoadTest();
 
         Assert.AreEqual(42, loaded.bones);
         Assert.IsFalse(PlayerPrefs.HasKey(TestLegacyBoneKey));
-        Assert.AreEqual(42, NewTestSave().Load().bones);
+        Assert.AreEqual(42, LoadTest().bones);
     }
 
     [Test]
@@ -67,7 +67,7 @@ public class PlayerPrefsProgressSaveTests
     {
         PlayerPrefs.SetString(TestKey, "{not json");
 
-        PlayerProgress loaded = NewTestSave().Load();
+        PlayerProgress loaded = LoadTest();
 
         Assert.AreEqual(0, loaded.bones);
     }
@@ -75,11 +75,10 @@ public class PlayerPrefsProgressSaveTests
     [Test]
     public void Clear_RemovesSavedProgress()
     {
-        PlayerPrefsProgressSave save = NewTestSave();
-        save.Save(new PlayerProgress { bones = 5 });
+        new PlayerProgress { bones = 5 }.Save(TestKey);
 
-        save.Clear();
+        PlayerProgress.Clear(TestKey, TestLegacyBoneKey);
 
-        Assert.AreEqual(0, NewTestSave().Load().bones);
+        Assert.AreEqual(0, LoadTest().bones);
     }
 }
