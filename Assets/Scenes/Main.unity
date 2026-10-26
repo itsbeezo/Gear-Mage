@@ -12179,7 +12179,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIDragHandler
   maxReslotDistance: 1.5
-  gearNum: 0
   attemptButFull: 0
   startedOnBoard: 0
 --- !u!58 &1209939239
@@ -12611,50 +12610,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fbf8eaf0b86c9f4d9d00dfa55379d67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GearBox
---- !u!1 &1289418409
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1289418410}
-  - component: {fileID: 1289418411}
-  m_Layer: 0
-  m_Name: PurchaseManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1289418410
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1289418409}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1397553239}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1289418411
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1289418409}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 871376a0f4175d02391e32dc74daafa0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: GearMage.Runtime::PurchaseManager
 --- !u!1 &1301173337
 GameObject:
   m_ObjectHideFlags: 0
@@ -12858,19 +12813,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0f2729cf3bff6a4a8f41f961395fa8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GearManager
-  GearList:
-  - {fileID: 4894015876460603445, guid: 108f26e6a433f1f43aa7efd96c3691df, type: 3}
-  - {fileID: 4609109518383377074, guid: 80c8735de4664bd40a28f4a3c09aa7cc, type: 3}
-  - {fileID: 90250563080744765, guid: 3a5983a5d279a89be81f53b1687bc410, type: 3}
-  - {fileID: 90250563080744765, guid: 9d4eb4ab33b104a2693e5887a252d3c0, type: 3}
-  - {fileID: 90250563080744765, guid: 327179f8989b1d124bdb85217ec4cedc, type: 3}
-  - {fileID: 90250563080744765, guid: 1ab0480db6cabefe8a7bdd44d11fd301, type: 3}
-  - {fileID: 90250563080744765, guid: 6f1cb1742479710c1b6cab6fe4744ef9, type: 3}
-  - {fileID: 90250563080744765, guid: 29eded242ff6626ab98bc1f918612ad1, type: 3}
-  - {fileID: 90250563080744765, guid: 7c8f7d8b0907f939ea8e31d1f267485f, type: 3}
-  - {fileID: 90250563080744765, guid: b3a517579a3f6f014be84c53fd83f058, type: 3}
-  - {fileID: 90250563080744765, guid: 910f0a2a9bc5a37cea32ea0b11da3953, type: 3}
-  - {fileID: 90250563080744765, guid: e90871e88cf7f0fd08799ffa2f7159a6, type: 3}
   GearBoxList1:
   - {fileID: 6988915119183184760}
   - {fileID: 825383793}
@@ -13977,7 +13919,6 @@ Transform:
   - {fileID: 609376110}
   - {fileID: 127057923}
   - {fileID: 1792056919}
-  - {fileID: 1289418410}
   - {fileID: 1992171211}
   - {fileID: 1995451868}
   m_Father: {fileID: 0}
