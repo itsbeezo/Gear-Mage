@@ -23586,6 +23586,8 @@ MonoBehaviour:
   definitions:
   - id: 1
     displayName: Clicker
+    type: 3
+    prefab: {fileID: 4609109518383377074, guid: 80c8735de4664bd40a28f4a3c09aa7cc, type: 3}
     icon: {fileID: 0}
     startingCopies: 1
     maxCopies: 2
@@ -23595,6 +23597,8 @@ MonoBehaviour:
     weight: 0
   - id: 2
     displayName: Melee
+    type: 0
+    prefab: {fileID: 90250563080744765, guid: 3a5983a5d279a89be81f53b1687bc410, type: 3}
     icon: {fileID: 0}
     startingCopies: 1
     maxCopies: 3
@@ -23604,6 +23608,8 @@ MonoBehaviour:
     weight: 0
   - id: 3
     displayName: Archer
+    type: 0
+    prefab: {fileID: 90250563080744765, guid: 9d4eb4ab33b104a2693e5887a252d3c0, type: 3}
     icon: {fileID: 0}
     startingCopies: 1
     maxCopies: 3
@@ -23613,6 +23619,8 @@ MonoBehaviour:
     weight: 0
   - id: 4
     displayName: Tank
+    type: 0
+    prefab: {fileID: 90250563080744765, guid: 327179f8989b1d124bdb85217ec4cedc, type: 3}
     icon: {fileID: 0}
     startingCopies: 1
     maxCopies: 3
@@ -23622,6 +23630,8 @@ MonoBehaviour:
     weight: 0
   - id: 5
     displayName: Booster 1x
+    type: 1
+    prefab: {fileID: 90250563080744765, guid: 1ab0480db6cabefe8a7bdd44d11fd301, type: 3}
     icon: {fileID: 0}
     startingCopies: 2
     maxCopies: 5
@@ -23631,6 +23641,8 @@ MonoBehaviour:
     weight: 0
   - id: 6
     displayName: Booster 2x
+    type: 1
+    prefab: {fileID: 90250563080744765, guid: 6f1cb1742479710c1b6cab6fe4744ef9, type: 3}
     icon: {fileID: 0}
     startingCopies: 1
     maxCopies: 5
@@ -23640,6 +23652,8 @@ MonoBehaviour:
     weight: 0
   - id: 7
     displayName: Booster 4x
+    type: 1
+    prefab: {fileID: 90250563080744765, guid: 29eded242ff6626ab98bc1f918612ad1, type: 3}
     icon: {fileID: 0}
     startingCopies: 1
     maxCopies: 3
@@ -23649,6 +23663,8 @@ MonoBehaviour:
     weight: 0
   - id: 8
     displayName: Booster 8x
+    type: 1
+    prefab: {fileID: 90250563080744765, guid: 7c8f7d8b0907f939ea8e31d1f267485f, type: 3}
     icon: {fileID: 0}
     startingCopies: 0
     maxCopies: 0
@@ -23658,6 +23674,8 @@ MonoBehaviour:
     weight: 0
   - id: 9
     displayName: HP
+    type: 2
+    prefab: {fileID: 90250563080744765, guid: b3a517579a3f6f014be84c53fd83f058, type: 3}
     icon: {fileID: 0}
     startingCopies: 1
     maxCopies: 3
@@ -23667,6 +23685,8 @@ MonoBehaviour:
     weight: 0
   - id: 10
     displayName: Attack
+    type: 2
+    prefab: {fileID: 90250563080744765, guid: 910f0a2a9bc5a37cea32ea0b11da3953, type: 3}
     icon: {fileID: 0}
     startingCopies: 0
     maxCopies: 0
@@ -23676,6 +23696,8 @@ MonoBehaviour:
     weight: 0
   - id: 11
     displayName: Attack Speed
+    type: 2
+    prefab: {fileID: 90250563080744765, guid: e90871e88cf7f0fd08799ffa2f7159a6, type: 3}
     icon: {fileID: 0}
     startingCopies: 0
     maxCopies: 0
