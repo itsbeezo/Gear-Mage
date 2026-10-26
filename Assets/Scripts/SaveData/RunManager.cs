@@ -25,14 +25,22 @@ public class RunManager : MonoBehaviour
         Progress = PlayerProgress.Load();
     }
 
-    private void Update()
+    private void Start()
     {
-        WaveAndLevelDisplay.text = "Wave: " + Current.level + "-" + Current.wave;
+        UpdateWaveDisplay();
+    }
+
+    // Called whenever wave or level changes (StartRun here; GameManager after it changes the wave).
+    public void UpdateWaveDisplay()
+    {
+        if (WaveAndLevelDisplay != null)
+            WaveAndLevelDisplay.text = "Wave: " + Current.level + "-" + Current.wave;
     }
 
     public void StartRun(int world)
     {
         Current.Begin(world);
+        UpdateWaveDisplay();
     }
 
     public void EndRun()

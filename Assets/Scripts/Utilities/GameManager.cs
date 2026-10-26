@@ -78,6 +78,7 @@ public class GameManager : MonoBehaviour
     public void ContinueButton()
     {
         RunManager.instance.Current.wave = 1;
+        RunManager.instance.UpdateWaveDisplay();
         UnitManager.instance.OnNextWave();
         SetState(State.Wave);
     }
@@ -85,6 +86,7 @@ public class GameManager : MonoBehaviour
     public void NextWaveButton()
     {
         RunManager.instance.Current.wave++;
+        RunManager.instance.UpdateWaveDisplay();
         UnitManager.instance.OnNextWave();
         SetState(State.Wave);
     }

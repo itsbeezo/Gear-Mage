@@ -13,7 +13,6 @@ public class RunData
     public int gold;
     public readonly List<GearCount> runGears = new List<GearCount>();
 
-
     public void Begin(int startWorld)
     {
         world = startWorld;
@@ -21,12 +20,6 @@ public class RunData
         wave = 1;
         endless = false;
         started = true;
-    }
-
-
-    public void DisplayWaveAndLevel()
-    {
-        return;
     }
 
     public void AddGold(int amount)
