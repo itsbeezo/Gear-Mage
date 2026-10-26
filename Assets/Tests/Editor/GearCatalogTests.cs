@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using NUnit.Framework;
+using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GearCatalogTests
 {
@@ -90,5 +93,98 @@ public class GearCatalogTests
         catalog.Initialize();
 
         Assert.IsTrue(catalog.GetPrefab(999) == null);
+    }
+}
+
+// Pins the real catalog in Main.unity: ids unique, every id has a board prefab of the right type,
+// every tray shell's id exists. Opens Main.unity additively if it is not already open.
+public class MainSceneCatalogTests
+{
+    private const string MainScenePath = "Assets/Scenes/Main.unity";
+    private const string ShellFolder = "Assets/Prefabs/Gears/Shells";
+
+    private Scene scene;
+    private bool openedHere;
+    private GearCatalog catalog;
+
+    [OneTimeSetUp]
+    public void OpenMainScene()
+    {
+        scene = SceneManager.GetSceneByPath(MainScenePath);
+        openedHere = !scene.isLoaded;
+        if (openedHere)
+        {
+            scene = EditorSceneManager.OpenScene(MainScenePath, OpenSceneMode.Additive);
+        }
+
+        foreach (GameObject root in scene.GetRootGameObjects())
+        {
+            catalog = root.GetComponentInChildren<GearCatalog>(true);
+            if (catalog != null) break;
+        }
+        Assert.IsTrue(catalog != null, "No GearCatalog in " + MainScenePath);
+        catalog.Initialize();
+    }
+
+    [OneTimeTearDown]
+    public void CloseMainScene()
+    {
+        if (openedHere) EditorSceneManager.CloseScene(scene, true);
+    }
+
+    [Test]
+    public void Catalog_IdsAreUniqueAndPositive_AndEachHasABoardPrefab()
+    {
+        HashSet<int> seen = new HashSet<int>();
+        foreach (GearDefinition def in catalog.GetAll())
+        {
+            Assert.Greater(def.id, 0, def.displayName);
+            Assert.IsTrue(seen.Add(def.id), "Duplicate id " + def.id);
+            Assert.IsTrue(def.prefab != null, "No prefab for id " + def.id);
+            Assert.IsTrue(def.prefab.GetComponent<GearBase>() != null, "Prefab for id " + def.id + " has no GearBase");
+        }
+    }
+
+    [Test]
+    public void Catalog_TypeMatchesThePrefabsProduction()
+    {
+        foreach (GearDefinition def in catalog.GetAll())
+        {
+            Assert.AreEqual(ExpectedType(def.prefab), def.type, "id " + def.id + " (" + def.displayName + ")");
+        }
+    }
+
+    [Test]
+    public void EveryTrayShell_HasAnIdInTheCatalog()
+    {
+        foreach (string guid in AssetDatabase.FindAssets("t:Prefab", new[] { ShellFolder }))
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            GameObject shell = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+            InventoryGears inventory = shell.GetComponent<InventoryGears>();
+            if (inventory == null) continue; // e.g. Badge.prefab
+
+            Assert.IsNotNull(catalog.GetDefinition(inventory.gearId), path + " has gearId " + inventory.gearId + ", not in the catalog");
+        }
+    }
+
+    private static GearType ExpectedType(GameObject prefab)
+    {
+        if (prefab.GetComponentInChildren<ClickerRotate>(true) != null) return GearType.Clicker;
+
+        GearRotate rotate = prefab.GetComponentInChildren<GearRotate>(true);
+        if (rotate == null) return GearType.StatBuff;
+
+        switch (rotate.productionType)
+        {
+            case GearRotate.GearProductionType.Melee:
+            case GearRotate.GearProductionType.Archer:
+            case GearRotate.GearProductionType.Tank:
+                return GearType.Unit;
+            case GearRotate.GearProductionType.Booster:
+                return GearType.Booster;
+            default:
+                return GearType.StatBuff;
+        }
     }
 }
