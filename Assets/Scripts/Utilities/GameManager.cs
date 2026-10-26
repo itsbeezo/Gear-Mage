@@ -77,6 +77,7 @@ public class GameManager : MonoBehaviour
     // Pre-level: first wave of the next level.
     public void ContinueButton()
     {
+        RunManager.instance.Current.level ++;
         RunManager.instance.Current.wave = 1;
         RunManager.instance.UpdateWaveDisplay();
         UnitManager.instance.OnNextWave();

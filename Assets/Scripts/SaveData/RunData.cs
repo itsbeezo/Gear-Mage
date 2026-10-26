@@ -5,6 +5,8 @@ using System.Collections.Generic;
 // Phase 4 adds the board and in-run upgrades.
 public class RunData
 {
+    public static RunData instance { get; private set;}
+
     public int world = 1;
     public int level = 1;
     public int wave = 1;
@@ -56,5 +58,11 @@ public class RunData
             }
         }
         runGears.Add(new GearCount { id = id, count = count });
+    }
+
+    public void NextLevel()
+    {
+        level ++ ;
+        wave = 1;
     }
 }
