@@ -10,7 +10,6 @@ public class GearManager : MonoBehaviour
                                   {0, 0, 0, 0, 0, 0, 0, 0, 0},
                                   {0, 0, 0, 0, 0, 0, 0, 0, 0} };
 
-    [SerializeField] private List<GameObject> GearList;
     [SerializeField] private List<GearBox> GearBoxList1;
     [SerializeField] private List<GearBox> GearBoxList2;
     [SerializeField] private List<GearBox> GearBoxList3;
@@ -21,7 +20,6 @@ public class GearManager : MonoBehaviour
     private float spawnSpeedMod;
     private float moveSpeedMod;
     private float attackSpeedMod;
-    public List<GameObject> AllGears => GearList;
 
     private void Awake()
     {
@@ -30,7 +28,7 @@ public class GearManager : MonoBehaviour
 
     public GameObject GetGear(int i)
     {
-        return GearList[i];
+        return GearCatalog.instance.GetPrefab(i);
     }
 
     public void SetGear(int i, int j, int g)
@@ -96,6 +94,7 @@ public class GearManager : MonoBehaviour
         }
 
         GameObject gearInstance = Instantiate(GetGear(gearNum), spawnPos, GetGear(gearNum).transform.rotation);
+        gearInstance.GetComponent<GearBase>().AssignId(gearNum);
 
         gearInstance.transform.SetParent(ShopManager.instance.gearBox.transform, true);
 

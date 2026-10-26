@@ -16,7 +16,7 @@ public class GearDefinition
     public int id;
     public string displayName;
     public GearType type;
-    [Tooltip("Board gear prefab spawned for this id. Replaces GearManager.GearList.")]
+    [Tooltip("Board gear prefab spawned for this id.")]
     public GameObject prefab;
     public Sprite icon;
     public int startingCopies;

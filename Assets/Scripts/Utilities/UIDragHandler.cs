@@ -16,13 +16,13 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [Tooltip("Maximum allowed distance from originalPosition to trigger ReSlot.")]
     [SerializeField] private float maxReslotDistance = 1.5f;
 
-    public int gearNum = 0;
+    // Resolved once per drag in OnBeginDrag [G1]; UIGearSlot reads it on drop.
+    public int gearNum { get; private set; }
+    public bool IsShopOffer { get; private set; }
+    private bool isBoardGear;
     private UIGearSlot currentSlot;
     public bool attemptButFull = false;
     public bool startedOnBoard = false;
-
-    // Shop offers are bought on drop, not taken from stock. They follow their own drop path.
-    public bool IsShopOffer => GetComponent<ShopOffer>() != null;
 
     // The camera that actually received the pointer, so drags track the cursor
     // in whichever view the gear was clicked in (level or gear box).
@@ -47,8 +47,41 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         }
     }
 
+    // Which gear this is and where it came from. Order matters: shop offers and shells can also
+    // carry a GearBase, but only GearManager stamps a non-zero id onto board gears.
+    private void ResolveIdentity()
+    {
+        if (TryGetComponent(out ShopOffer offer))
+        {
+            IsShopOffer = true;
+            isBoardGear = false;
+            gearNum = offer.gearID;
+            return;
+        }
+
+        IsShopOffer = false;
+
+        if (TryGetComponent(out InventoryGears shell))
+        {
+            isBoardGear = false;
+            gearNum = shell.gearId;
+            return;
+        }
+
+        if (TryGetComponent(out GearBase gear) && gear.Id > 0)
+        {
+            isBoardGear = true;
+            gearNum = gear.Id;
+            return;
+        }
+
+        isBoardGear = false;
+        gearNum = 0;
+    }
+
     public void OnBeginDrag(PointerEventData eventData)
     {
+        ResolveIdentity();
         originalPosition = transform.position;
         originalParent = transform.parent;
 
@@ -62,8 +95,7 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         foreach (Collider2D hit in hits)
         {
             UIGearSlot slot = hit.GetComponent<UIGearSlot>();
-            if (slot != null && slot.isFull &&
-                (gameObject.CompareTag("Gears") || gameObject.CompareTag("Clicker")))
+            if (slot != null && slot.isFull && isBoardGear)
             {
                 currentSlot = slot;
                 break;
@@ -90,101 +122,6 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         Vector3 mouseWorldPos = InputCamera(eventData).ScreenToWorldPoint(eventData.position);
         mouseWorldPos.z = 0f;
         transform.position = mouseWorldPos + offset;
-
-        // Shop offers have their gear id set in ShopOffer.Setup, so skip the name/tag lookup below.
-        if (IsShopOffer) return;
-
-        if (gameObject.CompareTag("ClickerShell"))
-        {
-            gearNum = 1;
-        }
-        else if (gameObject.CompareTag("Melee"))
-        {
-            gearNum = 2;
-        }
-        else if (gameObject.CompareTag("Archer"))
-        {
-            gearNum = 3;
-        }
-        else if (gameObject.CompareTag("Tank"))
-        {
-            gearNum = 4;
-        }
-        else if (gameObject.CompareTag("Booster1"))
-        {
-            gearNum = 5;
-        }
-        else if (gameObject.CompareTag("Booster2"))
-        {
-            gearNum = 6;
-        }
-        else if (gameObject.CompareTag("Booster4"))
-        {
-            gearNum = 7;
-        }
-        else if (gameObject.CompareTag("Booster8"))
-        {
-            gearNum = 8;
-        }
-        else if (gameObject.CompareTag("Hp"))
-        {
-            gearNum = 9;
-        }
-        else if (gameObject.CompareTag("Attack"))
-        {
-            gearNum = 10;
-        }
-        else if (gameObject.CompareTag("AttackSpeed"))
-        {
-            gearNum = 11;
-        }
-        else if (gameObject.CompareTag("Gears") || gameObject.CompareTag("Clicker"))
-        {
-            if (gameObject.name.Contains("Clicker"))
-            {
-                gearNum = 1;
-            }
-            else if (gameObject.name.Contains("GAttack"))
-            {
-                gearNum = 10;
-            }
-            else if (gameObject.name.Contains("1x"))
-            {
-                gearNum = 5;
-            }
-            else if (gameObject.name.Contains("2x"))
-            {
-                gearNum = 6;
-            }
-            else if (gameObject.name.Contains("4x"))
-            {
-                gearNum = 7;
-            }
-            else if (gameObject.name.Contains("8x"))
-            {
-                gearNum = 8;
-            }
-            else if (gameObject.name.Contains("HP"))
-            {
-                gearNum = 9;
-            }
-            else if (gameObject.name.Contains("Melee"))
-            {
-                gearNum = 2;
-            }
-            else if (gameObject.name.Contains("Tank"))
-            {
-                gearNum = 4;
-            }
-            else if (gameObject.name.Contains("Speed"))
-            {
-                gearNum = 11;
-            }
-            else if (gameObject.name.Contains("Archer"))
-            {
-                gearNum = 3;
-            }
-        }
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -204,7 +141,7 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
                 currentSlot.ClearSlot();
             }
 
-            if (gameObject.CompareTag("Gears") || gameObject.CompareTag("Clicker"))
+            if (isBoardGear)
             {
                 Destroy(gameObject);
             }
@@ -246,7 +183,7 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         dropWorldPos.z = originalPosition.z;
         bool isCloseToOriginal = Vector2.Distance(originalPosition, dropWorldPos) <= maxReslotDistance;
 
-        if (gameObject.CompareTag("Gears") || gameObject.CompareTag("Clicker"))
+        if (isBoardGear)
         {
             // Triggers ReSlot if dropped over another gear OR dropped close to its starting point
             if (gearUnderneath || isCloseToOriginal)

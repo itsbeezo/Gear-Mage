@@ -19,10 +19,6 @@ public class ShopOffer : MonoBehaviour
         gearID = id;
         homeSlot = slot;
 
-        // UIDragHandler and UIGearSlot read the gear id from here.
-        UIDragHandler drag = GetComponent<UIDragHandler>();
-        if (drag != null) drag.gearNum = id;
-
         // An offer is display-only until bought: no rotation, production, or neighbour logic.
         GearRotate rotate = GetComponent<GearRotate>();
         if (rotate != null) rotate.enabled = false;
