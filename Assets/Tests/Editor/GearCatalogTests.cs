@@ -62,4 +62,33 @@ public class GearCatalogTests
 
         Assert.AreEqual(2, catalog.GetAll().Count);
     }
+
+    [Test]
+    public void GetPrefab_ReturnsTheDefinitionsPrefab()
+    {
+        GameObject prefab = new GameObject("FakeGearPrefab");
+        try
+        {
+            catalog.definitions = new List<GearDefinition>
+            {
+                new GearDefinition { id = 2, prefab = prefab, type = GearType.Unit },
+            };
+            catalog.Initialize();
+
+            Assert.AreSame(prefab, catalog.GetPrefab(2));
+        }
+        finally
+        {
+            Object.DestroyImmediate(prefab);
+        }
+    }
+
+    [Test]
+    public void GetPrefab_UnknownId_ReturnsNull()
+    {
+        catalog.definitions = new List<GearDefinition>();
+        catalog.Initialize();
+
+        Assert.IsTrue(catalog.GetPrefab(999) == null);
+    }
 }

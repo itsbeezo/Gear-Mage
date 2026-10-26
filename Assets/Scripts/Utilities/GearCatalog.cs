@@ -1,11 +1,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// What a gear does on the board [G1]. Clicker is the hand-turned starter gear (id 1); it fits none of the other three.
+public enum GearType
+{
+    Unit,
+    Booster,
+    StatBuff,
+    Clicker,
+}
+
 [System.Serializable]
 public class GearDefinition
 {
     public int id;
     public string displayName;
+    public GearType type;
+    [Tooltip("Board gear prefab spawned for this id. Replaces GearManager.GearList.")]
+    public GameObject prefab;
     public Sprite icon;
     public int startingCopies;
     public int maxCopies;
@@ -47,10 +59,12 @@ public class GearCatalog : MonoBehaviour
         return lookup != null && lookup.TryGetValue(id, out var def) ? def : null;
     }
 
-    // public GearDefinition GetName(int id, string displayName)
-    // {
-    //     return lookup != null && lookup.TryGetValue(id);
-    // }
+    public GameObject GetPrefab(int id)
+    {
+        GearDefinition def = GetDefinition(id);
+        if (def == null) return null;
+        return def.prefab;
+    }
 
     public IReadOnlyList<GearDefinition> GetAll()
     {
