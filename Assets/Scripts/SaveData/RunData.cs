@@ -2,11 +2,9 @@ using System.Collections.Generic;
 
 // Everything one run owns [R17]. Plain C#, memory only [R8, R19]: RunManager creates it when
 // Main.unity loads and drops it when the run ends and the scene reloads [R18].
-// Phase 4 adds the board and in-run upgrades.
+// The gear board is not here: GearManager owns it and has the same lifetime.
 public class RunData
 {
-    public static RunData instance { get; private set;}
-
     public int world = 1;
     public int level = 1;
     public int wave = 1;
@@ -14,6 +12,7 @@ public class RunData
     public bool started;
     public int gold;
     public readonly List<GearCount> runGears = new List<GearCount>();
+    public readonly UpgradeLevels runUpgrades = new UpgradeLevels();
 
     public void Begin(int startWorld)
     {

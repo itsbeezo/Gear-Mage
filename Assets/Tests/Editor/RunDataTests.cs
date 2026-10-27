@@ -71,4 +71,12 @@ public class RunDataTests
         Assert.AreEqual(3, run.GetRunGearCount(2));
         Assert.AreEqual(0, run.GetRunGearCount(3));
     }
+
+    [Test]
+    public void New_HasNoRunUpgrades()
+    {
+        RunData run = new RunData();
+
+        Assert.AreEqual(0, run.runUpgrades.attack);
+    }
 }

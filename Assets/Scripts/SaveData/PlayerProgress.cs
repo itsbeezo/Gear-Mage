@@ -3,7 +3,6 @@ using UnityEngine;
 
 // Permanent data that survives runs [R7, R14, R19], and its storage: JSON under one PlayerPrefs key.
 // RunManager loads it on scene load and saves it after every change [W8].
-// Phase 4 adds permanent upgrade levels.
 [Serializable]
 public class PlayerProgress
 {
@@ -18,6 +17,7 @@ public class PlayerProgress
 
     public int bones;
     public int highestUnlockedWorld = 1;
+    public UpgradeLevels permanentUpgrades = new UpgradeLevels();
 
     public bool IsWorldUnlocked(int world)
     {

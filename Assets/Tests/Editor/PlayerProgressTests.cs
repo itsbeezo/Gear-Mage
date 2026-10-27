@@ -129,4 +129,14 @@ public class PlayerProgressStorageTests
 
         Assert.AreEqual(0, LoadTest().bones);
     }
+
+    [Test]
+    public void SaveThenLoad_RoundTripsPermanentUpgrades()
+    {
+        PlayerProgress progress = new PlayerProgress();
+        progress.permanentUpgrades.attack = 3;
+        progress.Save(TestKey);
+
+        Assert.AreEqual(3, LoadTest().permanentUpgrades.attack);
+    }
 }
