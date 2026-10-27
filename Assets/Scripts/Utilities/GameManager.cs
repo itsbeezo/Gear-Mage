@@ -77,6 +77,8 @@ public class GameManager : MonoBehaviour
     // Pre-level: first wave of the next level.
     public void ContinueButton()
     {
+        // Greyed out while the tray holds gears [G3, R20]; this also blocks a click that slips through.
+        if (ShopManager.instance != null && !ShopManager.instance.IsTrayEmpty) return;
         RunManager.instance.Current.NextLevel();
         RunManager.instance.UpdateWaveDisplay();
         UnitManager.instance.OnNextWave();

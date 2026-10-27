@@ -67,7 +67,7 @@ public class UnitManager : MonoBehaviour
         }
         PlayerBase.instance.gameObject.SetActive(true);
         EnemyBase.instance.gameObject.SetActive(true);
-        PlayerBase.instance.GetComponent<BaseBase>().SetHPToMax();
+        // The player base keeps its damage between waves [W7]; only the enemy base resets.
         EnemyBase.instance.GetComponent<BaseBase>().SetHPToMax();
         SetUnitsCanMove(true);
     }

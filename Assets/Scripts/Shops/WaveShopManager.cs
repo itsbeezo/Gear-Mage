@@ -46,7 +46,7 @@ public class WaveShopManager : MonoBehaviour
     // so it hides and moves with the slot's shop group.
     public ShopOffer SpawnOffer(SpawnSlot slot, int gearId)
     {
-        GameObject prefab = GearManager.instance.GetGear(gearId);
+        GameObject prefab = GearCatalog.instance.GetPrefab(gearId);
         GameObject gear = Instantiate(prefab, slot.SpawnPosition, prefab.transform.rotation);
         // worldPositionStays keeps the gear's on-screen size even if the slot is scaled.
         gear.transform.SetParent(slot.transform, true);

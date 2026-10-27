@@ -24,10 +24,14 @@ public class UnitBase : MonoBehaviour
     [SerializeField] private float range;
     [SerializeField] private ProjectileBase projectile;
     private ProjectileBase thisProjectile;
+    // Stats are resolved once at spawn [R16]: the fields below then hold base + bonus (zero for enemies).
     private void Start()
     {
-        if (this.TryGetComponent(out UnitPlayer unitPlayer))
-            maxHP += GearManager.instance.GetHPMod();
+        StatBlock bonus = ModifierManager.instance.BonusFor(TryGetComponent(out UnitPlayer _));
+        maxHP += bonus.maxHp;
+        attack += bonus.attack;
+        moveSpeed += bonus.moveSpeed;
+        attackRate = bonus.AttackRate(attackRate);
         currentHP = maxHP;
     }
     private void FixedUpdate()
@@ -52,17 +56,17 @@ public class UnitBase : MonoBehaviour
                         this.GetComponent<Rigidbody2D>().linearVelocity = (GetClosestEnemy(this).transform.position - this.transform.position) / Mathf.Max(((GetClosestEnemy(this).transform.position - this.transform.position).magnitude / moveSpeed), Time.fixedDeltaTime);
                     moveRateStep = 0;
                 }
-                if (attackRateStep >= (attackRate - GearManager.instance.GetAttackSpeedMod()))
+                if (attackRateStep >= attackRate)
                 {
                     if (currentEnemyGO.TryGetComponent(out UnitBase unitBase))
                     {
-                        currentEnemy = currentEnemyGO.GetComponent<UnitBase>();
-                        currentEnemy.SetHP(currentEnemy.GetCurrentHP() - (GetAttack() + GearManager.instance.GetAttackMod()));
+                        currentEnemy = unitBase;
+                        currentEnemy.SetHP(currentEnemy.GetCurrentHP() - GetAttack());
                     }
                     else if (currentEnemyGO.TryGetComponent(out BaseBase baseBase))
                     {
-                        currentBase = currentEnemyGO.GetComponent<BaseBase>();
-                        currentBase.SetHP(currentBase.GetCurrentHP() - (GetAttack() + GearManager.instance.GetAttackMod()));
+                        currentBase = baseBase;
+                        currentBase.SetHP(currentBase.GetCurrentHP() - GetAttack());
                         CurrencyManager.instance.AddGold(1, transform.position);
                     }
                     attackRateStep = 0;
@@ -79,7 +83,7 @@ public class UnitBase : MonoBehaviour
                         this.GetComponent<Rigidbody2D>().linearVelocity = (GetClosestEnemy(this).transform.position - this.transform.position) / Mathf.Max(((GetClosestEnemy(this).transform.position - this.transform.position).magnitude / moveSpeed), Time.fixedDeltaTime);
                     moveRateStep = 0;
                 }
-                if (attackRateStep >= (attackRate - GearManager.instance.GetAttackSpeedMod()))
+                if (attackRateStep >= attackRate)
                 {
                     SpawnProjectile();
                     attackRateStep = 0;
@@ -127,7 +131,7 @@ public class UnitBase : MonoBehaviour
                         this.GetComponent<Rigidbody2D>().linearVelocity = (GetClosestPlayer(this).transform.position - this.transform.position) / Mathf.Max(((GetClosestPlayer(this).transform.position - this.transform.position).magnitude / moveSpeed), Time.fixedDeltaTime);
                     moveRateStep = 0;
                 }
-                if (attackRateStep >= (attackRate - GearManager.instance.GetAttackSpeedMod()))
+                if (attackRateStep >= attackRate)
                 {
                     SpawnProjectile();
                     attackRateStep = 0;

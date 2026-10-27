@@ -7,37 +7,27 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private SpriteRenderer spriteRenderer;
     private Collider2D col2D;
     private Vector3 originalPosition;
-    private Transform originalParent;
-    private Camera mainCamera;
     private Vector3 offset;
     private Camera GearBoxCamera;
+    private GameObject gearFallArea;
 
     [Header("Drop Settings")]
-    [Tooltip("Maximum allowed distance from originalPosition to trigger ReSlot.")]
+    [Tooltip("Maximum distance from the start point that still counts as 'dropped back where it was'.")]
     [SerializeField] private float maxReslotDistance = 1.5f;
 
-    // Resolved once per drag in OnBeginDrag [G1]; UIGearSlot reads it on drop.
+    // Resolved once per drag in OnBeginDrag [G1]; UIGearSlot reads these on drop.
     public int gearNum { get; private set; }
     public bool IsShopOffer { get; private set; }
+    public bool IsTrayGear { get; private set; }
+    public UIGearSlot TraySlot { get; private set; }
+    public bool startedOnBoard { get; private set; }
     private bool isBoardGear;
     private UIGearSlot currentSlot;
-    public bool attemptButFull = false;
-    public bool startedOnBoard = false;
-
-    // The camera that actually received the pointer, so drags track the cursor
-    // in whichever view the gear was clicked in (level or gear box).
-    private Camera InputCamera(PointerEventData eventData)
-    {
-        return eventData.pressEventCamera != null ? eventData.pressEventCamera : GearBoxCamera;
-    }
-
-    private GameObject gearFallArea;
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         col2D = GetComponent<Collider2D>();
-        mainCamera = Camera.main;
         gearFallArea = GameObject.Find("GearFallArea");
 
         GameObject cameraObj = GameObject.Find("GearBoxCamera");
@@ -47,74 +37,25 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         }
     }
 
-    // Which gear this is and where it came from. Order matters: shop offers and shells can also
-    // carry a GearBase, but only GearManager stamps a non-zero id onto board gears.
-    private void ResolveIdentity()
+    // The camera that actually received the pointer, so drags track the cursor
+    // in whichever view the gear was clicked in (level or gear box).
+    private Camera InputCamera(PointerEventData eventData)
     {
-        if (TryGetComponent(out ShopOffer offer))
-        {
-            IsShopOffer = true;
-            isBoardGear = false;
-            gearNum = offer.gearID;
-            return;
-        }
-
-        IsShopOffer = false;
-
-        if (TryGetComponent(out InventoryGears shell))
-        {
-            isBoardGear = false;
-            gearNum = shell.gearId;
-            return;
-        }
-
-        if (TryGetComponent(out GearBase gear) && gear.Id > 0)
-        {
-            isBoardGear = true;
-            gearNum = gear.Id;
-            return;
-        }
-
-        isBoardGear = false;
-        gearNum = 0;
+        return eventData.pressEventCamera != null ? eventData.pressEventCamera : GearBoxCamera;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
         ResolveIdentity();
         originalPosition = transform.position;
-        originalParent = transform.parent;
-
-        currentSlot = null;
+        currentSlot = isBoardGear ? BoardSlotUnderneath() : null;
+        startedOnBoard = currentSlot != null;
 
         Vector3 mouseWorldPos = InputCamera(eventData).ScreenToWorldPoint(eventData.position);
         mouseWorldPos.z = 0f;
         offset = transform.position - mouseWorldPos;
 
-        Collider2D[] hits = Physics2D.OverlapPointAll(transform.position);
-        foreach (Collider2D hit in hits)
-        {
-            UIGearSlot slot = hit.GetComponent<UIGearSlot>();
-            if (slot != null && slot.isFull && isBoardGear)
-            {
-                currentSlot = slot;
-                break;
-            }
-        }
-
-        startedOnBoard = (currentSlot != null);
-
-        if (spriteRenderer != null)
-        {
-            Color color = spriteRenderer.color;
-            color.a = 0.6f;
-            spriteRenderer.color = color;
-        }
-
-        if (col2D != null)
-        {
-            col2D.enabled = false;
-        }
+        SetDragLook(true);
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -132,95 +73,81 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             return;
         }
 
-        UIGearSlot targetSlot = FindDropTarget();
-
-        if (targetSlot != null && targetSlot.TryPlaceGear(gameObject, this))
+        if (IsTrayGear)
         {
-            if (currentSlot != null)
-            {
-                currentSlot.ClearSlot();
-            }
-
-            if (isBoardGear)
-            {
-                Destroy(gameObject);
-            }
-            else
-            {
-                if (spriteRenderer != null)
-                {
-                    Color color = spriteRenderer.color;
-                    color.a = 1.0f;
-                    spriteRenderer.color = color;
-                }
-
-                if (col2D != null)
-                {
-                    col2D.enabled = true;
-                }
-
-                transform.position = originalPosition;
-            }
-
+            EndTrayGearDrag(eventData);
             return;
         }
 
-        bool gearUnderneath = false;
-        Collider2D[] hits = Physics2D.OverlapPointAll(transform.position);
+        UIGearSlot targetSlot = FindDropTarget();
+        if (targetSlot != null && targetSlot.TryPlaceGear(this))
+        {
+            if (currentSlot != null) currentSlot.ClearSlot();
 
+            // A board gear was spawned again in its new slot; a stock shell stays in the tray (its stock dropped).
+            if (isBoardGear) Destroy(gameObject);
+            else ReturnToOrigin();
+            return;
+        }
+
+        if (!isBoardGear || GearUnderneath() || IsCloseToOriginal(eventData))
+        {
+            // The board still holds this gear's id, so snapping back needs no new spawn and no stat change.
+            ReturnToOrigin();
+            return;
+        }
+
+        // Dropped away from the board: back to tray stock.
+        if (InventoryManager.instance != null) InventoryManager.instance.Refund(gearNum);
+        if (currentSlot != null) currentSlot.ClearSlot();
+        StartCoroutine(GearAnimation());
+    }
+
+    // Which gear this is and where it came from. Order matters: shop offers and stock shells can also
+    // carry a GearBase. Only owned gears have a non-zero GearBase.Id: GearManager stamps board gears,
+    // ShopManager stamps level-shop tray gears, which sit under their tray slot.
+    private void ResolveIdentity()
+    {
+        IsShopOffer = false;
+        IsTrayGear = false;
+        TraySlot = null;
+        isBoardGear = false;
+        gearNum = 0;
+
+        if (TryGetComponent(out ShopOffer offer))
+        {
+            IsShopOffer = true;
+            gearNum = offer.gearID;
+        }
+        else if (TryGetComponent(out InventoryGears shell))
+        {
+            gearNum = shell.gearId;
+        }
+        else if (TryGetComponent(out GearBase gear) && gear.Id > 0)
+        {
+            gearNum = gear.Id;
+            TraySlot = ParentTraySlot();
+            IsTrayGear = TraySlot != null;
+            isBoardGear = !IsTrayGear;
+        }
+    }
+
+    private UIGearSlot ParentTraySlot()
+    {
+        Transform parent = transform.parent;
+        if (parent != null && parent.TryGetComponent(out UIGearSlot slot) && slot.IsTraySlot) return slot;
+        return null;
+    }
+
+    // The full gearbox slot this board gear sits on, or null.
+    private UIGearSlot BoardSlotUnderneath()
+    {
+        Collider2D[] hits = Physics2D.OverlapPointAll(transform.position);
         foreach (Collider2D hit in hits)
         {
-            // Ignores this gear, but detects gears below
-            if (hit.gameObject != gameObject && hit.GetComponent<UIDragHandler>() != null)
-            {
-                gearUnderneath = true;
-                break;
-            }
+            if (hit.TryGetComponent(out UIGearSlot slot) && slot.isFull && !slot.IsTraySlot) return slot;
         }
-
-        // Calculate distance from drop location to original position in World Space
-        Vector3 dropWorldPos = InputCamera(eventData).ScreenToWorldPoint(eventData.position);
-        dropWorldPos.z = originalPosition.z;
-        bool isCloseToOriginal = Vector2.Distance(originalPosition, dropWorldPos) <= maxReslotDistance;
-
-        if (isBoardGear)
-        {
-            // Triggers ReSlot if dropped over another gear OR dropped close to its starting point
-            if (gearUnderneath || isCloseToOriginal)
-            {
-                StartCoroutine(ReSlot());
-            }
-            else
-            {
-                if (InventoryManager.instance != null)
-                {
-                    InventoryManager.instance.Refund(gearNum);
-                }
-
-                if (currentSlot != null)
-                {
-                    currentSlot.ClearSlot();
-                }
-
-                StartCoroutine(GearAnimation());
-            }
-        }
-        else
-        {
-            if (spriteRenderer != null)
-            {
-                Color color = spriteRenderer.color;
-                color.a = 1.0f;
-                spriteRenderer.color = color;
-            }
-
-            if (col2D != null)
-            {
-                col2D.enabled = true;
-            }
-
-            transform.position = originalPosition;
-        }
+        return null;
     }
 
     // A gear slot under the drop point that can take a gear right now, or null.
@@ -229,22 +156,35 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         Collider2D[] dropHits = Physics2D.OverlapPointAll(transform.position);
         foreach (Collider2D hit in dropHits)
         {
-            UIGearSlot slot = hit.GetComponent<UIGearSlot>();
-            if (slot != null && !slot.isFull && slot != currentSlot)
-            {
-                return slot;
-            }
+            if (hit.TryGetComponent(out UIGearSlot slot) && !slot.isFull && slot != currentSlot) return slot;
         }
         return null;
     }
 
-    // A shop offer is consumed only when it's bought into the gearbox. Otherwise it
-    // returns to its spawn slot, uncharged. It is never refunded to stock or destroyed.
+    private bool GearUnderneath()
+    {
+        Collider2D[] hits = Physics2D.OverlapPointAll(transform.position);
+        foreach (Collider2D hit in hits)
+        {
+            // Ignores this gear, but detects gears below.
+            if (hit.gameObject != gameObject && hit.TryGetComponent(out UIDragHandler _)) return true;
+        }
+        return false;
+    }
+
+    private bool IsCloseToOriginal(PointerEventData eventData)
+    {
+        Vector3 dropWorldPos = InputCamera(eventData).ScreenToWorldPoint(eventData.position);
+        dropWorldPos.z = originalPosition.z;
+        return Vector2.Distance(originalPosition, dropWorldPos) <= maxReslotDistance;
+    }
+
+    // A shop offer is consumed only when it's bought (gearbox in the wave shop, tray in the level shop).
+    // Otherwise it returns to its spawn slot, uncharged.
     private void EndShopOfferDrag()
     {
         UIGearSlot targetSlot = FindDropTarget();
-
-        if (targetSlot != null && targetSlot.TryPlaceGear(gameObject, this))
+        if (targetSlot != null && targetSlot.TryPlaceGear(this))
         {
             GetComponent<ShopOffer>().homeSlot.Clear();
             Destroy(gameObject);
@@ -254,72 +194,45 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         ReturnToOrigin();
     }
 
+    // A tray gear goes onto the board, or is sold if dropped away from everything [G3].
+    private void EndTrayGearDrag(PointerEventData eventData)
+    {
+        UIGearSlot targetSlot = FindDropTarget();
+        if (targetSlot != null && targetSlot.TryPlaceGear(this))
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        bool awayFromEverything = targetSlot == null && !GearUnderneath() && !IsCloseToOriginal(eventData);
+        if (awayFromEverything && ShopManager.instance.TrySell(TraySlot, gearNum))
+        {
+            StartCoroutine(GearAnimation());
+            return;
+        }
+
+        ReturnToOrigin();
+    }
+
     private void ReturnToOrigin()
+    {
+        SetDragLook(false);
+        transform.position = originalPosition;
+    }
+
+    private void SetDragLook(bool dragging)
     {
         if (spriteRenderer != null)
         {
             Color color = spriteRenderer.color;
-            color.a = 1.0f;
+            color.a = dragging ? 0.6f : 1.0f;
             spriteRenderer.color = color;
         }
 
         if (col2D != null)
         {
-            col2D.enabled = true;
+            col2D.enabled = !dragging;
         }
-
-        transform.position = originalPosition;
-    }
-
-    public IEnumerator ReSlot()
-    {
-        yield return null;
-
-        if (currentSlot != null)
-        {
-            if (currentSlot.isStagingSlot)
-            {
-                GameObject stagedCopy = Instantiate(gameObject, currentSlot.transform.position, currentSlot.transform.rotation);
-                stagedCopy.tag = "Gears";
-                stagedCopy.transform.SetParent(currentSlot.transform, true);
-
-                SpriteRenderer copySprite = stagedCopy.GetComponent<SpriteRenderer>();
-                if (copySprite != null)
-                {
-                    Color color = copySprite.color;
-                    color.a = 1.0f;
-                    copySprite.color = color;
-                }
-
-                Collider2D copyCollider = stagedCopy.GetComponent<Collider2D>();
-                if (copyCollider != null)
-                {
-                    copyCollider.enabled = true;
-                }
-
-                InventoryGears copyInventoryGears = stagedCopy.GetComponent<InventoryGears>();
-                if (copyInventoryGears != null)
-                {
-                    copyInventoryGears.suppressVisibilityControl = true;
-                }
-
-                currentSlot.isFull = true;
-            }
-            else
-            {
-                GearBox box = currentSlot.GetComponent<GearBox>();
-                if (box != null)
-                {
-                    currentSlot.isFull = true;
-                    GearManager.instance.SetGear(box.GetXIndex(), box.GetYIndex(), gearNum);
-                    GearManager.instance.SpawnSingleGear(box.GetXIndex(), box.GetYIndex(), gearNum);
-                }
-            }
-        }
-
-        yield return null;
-
-        Destroy(gameObject);
     }
 
     IEnumerator GearAnimation()
@@ -349,5 +262,4 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
         Destroy(gameObject);
     }
-
 }

@@ -8,8 +8,9 @@ public class GearBase : MonoBehaviour
     [SerializeField] private float moveSpeedBonus;
     [SerializeField] private float attackSpeedBonus;
 
-    // Set by GearManager when it spawns this gear onto the board [G1]. 0 = not a board gear
-    // (prefab asset, shop offer, tray shell such as HPShell, which also carries a GearBase).
+    // Set when this gear is owned: GearManager stamps board gears, ShopManager stamps level-shop
+    // tray gears [G1]. 0 = not owned (prefab asset, shop offer, stock shell such as HPShell,
+    // which also carries a GearBase).
     public int Id { get; private set; }
 
     public void AssignId(int id)
@@ -17,24 +18,15 @@ public class GearBase : MonoBehaviour
         Id = id;
     }
 
-    public float GetHPBonus()
+    // What this gear adds to the board totals while it sits on the board [R16].
+    public StatBlock Bonus()
     {
-        return hpBonus;
-    }
-    public float GetAttackBonus()
-    {
-        return attackBonus;
-    }
-    public float GetSpawnSpeedBonus()
-    {
-        return spawnSpeedBonus;
-    }
-    public float GetMoveSpeedBonus()
-    {
-        return moveSpeedBonus;
-    }
-    public float GetAttackSpeedBonus()
-    {
-        return attackSpeedBonus;
+        StatBlock bonus = new StatBlock();
+        bonus.maxHp = hpBonus;
+        bonus.attack = attackBonus;
+        bonus.spawnSpeed = spawnSpeedBonus;
+        bonus.moveSpeed = moveSpeedBonus;
+        bonus.attackSpeed = attackSpeedBonus;
+        return bonus;
     }
 }

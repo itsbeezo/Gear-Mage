@@ -1,78 +1,75 @@
 using UnityEngine;
 
+// One drop target: a gearbox cell (has a GearBox) or a level-shop tray slot (no GearBox; see ShopManager).
 public class UIGearSlot : MonoBehaviour
 {
     public bool isFull = false;
-    public bool isStagingSlot = false;
 
-    public bool TryPlaceGear(GameObject draggedObject, UIDragHandler uiDragHandler)
+    private GearBox box;
+
+    public bool IsTraySlot
     {
-        if (isFull) return false;
-
-        if (uiDragHandler.IsShopOffer)
-        {
-            // Shop offers are bought, not taken from stock. Only the gearbox takes them,
-            // never a staging slot, which would copy the offer.
-            if (isStagingSlot) return false;
-            if (CurrencyManager.instance == null || !CurrencyManager.instance.TryBuyGear(uiDragHandler.gearNum)) return false;
-        }
-        else if (!uiDragHandler.startedOnBoard)
-        {
-            if (InventoryManager.instance != null &&
-                !InventoryManager.instance.TryConsume(uiDragHandler.gearNum))
-            {
-                return false;
-            }
-        }
-
-        isFull = true;
-
-        if (isStagingSlot)
-        {
-            GameObject stagedCopy = Instantiate(draggedObject, transform.position, transform.rotation);
-            stagedCopy.tag = "Gears";
-            stagedCopy.transform.SetParent(transform, true);
-
-            SpriteRenderer copySprite = stagedCopy.GetComponent<SpriteRenderer>();
-            if (copySprite != null)
-            {
-                Color color = copySprite.color;
-                color.a = 1.0f;
-                copySprite.color = color;
-            }
-
-            Collider2D copyCollider = stagedCopy.GetComponent<Collider2D>();
-            if (copyCollider != null)
-            {
-                copyCollider.enabled = true;
-            }
-
-            InventoryGears copyInventoryGears = stagedCopy.GetComponent<InventoryGears>();
-            if (copyInventoryGears != null)
-            {
-                copyInventoryGears.suppressVisibilityControl = true;
-            }
-        }
-        else
-        {
-            GearBox thisGearBox = gameObject.GetComponent<GearBox>();
-            GearManager.instance.SetGear(thisGearBox.GetXIndex(), thisGearBox.GetYIndex(), uiDragHandler.gearNum);
-            GearManager.instance.SpawnSingleGear(thisGearBox.GetXIndex(), thisGearBox.GetYIndex(), uiDragHandler.gearNum);
-        }
-
-        return true;
+        get { return box == null; }
     }
 
+    private void Awake()
+    {
+        box = GetComponent<GearBox>();
+    }
+
+    // False, and nothing is spent or placed, if this slot can't take the dragged gear right now.
+    public bool TryPlaceGear(UIDragHandler dragged)
+    {
+        if (isFull) return false;
+        return IsTraySlot ? TryStage(dragged) : TryPlaceOnBoard(dragged);
+    }
+
+    // The old slot of a board gear that moved or left the board.
     public void ClearSlot()
     {
         isFull = false;
+        if (box != null) GearManager.instance.RemoveGear(box);
+    }
 
-        if (isStagingSlot) return;
+    // Tray: level-shop offers only, bought on drop [R20].
+    private bool TryStage(UIDragHandler dragged)
+    {
+        if (!dragged.IsShopOffer || ShopManager.instance == null) return false;
+        if (GameManager.instance.GetState() != GameManager.State.LevelShop) return false;
 
-        GearBox thisGearBox = GetComponent<GearBox>();
-        if (thisGearBox != null)
+        return ShopManager.instance.TryBuyIntoTray(this, dragged.gearNum);
+    }
+
+    private bool TryPlaceOnBoard(UIDragHandler dragged)
+    {
+        int id = dragged.gearNum;
+        if (!GearManager.instance.CanPlace(box, id)) return false;
+
+        if (dragged.IsShopOffer)
         {
-            GearManager.instance.SetGear(thisGearBox.GetXIndex(), thisGearBox.GetYIndex(), 0);
+            // Wave-shop offers are bought straight into the gearbox; level-shop offers go to the tray [R20].
+            if (GameManager.instance.GetState() != GameManager.State.WaveShop) return false;
+            if (!CurrencyManager.instance.TryBuyGear(id)) return false;
+            TakeAsRunGear(id);
         }
+        else if (dragged.IsTrayGear)
+        {
+            TakeAsRunGear(id);
+            ShopManager.instance.Unstage(dragged.TraySlot);
+        }
+        else if (!dragged.startedOnBoard)
+        {
+            if (InventoryManager.instance != null && !InventoryManager.instance.TryConsume(id)) return false;
+        }
+
+        return GearManager.instance.PlaceGear(box, id);
+    }
+
+    // A bought gear is a run gear [R1]: removing it from the board returns it to tray stock for this run.
+    private static void TakeAsRunGear(int id)
+    {
+        if (InventoryManager.instance == null) return;
+        InventoryManager.instance.GrantRunGear(id);
+        InventoryManager.instance.TryConsume(id);
     }
 }

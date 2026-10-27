@@ -75,6 +75,16 @@ public class UIManager : MonoBehaviour
         }
         if (levelRaycaster != null) levelRaycaster.enabled = state == State.WaveShop;
         if (gearBoxRaycaster != null) gearBoxRaycaster.enabled = state is State.LobbyPlay or State.PreLevel or State.LevelShop;
+
+        RefreshContinueButton();
+    }
+
+    // Continue (PreLevel) is greyed out while the level-shop tray holds gears [G3].
+    // ShopManager calls this on every tray change.
+    public void RefreshContinueButton()
+    {
+        if (continueButton == null) return;
+        continueButton.interactable = ShopManager.instance == null || ShopManager.instance.IsTrayEmpty;
     }
 
     //Camera Functions (temp?) || I think this is helpful and shouldn't be removed for now - Antonio

@@ -1,6 +1,6 @@
 using NUnit.Framework;
 
-// The stat rules in Stats.cs [R16].
+// The stat rules in Stats.cs [R16] and the base repair rule in BaseBase [B1].
 public class StatsTests
 {
     private static StatBlock Block(float maxHp = 0, float attack = 0, float attackSpeed = 0, float moveSpeed = 0, float baseMaxHp = 0)
@@ -42,5 +42,18 @@ public class StatsTests
     public void AttackRate_NeverBelowMinimum()
     {
         Assert.AreEqual(StatBlock.MinAttackRate, Block(attackSpeed: 50).AttackRate(5f));
+    }
+
+    [Test]
+    public void RepairedHP_AddsUpToMax()
+    {
+        Assert.AreEqual(7f, BaseBase.RepairedHP(5f, 2f, 10f));
+        Assert.AreEqual(10f, BaseBase.RepairedHP(9f, 5f, 10f));
+    }
+
+    [Test]
+    public void RepairedHP_NegativeAmount_ChangesNothing()
+    {
+        Assert.AreEqual(5f, BaseBase.RepairedHP(5f, -3f, 10f));
     }
 }
