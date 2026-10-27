@@ -61,7 +61,7 @@ public class RunData
 
     public void NextLevel()
     {
-        level ++ ;
+        level++;
         wave = 1;
     }
 }
