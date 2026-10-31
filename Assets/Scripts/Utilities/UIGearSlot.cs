@@ -31,7 +31,7 @@ public class UIGearSlot : MonoBehaviour
         if (box != null) GearManager.instance.RemoveGear(box);
     }
 
-    // Tray: level-shop offers only, bought on drop [R20].
+    // Tray: optional storage for level-shop offers, bought on drop [R20].
     private bool TryStage(UIDragHandler dragged)
     {
         if (!dragged.IsShopOffer || ShopManager.instance == null) return false;
@@ -47,8 +47,7 @@ public class UIGearSlot : MonoBehaviour
 
         if (dragged.IsShopOffer)
         {
-            // Wave-shop offers are bought straight into the gearbox; level-shop offers go to the tray [R20].
-            if (GameManager.instance.GetState() != GameManager.State.WaveShop) return false;
+            // Offers from either shop are bought by dropping them into the gearbox.
             if (!CurrencyManager.instance.TryBuyGear(id)) return false;
             TakeAsRunGear(id);
         }

@@ -179,7 +179,7 @@ public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         return Vector2.Distance(originalPosition, dropWorldPos) <= maxReslotDistance;
     }
 
-    // A shop offer is consumed only when it's bought (gearbox in the wave shop, tray in the level shop).
+    // A shop offer is consumed only when it's bought (gearbox in either shop, or the level-shop tray).
     // Otherwise it returns to its spawn slot, uncharged.
     private void EndShopOfferDrag()
     {

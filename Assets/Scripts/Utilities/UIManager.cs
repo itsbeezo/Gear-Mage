@@ -61,7 +61,7 @@ public class UIManager : MonoBehaviour
 
         if (ShopManager.instance != null)
         {
-            ShopManager.instance.SetShopOpen(state == State.LevelShop);
+            ShopManager.instance.ApplyState(state);
         }
 
         // Cameras: the level camera during and right after a wave, the gearbox camera otherwise.
