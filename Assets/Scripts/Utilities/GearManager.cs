@@ -1,8 +1,8 @@
-using System.Collections.Generic;
 using UnityEngine;
 
-// The gear board module [review candidate 3]: place a gear, remove a gear, current stat totals.
-// BoardGrid (below) holds the ids; this class spawns board gears and keeps slots and totals in step with it.
+// The gear board module [review candidate 3]: place a gear, remove a gear.
+// BoardGrid (below) holds the ids; this class spawns board gears and keeps slots in step with it.
+// Stat bonuses are not totalled here: they travel along the gear chain (GearRotate.CalculateChainBonus).
 // The board lives as long as the scene, like RunData, so nothing is saved.
 public class GearManager : MonoBehaviour
 {
@@ -12,28 +12,12 @@ public class GearManager : MonoBehaviour
     [Tooltip("UIElements/GearBoxAll. Spawned board gears are parented here so they move with the gearbox.")]
     [SerializeField] private Transform slotRoot;
 
-    [Header("Read-only (recomputed from the board)")]
-    [SerializeField] private StatBlock boardTotals;
-
     private readonly BoardGrid grid = new BoardGrid();
-    private readonly Dictionary<int, StatBlock> bonusById = new Dictionary<int, StatBlock>();
-
-    public StatBlock BoardTotals
-    {
-        get { return boardTotals; }
-    }
 
     private void Awake()
     {
         instance = this;
         if (slotRoot == null) Debug.LogError("GearManager: Slot Root is not set (expected UIElements/GearBoxAll).", this);
-    }
-
-    // Start, so GearCatalog.Awake has run.
-    private void Start()
-    {
-        CacheBonuses(GearCatalog.instance.GetAll());
-        RecomputeTotals();
     }
 
     // Whether PlaceGear would succeed. Callers that spend gold or stock check this first,
@@ -55,7 +39,6 @@ public class GearManager : MonoBehaviour
         if (!CanPlace(box, id) || !grid.TryPlace(box.GetXIndex(), box.GetYIndex(), id)) return false;
 
         Spawn(GearCatalog.instance.GetPrefab(id), box, id);
-        RecomputeTotals();
         return true;
     }
 
@@ -66,7 +49,6 @@ public class GearManager : MonoBehaviour
 
         int id = grid.Remove(box.GetXIndex(), box.GetYIndex());
         SetSlotFull(box, false);
-        RecomputeTotals();
         return id;
     }
 
@@ -78,22 +60,6 @@ public class GearManager : MonoBehaviour
         SetSlotFull(box, true);
     }
 
-    private void RecomputeTotals()
-    {
-        boardTotals = grid.Totals(bonusById);
-    }
-
-    private void CacheBonuses(IReadOnlyList<GearDefinition> definitions)
-    {
-        bonusById.Clear();
-        foreach (GearDefinition def in definitions)
-        {
-            if (def.prefab == null) continue;
-
-            if (def.prefab.TryGetComponent(out GearBase gear)) bonusById[def.id] = gear.Bonus();
-        }
-    }
-
     private static void SetSlotFull(GearBox box, bool full)
     {
         if (box.TryGetComponent(out UIGearSlot slot)) slot.isFull = full;
@@ -101,7 +67,7 @@ public class GearManager : MonoBehaviour
 }
 
 // The gear board's cells [review candidate 3]: which gear id sits where. Plain C#, so EditMode
-// tests can construct it. Stat totals are always recomputed from the cells, so removing a gear lowers them.
+// tests can construct it.
 // Row = GearBox x index (0-3), column = GearBox y index (0-8).
 public class BoardGrid
 {
@@ -150,18 +116,5 @@ public class BoardGrid
         int id = cells[index];
         cells[index] = 0;
         return id;
-    }
-
-    public StatBlock Totals(IReadOnlyDictionary<int, StatBlock> bonusById)
-    {
-        StatBlock total = new StatBlock();
-        foreach (int id in cells)
-        {
-            if (id != 0 && bonusById.TryGetValue(id, out StatBlock bonus))
-            {
-                total = total.Plus(bonus);
-            }
-        }
-        return total;
     }
 }

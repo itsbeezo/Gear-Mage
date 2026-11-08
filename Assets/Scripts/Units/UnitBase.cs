@@ -24,10 +24,18 @@ public class UnitBase : MonoBehaviour
     [SerializeField] private float range;
     [SerializeField] private ProjectileBase projectile;
     private ProjectileBase thisProjectile;
+    private StatBlock gearBonus;
+
+    // Called right after Instantiate, before Start: the bonus of the gear chain that produced this unit.
+    public void SetGearBonus(StatBlock bonus)
+    {
+        gearBonus = bonus;
+    }
+
     // Stats are resolved once at spawn [R16]: the fields below then hold base + bonus (zero for enemies).
     private void Start()
     {
-        StatBlock bonus = ModifierManager.instance.BonusFor(TryGetComponent(out UnitPlayer _));
+        StatBlock bonus = ModifierManager.instance.BonusFor(TryGetComponent(out UnitPlayer _)).Plus(gearBonus);
         maxHP += bonus.maxHp;
         attack += bonus.attack;
         moveSpeed += bonus.moveSpeed;

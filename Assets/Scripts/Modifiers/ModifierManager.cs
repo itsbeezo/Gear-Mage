@@ -1,6 +1,7 @@
 using UnityEngine;
 
-// The unit-stat module [R16]: gear board bonuses + in-run (gold) upgrades + permanent (bone) upgrades.
+// The unit-stat module [R16]: in-run (gold) upgrades + permanent (bone) upgrades.
+// Gear bonuses are not here: each producer gear adds the bonus of its own chain when it spawns a unit.
 // UnitBase and BaseBase ask only this. Enemies get no player bonuses.
 public class ModifierManager : MonoBehaviour
 {
@@ -32,6 +33,6 @@ public class ModifierManager : MonoBehaviour
     {
         StatBlock runBonus = RunManager.instance.Current.runUpgrades.Times(runUpgradePerLevel);
         StatBlock permanentBonus = RunManager.instance.Progress.permanentUpgrades.Times(permanentUpgradePerLevel);
-        return GearManager.instance.BoardTotals.Plus(runBonus).Plus(permanentBonus);
+        return runBonus.Plus(permanentBonus);
     }
 }

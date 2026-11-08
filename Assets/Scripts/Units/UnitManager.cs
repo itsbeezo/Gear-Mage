@@ -49,9 +49,11 @@ public class UnitManager : MonoBehaviour
             enemyArcherStep = 0;
         }
     }
-    public void SpawnUnit(int unitIndex,  Vector3 spawnPosition)
+    // gearBonus: the stat bonus of the gear chain that produced this unit. UnitBase.Start adds it.
+    public void SpawnUnit(int unitIndex, Vector3 spawnPosition, StatBlock gearBonus)
     {
-        Instantiate(UnitList[unitIndex], spawnPosition, Quaternion.identity);
+        UnitBase unit = Instantiate(UnitList[unitIndex], spawnPosition, Quaternion.identity);
+        unit.SetGearBonus(gearBonus);
         Debug.Log("Spawned " + UnitList[unitIndex].name);
 
         totalUnitsalive += 1;

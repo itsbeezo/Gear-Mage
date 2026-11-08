@@ -51,6 +51,8 @@ public class GearRotate : MonoBehaviour
     public float boostMultiplier = 1f;
 
     private List<GearRotate> neighbors = new List<GearRotate>();
+    private readonly List<GearRotate> chainBuffer = new List<GearRotate>();
+    private GearBase gearBase;
 
     // TEMP diagnostics - remove once the booster effect is confirmed working.
     // Select this gear in Play mode and watch these in the Inspector.
@@ -61,7 +63,18 @@ public class GearRotate : MonoBehaviour
 
     private void Awake()
     {
+        TryGetComponent(out gearBase);
         GetRotationSpeed();
+    }
+
+    // Unity does not reliably call OnTriggerExit2D on a destroyed collider, so without this
+    // neighbors would keep a link to a gear that is gone.
+    private void OnDestroy()
+    {
+        foreach (GearRotate neighbor in neighbors)
+        {
+            if (neighbor != null) neighbor.neighbors.Remove(this);
+        }
     }
 
     private void Update()
@@ -141,6 +154,21 @@ public class GearRotate : MonoBehaviour
         return multiplier;
     }
 
+    // Sum of the stat bonuses of every gear in this gear's connected chain (this gear included).
+    // Same reach as the booster multiplier: a stat gear touching any gear of the chain buffs every
+    // producer in it, and a stat gear touching nothing buffs nothing. Read when a unit spawns.
+    private StatBlock CalculateChainBonus()
+    {
+        ChainWalk.Collect(this, gear => gear.neighbors, gear => gear != null, chainBuffer);
+
+        StatBlock total = new StatBlock();
+        foreach (GearRotate gear in chainBuffer)
+        {
+            if (gear.gearBase != null) total = total.Plus(gear.gearBase.Bonus());
+        }
+        return total;
+    }
+
     private void PropagatePulse(HashSet<GearRotate> hasPulsed, float chainBoostMultiplier)
     {
         if (UnitManager.instance == null) return;
@@ -201,16 +229,17 @@ public class GearRotate : MonoBehaviour
         // own step timer, so gears can't pre-fill spawn progress before Start / after EndGame.
         if (GameManager.instance == null || GameManager.instance.GetState() != GameManager.State.Wave) return;
 
+        StatBlock chainBonus = CalculateChainBonus();
         switch (productionType)
         {
             case GearProductionType.Melee:
-                UnitManager.instance.SpawnUnit(0, UnitManager.instance.GetPlayerSpawnPoint().transform.position);
+                UnitManager.instance.SpawnUnit(0, UnitManager.instance.GetPlayerSpawnPoint().transform.position, chainBonus);
                 break;
             case GearProductionType.Tank:
-                UnitManager.instance.SpawnUnit(2, UnitManager.instance.GetPlayerSpawnPoint().transform.position);
+                UnitManager.instance.SpawnUnit(2, UnitManager.instance.GetPlayerSpawnPoint().transform.position, chainBonus);
                 break;
             case GearProductionType.Archer:
-                UnitManager.instance.SpawnUnit(4, UnitManager.instance.GetPlayerSpawnPoint().transform.position);
+                UnitManager.instance.SpawnUnit(4, UnitManager.instance.GetPlayerSpawnPoint().transform.position, chainBonus);
                 break;
             case GearProductionType.Booster:
                 // Intentionally a no-op: boosters never reach this method at all,
