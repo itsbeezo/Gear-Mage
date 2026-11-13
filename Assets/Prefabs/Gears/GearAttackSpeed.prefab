@@ -109,6 +109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43ae5200f9cc0424db606ca354ba1a51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GearRotate
+  instance: {fileID: 0}
   Clicker: {fileID: 4609109518383377074, guid: 80c8735de4664bd40a28f4a3c09aa7cc, type: 3}
   Gear: {fileID: 90250563080744765}
   RotationSpeed: 50
@@ -118,6 +119,10 @@ MonoBehaviour:
   tickProgress: 0
   productionType: 0
   productionStepAmount: 0.4
+  boostMultiplier: 1
+  debugNeighborCount: 0
+  debugChainBoostMultiplier: 0
+  debugEffectiveRotationsToComplete: 0
 --- !u!50 &1138898228214303372
 Rigidbody2D:
   serializedVersion: 5
@@ -161,7 +166,7 @@ MonoBehaviour:
   attackBonus: 0
   spawnSpeedBonus: 0
   moveSpeedBonus: 0
-  attackSpeedBonus: 0
+  attackSpeedBonus: 5
 --- !u!114 &-4534569007086949075
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,9 +179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05aa7f0b169f7f14488f473512a7b96f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIDragHandler
-  gearNum: 0
-  isConnected: 0
-  attemptButFull: 0
+  maxReslotDistance: 1.5
 --- !u!61 &3723725624988349997
 BoxCollider2D:
   m_ObjectHideFlags: 0
